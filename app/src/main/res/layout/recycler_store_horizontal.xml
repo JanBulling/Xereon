@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="store"
+            type="com.xereon.xereon.data.model.SimpleStore" />
+        <variable
+            name="clickListener"
+            type="com.xereon.xereon.adapter.StoreHorizontalAdapter.OnClickListener" />
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginEnd="5dp"
+        android:layout_width="135dp"
+        android:onClick="@{() -> clickListener.onClick(store)}"
+        android:layout_height="185dp">
+
+        <ImageView
+            android:id="@+id/recycler_store_image"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_marginTop="3dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/gray_1"
+            app:imageURL="@{store.logoImageURL}"
+            android:src="@drawable/img_map"/>
+
+        <TextView
+            android:id="@+id/recycler_store_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            tools:text="Store name"
+            android:text="@{store.name}"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/recycler_store_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="@{store.type}"
+            app:textCategoryColor="@{store.category}"
+            tools:text="Metzgerei"
+            android:textSize="12sp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_bold"/>
+
+    </LinearLayout>
+</layout>

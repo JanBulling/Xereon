@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/exploreFragment">
+
+    <fragment
+        android:id="@+id/defaultStoreFragment"
+        android:name="com.xereon.xereon.ui.store.DefaultStoreFragment"
+        android:label="Store"
+        tools:layout="@layout/frg_default_store"  />
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="com.xereon.xereon.ui.explore.ExploreFragment"
+        android:label="Entdecken"
+        tools:layout="@layout/frg_explore" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.xereon.xereon.ui.favorites.FavoritesFragment"
+        android:label="Favoriten"
+        tools:layout="@layout/frg_favorites" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.xereon.xereon.ui.map.MapFragment"
+        android:label="Karte"
+        tools:layout="@layout/frg_map" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.xereon.xereon.ui.search.SearchFragment"
+        android:label="Suche"
+        tools:layout="@layout/frg_search" />
+    <action android:id="@+id/Action_to_Store" app:destination="@id/defaultStoreFragment" />
+</navigation>

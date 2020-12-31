@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="isLoading" type="boolean" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.explore.ExploreFragment">
+
+        <!--com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="10dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="?attr/actionBarTheme"
+                app:title="Entdecken" />
+
+        </com.google.android.material.appbar.AppBarLayout-->
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/explore_scroll_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/explore_top_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="#0A0A0A"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="BLACK FRIDAY! Jetzt günstig einkaufen und RABATTE sichern"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/explore_title_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Kategorien"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_top_container" />
+
+                <TableLayout
+                    android:id="@+id/explore_category_table"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:stretchColumns="*"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_categories">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/explore_category_groceries"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Lebensmittel"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/explore_category_cloth"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Mode / Kleidung"
+                            android:textColor="@color/black" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/explore_category_services"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Dienstleistungen"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/explore_category_restaurant"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Restaurant"
+                            android:textColor="@color/black" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/explore_category_entertainment"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Unterhaltung"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/explore_category_hotels"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Hotel"
+                            android:textColor="@color/black" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/explore_category_electrical"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="3dp"
+                            android:background="@color/gray_2"
+                            android:clickable="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:foreground="?selectableItemBackground"
+                            android:gravity="center"
+                            android:paddingHorizontal="8dp"
+                            android:text="Elektrik"
+                            android:textColor="@color/black" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <TextView
+                    android:id="@+id/explore_all_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="16dp"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/primary"
+                    android:fontFamily="@font/roboto"
+                    android:foreground="?selectableItemBackground"
+                    android:padding="3dp"
+                    android:text="Alle Anzeigen"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_category_table" />
+
+                <TextView
+                    android:id="@+id/explore_title_recommendations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Vorschläge für Sie"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_category_table" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Das könnte Sie interessieren"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/explore_recycler_recommendations"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_marginTop="22dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="16dp"
+                    android:visibility="gone"
+                    app:isVisible="@{!isLoading}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+
+                <ProgressBar
+                    android:id="@+id/explore_loading_recommendations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:indeterminateTint="@color/primary"
+                    app:isVisible="@{isLoading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+
+                <TextView
+                    android:id="@+id/explore_title_new_stores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="264dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Neue Geschäfte in Gerstetten"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="Entdecken Sie neue Unternehmen"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/explore_recycler_new_stores"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_marginTop="22dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:visibility="gone"
+                    app:isVisible="@{!isLoading}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+                <ProgressBar
+                    android:id="@+id/explore_loading_new_stores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:indeterminateTint="@color/primary"
+                    app:isVisible="@{isLoading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+                <TextView
+                    android:id="@+id/explore_title_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="224dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Beliebt"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/explore_recycler_popular"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_marginTop="8dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="16dp"
+                    android:visibility="gone"
+                    app:isVisible="@{!isLoading}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+
+                <ProgressBar
+                    android:id="@+id/explore_loading_popular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:indeterminateTint="@color/primary"
+                    app:isVisible="@{isLoading}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+
+                <TextView
+                    android:id="@+id/explore_title_last_ordered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="256dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Zuletzt bestellt"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/explore_recycler_last_ordered"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="8dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/explore_title_last_ordered" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

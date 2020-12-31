@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+        <TextView
+            android:id="@+id/store_opening_monday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Montag"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_monday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_0"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="5dp">
+        <TextView
+            android:id="@+id/store_opening_tuesday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dienstag"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_tuesday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="5dp">
+        <TextView
+            android:id="@+id/store_opening_wednesday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mittwoch"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_wednesday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_0"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/store_opening_thursday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donnerstag"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_thursday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/store_opening_friday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Freitag"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_friday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_0"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/store_opening_saturday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Samstag"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_saturday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/store_opening_sunday"
+            android:textAlignment="textStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sonntag"
+            android:textColor="@color/text_gray"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:layout_marginEnd="16dp"
+            android:id="@+id/store_opening_sunday_time"
+            android:textAlignment="textEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp"/>
+    </TableRow>
+</TableLayout>

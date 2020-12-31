@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#E84C3D</color>
+    <color name="secondary">#F39C11</color>
+
+    <color name="black">#252525</color>
+    <color name="white">#FFFFFF</color>
+
+
+    <color name="background">#FAFAFA</color>
+    <color name="gray_0">#F7F7F7</color>
+    <color name="gray_1">#F0F0F0</color>
+    <color name="gray_2">#E1E1E1</color>
+    <color name="gray_3">#D2D2D2</color>
+    <color name="gray_4">#C3C3C3</color>
+    <color name="gray_5">#B4B4B4</color>
+    <color name="gray_6">#A5A5A5</color>
+    <color name="gray_7">#969696</color>
+    <color name="gray_8">#818181</color>
+    <color name="gray_9">#666666</color>
+    <color name="gray_10">#464646</color>
+
+    <color name="text_gray">#6A6A6A</color>
+
+    <color name="error">#CA2735</color>
+
+    <!-- Type color -->
+    <color name="type_red">#d94141</color>
+    <color name="type_orange">#FFA500</color>
+    <color name="type_yellow">#d9d941</color>
+    <color name="type_green">#66CD00</color>
+    <color name="type_cyan">#41d9d9</color>
+    <color name="type_azure">#418dd9</color>
+    <color name="type_blue">#4141d9</color>
+    <color name="type_violet">#8d41d9</color>
+    <color name="type_magenta">#d941d9</color>
+    <color name="type_rose">#d9418d</color>
+</resources>
