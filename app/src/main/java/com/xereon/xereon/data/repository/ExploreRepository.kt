@@ -4,6 +4,7 @@ import android.util.Log
 import com.xereon.xereon.data.model.ExploreData
 import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.utils.DataState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -17,6 +18,7 @@ class ExploreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
     suspend fun getExploreData(API_KEY: String, userID: Int, zip : String): Flow<DataState<ExploreData>> = flow {
         emit(DataState.Loading)
         try {
+            delay(1500)
             val networkExplore = xereonAPI.getExploreData(API_KEY, userID, zip, 1)
             Log.d("[APP_DEBUG]", "getExploreData(): finished loading")
             /*

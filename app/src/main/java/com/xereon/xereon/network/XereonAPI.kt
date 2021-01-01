@@ -1,5 +1,6 @@
 package com.xereon.xereon.network
 
+import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.ExploreData
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.SimpleStore
@@ -7,11 +8,13 @@ import com.xereon.xereon.data.model.Store
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface XereonAPI {
 
     companion object {
+        const val ACCESS_KEY = BuildConfig.XEREON_ACCESS_KEY
         const val BASE_URL = "http://vordertuer.bplaced.net/"
         const val IP_LOCATION_BASE_URL = ""
     }
@@ -38,6 +41,7 @@ interface XereonAPI {
     suspend fun getLocationWithIP(): IPLocationResponse
 
 
+    @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/home/home.php")
     suspend fun getExploreData(
         @Header("API") API_KEY: String,
@@ -45,12 +49,6 @@ interface XereonAPI {
         @Query("postalcode") postalCode: String,
         @Query("version") version: Int
     ): ExploreData
-
-    @GET("app-php/stores/store-information.php")
-    fun getStoreInformationCall(
-        @Header("API") API_KEY: String,
-        @Query("id") storeId: Int
-    ): Call<Store>
 
     @GET("app-php/stores/store-information.php")
     suspend fun getStoreInformation(
@@ -66,5 +64,4 @@ interface XereonAPI {
         @Query("limit") limit: Int,
         @Query("search") query: String
     ): List<SimpleProduct>
-
 }

@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,7 +22,7 @@ import com.xereon.xereon.ui.store.StoreViewModel
 import com.xereon.xereon.utils.DataState
 
 class SearchFragment : Fragment(R.layout.frg_search) {
-    private val viewModel: StoreViewModel by viewModels()
+    private val viewModel: SearchViewModel by activityViewModels()
 
     private var _binding: FrgSearchBinding? = null
     private val binding get() = _binding!!
@@ -38,11 +39,8 @@ class SearchFragment : Fragment(R.layout.frg_search) {
         )
 
         subscribeObserver()
-        viewModel.setStoreId(57)
-        viewModel.setUserId(1)
 
-        viewModel.getStoreData()
-        viewModel.getAllProducts()
+        viewModel.searchProducts("")
 
         setHasOptionsMenu(true)
     }
@@ -57,10 +55,11 @@ class SearchFragment : Fragment(R.layout.frg_search) {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
+                if (query != null)
                     viewModel.searchProducts(query)
-                    searchView.clearFocus()
-                }
+                else
+                    viewModel.searchProducts("")
+                searchView.clearFocus()
                 return true
             }
 

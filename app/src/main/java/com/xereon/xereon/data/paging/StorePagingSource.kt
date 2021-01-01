@@ -5,11 +5,12 @@ import androidx.paging.PagingSource
 import com.bumptech.glide.load.HttpException
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.network.XereonAPI
+import kotlinx.coroutines.delay
 import java.io.IOException
 
 class StorePagingSource(
     private val xereonAPI: XereonAPI,
-    private val api_key: String,
+    private val apiKey: String,
     private val storeId: Int,
     private val query: String
 ) : PagingSource<Int, SimpleProduct>() {
@@ -18,17 +19,15 @@ class StorePagingSource(
         val currentPage = params.key ?: 1
 
         return try {
-            val response = xereonAPI.getProductsFromStore(api_key, storeId, currentPage, params.loadSize, query)
-            Log.d("[APP_DEBUG]", "loadProducts (page $currentPage)")
+            delay(1500)
+            val response = xereonAPI.getProductsFromStore(apiKey, storeId, currentPage, params.loadSize, query)
 
             LoadResult.Page(
                 data = response,
                 prevKey = if (currentPage == 1) null else currentPage - 1,
                 nextKey = if (response.isEmpty()) null else currentPage + 1
             )
-        } catch (exception: IOException) {
-            LoadResult.Error(exception)
-        } catch (exception: HttpException) {
+        } catch (exception: Exception) {
             LoadResult.Error(exception)
         }
     }
