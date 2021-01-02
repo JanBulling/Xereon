@@ -3,13 +3,17 @@ package com.xereon.xereon.ui.explore
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
+import com.xereon.xereon.adapter.ProductHorizontalAdapter
 import com.xereon.xereon.adapter.StoreHorizontalAdapter
 import com.xereon.xereon.data.model.ExploreData
+import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgExploreBinding
 import com.xereon.xereon.ui.MainActivity
@@ -18,16 +22,16 @@ import com.xereon.xereon.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExploreFragment : Fragment(R.layout.frg_explore) {
+class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter.OnClickListener {
 
     private val viewModel: ExploreViewModel by activityViewModels()
 
     private var _binding: FrgExploreBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter: StoreHorizontalAdapter = StoreHorizontalAdapter(
+    private val newStoresAdapter: StoreHorizontalAdapter = StoreHorizontalAdapter(
 
-        object: StoreHorizontalAdapter.OnClickListener {
+        object : StoreHorizontalAdapter.OnClickListener {
             override fun onClick(store: SimpleStore) {
                 val bundle = Bundle();
                 if (store.id == 334114)
@@ -42,12 +46,16 @@ class ExploreFragment : Fragment(R.layout.frg_explore) {
 
     )
 
+    private val recommendationsAdapter: ProductHorizontalAdapter = ProductHorizontalAdapter(this)
+    private val popularAdapter: ProductHorizontalAdapter = ProductHorizontalAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgExploreBinding.bind(view)
         (activity as MainActivity).setBottomNavBarVisibility(true)
 
-        binding.exploreRecyclerNewStores.adapter = adapter
+        binding.exploreRecyclerNewStores.adapter = newStoresAdapter
+        binding.exploreRecyclerPopular.adapter = popularAdapter
+        binding.exploreRecyclerRecommendations.adapter = recommendationsAdapter
 
         subscribeObserver()
 
@@ -57,22 +65,36 @@ class ExploreFragment : Fragment(R.layout.frg_explore) {
 
     private fun subscribeObserver() {
         viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
-            when(dataState) {
+            when (dataState) {
                 is DataState.Success<ExploreData> -> {
-                    Log.d("[APP DEBUG]", "successful: " + dataState.data.toString())
-
                     binding.isLoading = false
-                    adapter.setList(dataState.data.newStores)
+                    newStoresAdapter.setList(dataState.data.newStores)
+                    recommendationsAdapter.setList(dataState.data.recommendations)
+                    popularAdapter.setList(dataState.data.popular)
                 }
                 is DataState.Loading -> {
-                    Log.d("[APP DEBUG]", "loading...")
                     binding.isLoading = true
                 }
                 is DataState.Error -> {
-                    binding.isLoading  = false
-                    Log.e("[APP DEBUG]", "error: " + dataState.exception.message)
+                    displayError(dataState.message)
+                    binding.isLoading = false
                 }
             }
         })
+    }
+
+    private fun displayError(message: String) {
+        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+        snackBar.setAction("Retry") {
+            viewModel.getExploreData(1, "89542", true)
+        }
+        snackBar.setActionTextColor(resources.getColor(R.color.white))
+        val snackBarView: View = snackBar.view
+        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
+        snackBar.show()
+    }
+
+    override fun onClick(store: SimpleProduct) {
+        Toast.makeText(context, "Clicked on: ${store.name}", Toast.LENGTH_SHORT).show()
     }
 }

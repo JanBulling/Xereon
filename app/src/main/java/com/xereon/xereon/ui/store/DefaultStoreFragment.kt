@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,30 +14,30 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.ProductLoadStateAdapter
-import com.xereon.xereon.adapter.ProductPagingAdapter
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.databinding.FrgDefaultStoreBinding
 import com.xereon.xereon.ui.MainActivity
+import com.xereon.xereon.ui.store.StorePagingAdapter.Companion.VIEW_TYPE_PRODUCT
 import com.xereon.xereon.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DefaultStoreFragment : Fragment(R.layout.frg_default_store) {
+class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAdapter.OnClickListener {
     companion object {
         const val CURRENT_STORE_ID = "current_store_id"
         const val CURRENT_STORE_NAME = "current_store_name"
     }
+
     private val viewModel: StoreViewModel by viewModels()
 
     private var _binding: FrgDefaultStoreBinding? = null
     private val binding get() = _binding!!
 
-    private var storeId = 0;
-    private lateinit var nameOfStore: String;
+    private var storeId = 0
+    private var nameOfStore: String = "null"
 
-    private val adapter: ProductPagingAdapter = ProductPagingAdapter()
-
+    private val adapter: StorePagingAdapter = StorePagingAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,12 +50,26 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgDefaultStoreBinding.bind(view)
         (activity as MainActivity).setBottomNavBarVisibility(false)
+        (activity as MainActivity).setActionBarTitle(nameOfStore)
 
-        binding.storeProductsList.layoutManager = GridLayoutManager(context, 2)
-        binding.storeProductsList.adapter = adapter.withLoadStateHeaderAndFooter(
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val viewType = adapter.getItemViewType(position)
+
+                return if (viewType == VIEW_TYPE_PRODUCT) 1 else 2
+            }
+        }
+        binding.storeRecycler.layoutManager = gridLayoutManager
+        binding.storeRecycler.setHasFixedSize(true)
+        binding.storeRecycler.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ProductLoadStateAdapter { adapter.retry() },
             footer = ProductLoadStateAdapter { adapter.retry() },
         )
+        binding.storeNotFoundRetry.setOnClickListener {
+            viewModel.getStoreData(true)
+            viewModel.getAllProducts()
+        }
 
         subscribeObserver()
         viewModel.setStoreId(storeId)
@@ -62,7 +77,6 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store) {
 
         viewModel.getStoreData()
         viewModel.getAllProducts()
-
 
         setHasOptionsMenu(true)
     }
@@ -97,28 +111,27 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store) {
         viewModel.storeData.observe(viewLifecycleOwner, Observer { dataState ->
             when(dataState) {
                 is DataState.Success<Store> -> {
+                    adapter.setStore(dataState.data)
+                    binding.isSuccessful = true
                     binding.isLoading = false
-                    binding.store = dataState.data
                 }
                 is DataState.Loading -> {
                     binding.isLoading = true
                 }
                 is DataState.Error -> {
-                    displayError()
+                    //displayError(dataState.message)
+                    binding.isSuccessful = false
                     binding.isLoading = false
-                    Log.e("[APP_DEBUG]", "observeStoreData() error: " + dataState.exception.message)
                 }
             }
         })
         viewModel.productData.observe(viewLifecycleOwner, Observer {
-            Log.d("[APP_DEBUG]", "subscribeObserver: got data successfully")
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
-            binding.storeScrollParent.scrollTo(0, 800)
         })
     }
 
-    private fun displayError(){
-        val snackBar = Snackbar.make(requireView(), "Verbindungsfehler...", Snackbar.LENGTH_INDEFINITE)
+    private fun displayError(string: String){
+        val snackBar = Snackbar.make(requireView(), string, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("Retry") {
             viewModel.getStoreData(true)
             viewModel.getAllProducts()
@@ -127,5 +140,9 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store) {
         val snackBarView: View = snackBar.view
         snackBarView.setBackgroundColor(resources.getColor(R.color.error))
         snackBar.show()
+    }
+
+    override fun onClick(store: SimpleProduct) {
+        Toast.makeText(context, "Clicked on: ${store.name}", Toast.LENGTH_SHORT).show()
     }
 }

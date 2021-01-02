@@ -23,8 +23,8 @@ class ExploreViewModel
     val dataState : LiveData<DataState<ExploreData>>
         get() = _dataState
 
-    fun getExploreData(userID: Int, zip: String) {
-        if (_dataState.value != null)
+    fun getExploreData(userID: Int, zip: String, isRetry: Boolean = false) {
+        if (!isRetry && _dataState.value != null)
             return
 
         val apiKey = ApplicationUtils.generateAPIkey(userID)

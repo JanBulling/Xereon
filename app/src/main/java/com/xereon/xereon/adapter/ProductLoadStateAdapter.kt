@@ -28,6 +28,8 @@ class ProductLoadStateAdapter(private val retry: () -> Unit) :
         init {
             binding.buttonRetry.setOnClickListener {
                 retry.invoke()
+                binding.isLoading = true
+                binding.isError = false
             }
         }
 

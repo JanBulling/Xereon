@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="isLoading" type="Boolean" />
@@ -8,7 +9,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="8dp">
@@ -16,22 +17,42 @@
         <ProgressBar
             android:id="@+id/progress_bar"
             app:isVisible="@{isLoading}"
+            tools:visibility="gone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:indeterminateTint="@color/primary"
+            android:layout_height="120dp" />
 
         <TextView
             android:id="@+id/text_view_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/error"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="16sp"
             app:isVisible="@{isError}"
-            android:text="Es ist ein Feheler aufgetreten" />
+            android:text="Konnte Produkte nicht abrufen" />
+        <TextView
+            android:id="@+id/text_view_error_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/text_gray"
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            app:isVisible="@{isError}"
+            android:text="Keine Verbinding möglich..." />
 
         <Button
             android:id="@+id/button_retry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="20dp"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/button"
             app:isVisible="@{isError}"
-            android:text="Retry" />
+            android:text="Wiederholen" />
     </LinearLayout>
 
 </layout>

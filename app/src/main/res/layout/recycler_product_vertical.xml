@@ -6,6 +6,9 @@
         <variable
             name="product"
             type="com.xereon.xereon.data.model.SimpleProduct" />
+        <variable
+            name="clickListener"
+            type="com.xereon.xereon.ui.store.StorePagingAdapter.OnClickListener" />
     </data>
 
     <LinearLayout
@@ -13,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:paddingTop="15dp"
+        android:onClick="@{() -> clickListener.onClick(product)}"
         android:paddingBottom="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout

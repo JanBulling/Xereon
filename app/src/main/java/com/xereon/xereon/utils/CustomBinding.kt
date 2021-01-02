@@ -1,5 +1,6 @@
 package com.xereon.xereon.utils
 
+import android.graphics.Color
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -16,6 +17,11 @@ fun setIsVisible(view: View, show: Boolean) {
     view.visibility = if (show) View.VISIBLE else View.GONE
 }
 
+@BindingAdapter(value = ["show", "show2"])
+fun setIsVisible(view: View, show: Boolean, show2: Boolean) {
+    view.visibility = if (show && show2) View.VISIBLE else View.GONE
+}
+
 @BindingAdapter("imageURL")
 fun setImageURL(imageView: ImageView, url: String?) {
     Glide.with(imageView.context)
@@ -23,9 +29,15 @@ fun setImageURL(imageView: ImageView, url: String?) {
         .into(imageView)
 }
 
+@BindingAdapter(value = ["price", "unit"])
+fun setPriceText(view: TextView, price: String, unit: Int) {
+    val priceValue = "$price € / $unit"
+    view.setText(priceValue)
+}
+
 @BindingAdapter("backgroundColor")
 fun setBackgroundColor(view: View, storeCategory: Int) {
-    view.setBackgroundColor(0x00FF00)
+    view.setBackgroundColor( ContextCompat.getColor(view.context, R.color.type_red) )
 }
 
 @BindingAdapter("textCategoryColor")

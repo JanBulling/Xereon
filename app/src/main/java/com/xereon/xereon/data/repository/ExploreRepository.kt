@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,10 +29,11 @@ class ExploreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
             */
 
             emit(DataState.Success(networkExplore))
-        } catch (e : IOException) {
-            emit(DataState.Error(e))
-        } catch (e : HttpException) {
-            emit(DataState.Error(e))
+        } catch (e : Exception) {
+            when (e) {
+                is IOException, is HttpException -> emit(DataState.Error("Keine Verbindung"))
+                else -> emit(DataState.Error("Es ist ein Fehler unterlaufen"))
+            }
         }
     }
 
