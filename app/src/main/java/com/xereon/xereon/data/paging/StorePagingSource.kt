@@ -10,7 +10,6 @@ import java.io.IOException
 
 class StorePagingSource(
     private val xereonAPI: XereonAPI,
-    private val apiKey: String,
     private val storeId: Int,
     private val query: String
 ) : PagingSource<Int, SimpleProduct>() {
@@ -19,7 +18,8 @@ class StorePagingSource(
         val currentPage = params.key ?: 1
 
         return try {
-            val response = xereonAPI.getProductsFromStore(apiKey, storeId, currentPage, params.loadSize, query)
+            delay(1000)
+            val response = xereonAPI.getProductsFromStore(storeId, currentPage, params.loadSize, query)
 
             LoadResult.Page(
                 data = response,

@@ -54,7 +54,7 @@ class ProductHorizontalAdapter(
     }
 
     interface OnClickListener {
-        fun onClick(store: SimpleProduct)
+        fun onClick(product: SimpleProduct)
     }
 
 

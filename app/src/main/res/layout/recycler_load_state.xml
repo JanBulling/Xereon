@@ -3,56 +3,90 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="isLoading" type="Boolean" />
-        <variable name="isError" type="Boolean" />
+
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="isError"
+            type="Boolean" />
+
+        <variable
+            name="isEmpty"
+            type="Boolean" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="8dp">
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            app:isVisible="@{isLoading}"
-            tools:visibility="gone"
             android:layout_width="wrap_content"
+            android:layout_height="170dp"
             android:indeterminateTint="@color/primary"
-            android:layout_height="120dp" />
+            app:isVisible="@{isLoading}"
+            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/text_view_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/error"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_bold"
+            android:text="Konnte Produkte nicht abrufen"
+            android:textColor="@color/error"
             android:textSize="16sp"
-            app:isVisible="@{isError}"
-            android:text="Konnte Produkte nicht abrufen" />
+            app:isVisible="@{isError}" />
+
         <TextView
             android:id="@+id/text_view_error_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textColor="@color/text_gray"
             android:fontFamily="@font/roboto"
+            android:text="Keine Verbinding möglich..."
+            android:textColor="@color/text_gray"
             android:textSize="14sp"
-            app:isVisible="@{isError}"
-            android:text="Keine Verbinding möglich..." />
+            app:isVisible="@{isError}" />
 
         <Button
             android:id="@+id/button_retry"
             android:layout_width="130dp"
             android:layout_height="43dp"
             android:layout_marginTop="20dp"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textColor="@color/white"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/button"
-            app:isVisible="@{isError}"
-            android:text="Wiederholen" />
+            android:text="Wiederholen"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:isVisible="@{isError}" />
+
+        <ImageView
+            android:id="@+id/store_no_products"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/img_undraw_empty"
+            app:isVisible="@{isEmpty}"
+            tools:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Keine Produkte gefunden"
+            android:textColor="@color/error"
+            android:textSize="16sp"
+            app:isVisible="@{isEmpty}"
+            tools:visibility="gone" />
     </LinearLayout>
 
 </layout>

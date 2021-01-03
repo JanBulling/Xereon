@@ -1,10 +1,7 @@
 package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
-import com.xereon.xereon.data.model.ExploreData
-import com.xereon.xereon.data.model.SimpleProduct
-import com.xereon.xereon.data.model.SimpleStore
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -44,24 +41,29 @@ interface XereonAPI {
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/home/home.php")
     suspend fun getExploreData(
-        @Header("API") API_KEY: String,
         @Query("id") userID: Int,
         @Query("postalcode") postalCode: String,
         @Query("version") version: Int
     ): ExploreData
 
+    @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/stores/store-information.php")
     suspend fun getStoreInformation(
-        @Header("API") API_KEY: String,
         @Query("id") storeId: Int
     ): Store
 
+    @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/products/products.php")
     suspend fun getProductsFromStore(
-        @Header("API") API_KEY: String,
         @Query("id") storeId: Int,
         @Query("page") page: Int,
         @Query("limit") limit: Int,
         @Query("search") query: String
     ): List<SimpleProduct>
+
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/products/product-information.php")
+    suspend fun getProductDetails(
+        @Query("id") productID: Int
+    ): Product
 }

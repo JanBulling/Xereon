@@ -23,11 +23,11 @@ import javax.inject.Singleton
 @Singleton
 class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
 
-    suspend fun getStoreData(apiKey: String, storeID: Int): Flow<DataState<Store>> = flow {
+    suspend fun getStoreData(storeID: Int): Flow<DataState<Store>> = flow {
         emit(DataState.Loading)
         try {
-            delay(1500)
-            val networkStoreData = xereonAPI.getStoreInformation(apiKey, storeID)
+            delay(200)
+            val networkStoreData = xereonAPI.getStoreInformation(storeID)
 
             emit(DataState.Success(networkStoreData))
         } catch (e : Exception) {
@@ -38,7 +38,7 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
         }
     }
 
-    fun searchProduct(apiKey: String, storeID: Int, query: String): LiveData<PagingData<SimpleProduct>> {
+    fun searchProduct(storeID: Int, query: String): LiveData<PagingData<SimpleProduct>> {
         return Pager(
             config = PagingConfig(
                 initialLoadSize = 10,
@@ -46,7 +46,7 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
                 maxSize = 100,
                 prefetchDistance = 1,
                 enablePlaceholders = false
-            ), pagingSourceFactory = { StorePagingSource(xereonAPI, apiKey, storeID, query) }
+            ), pagingSourceFactory = { StorePagingSource(xereonAPI, storeID, query) }
         ).liveData
     }
 }

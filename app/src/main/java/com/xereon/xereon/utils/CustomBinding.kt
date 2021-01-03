@@ -1,9 +1,7 @@
 package com.xereon.xereon.utils
 
-import android.graphics.Color
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,13 +22,14 @@ fun setIsVisible(view: View, show: Boolean, show2: Boolean) {
 
 @BindingAdapter("imageURL")
 fun setImageURL(imageView: ImageView, url: String?) {
+    imageView.clipToOutline = true
     Glide.with(imageView.context)
         .load(url)
         .into(imageView)
 }
 
 @BindingAdapter(value = ["price", "unit"])
-fun setPriceText(view: TextView, price: String, unit: Int) {
+fun setPriceText(view: TextView, price: String?, unit: Int) {
     val priceValue = "$price € / $unit"
     view.setText(priceValue)
 }

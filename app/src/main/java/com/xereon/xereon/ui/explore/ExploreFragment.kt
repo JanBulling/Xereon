@@ -17,7 +17,10 @@ import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgExploreBinding
 import com.xereon.xereon.ui.MainActivity
+import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
 import com.xereon.xereon.ui.store.DefaultStoreFragment
+import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
+import com.xereon.xereon.ui.store.DefaultStoreFragment_GeneratedInjector
 import com.xereon.xereon.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,14 +36,13 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
 
         object : StoreHorizontalAdapter.OnClickListener {
             override fun onClick(store: SimpleStore) {
-                val bundle = Bundle();
-                if (store.id == 334114)
-                    bundle.putInt(DefaultStoreFragment.CURRENT_STORE_ID, 57)
-                else
-                    bundle.putInt(DefaultStoreFragment.CURRENT_STORE_ID, store.id)
 
-                bundle.putString(DefaultStoreFragment.CURRENT_STORE_NAME, store.name)
-                findNavController().navigate(R.id.Action_to_Store, bundle)
+                if (store.id == 334114)
+                    store.id = 57
+
+                val action = DefaultStoreFragmentDirections.actionToStore(store)
+
+                findNavController().navigate(action)
             }
         }
 
@@ -94,7 +96,9 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
         snackBar.show()
     }
 
-    override fun onClick(store: SimpleProduct) {
-        Toast.makeText(context, "Clicked on: ${store.name}", Toast.LENGTH_SHORT).show()
+    override fun onClick(product: SimpleProduct) {
+        val action = DefaultProductFragmentDirections.actionToProduct(product)
+        findNavController().navigate(action)
+        //Toast.makeText(context, "Clicked on: ${store.name}", Toast.LENGTH_SHORT).show()
     }
 }

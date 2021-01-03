@@ -27,9 +27,8 @@ class ExploreViewModel
         if (!isRetry && _dataState.value != null)
             return
 
-        val apiKey = ApplicationUtils.generateAPIkey(userID)
         viewModelScope.launch {
-            exploreRepository.getExploreData(apiKey, userID, zip).onEach { dataState ->
+            exploreRepository.getExploreData(userID, zip).onEach { dataState ->
                 _dataState.value = dataState
             }.launchIn(viewModelScope)
         }

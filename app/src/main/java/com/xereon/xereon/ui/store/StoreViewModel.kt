@@ -12,6 +12,7 @@ import com.xereon.xereon.data.repository.ExploreRepository
 import com.xereon.xereon.data.repository.StoreRepository
 import com.xereon.xereon.utils.ApplicationUtils
 import com.xereon.xereon.utils.DataState
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -27,32 +28,32 @@ class StoreViewModel
 
     private val _storeId = savedStateHandle.getLiveData<Int>(STORE_ID_KEY)
     private val _userId = savedStateHandle.getLiveData<Int>(USER_ID_KEY)
-    private val _storeData: MutableLiveData<DataState<Store>> = MutableLiveData()
     private val _currentQuery = savedStateHandle.getLiveData<String>(STORE_LAST_QUERY, "")
 
+    private val _storeData: MutableLiveData<DataState<Store>> = MutableLiveData()
 
     //getter
     val storeData : LiveData<DataState<Store>> get() = _storeData
+    val currentQuery : LiveData<String> get() = _currentQuery
     val productData = _currentQuery.switchMap { query ->
-        val apiKey = ApplicationUtils.generateAPIkey(_userId.value?: 1)
-
-        storeRepository.searchProduct(apiKey, _storeId.value ?: 1, query)
+        storeRepository.searchProduct(_storeId.value ?: 1, query).cachedIn(viewModelScope)
     }
-
 
     //getter methods
     fun getStoreData(isRetry: Boolean = false) {
         if (!isRetry && _storeData.value != null)
             return
-        val apiKey = ApplicationUtils.generateAPIkey(_userId.value?: 1)
         viewModelScope.launch {
-            storeRepository.getStoreData(apiKey, _storeId.value ?: 1).onEach { dataState ->
+            storeRepository.getStoreData(_storeId.value ?: 1).onEach { dataState ->
                 _storeData.value = dataState
             }.launchIn(viewModelScope)
         }
     }
 
-    fun getAllProducts() { _currentQuery.value = "" }
+    fun getAllProducts(isRetry: Boolean = false) {
+        if (productData.value == null || isRetry)
+            _currentQuery.value = ""
+    }
 
     fun searchProducts(query: String) { _currentQuery.value = query }
 

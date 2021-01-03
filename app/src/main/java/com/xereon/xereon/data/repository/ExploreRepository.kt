@@ -16,12 +16,12 @@ import javax.inject.Singleton
 @Singleton
 class ExploreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
 
-    suspend fun getExploreData(API_KEY: String, userID: Int, zip : String): Flow<DataState<ExploreData>> = flow {
+    suspend fun getExploreData(userID: Int, zip : String): Flow<DataState<ExploreData>> = flow {
         emit(DataState.Loading)
         try {
-            delay(1500)
-            val networkExplore = xereonAPI.getExploreData(API_KEY, userID, zip, 1)
-            Log.d("[APP_DEBUG]", "getExploreData(): finished loading")
+            delay(500)
+            val networkExplore = xereonAPI.getExploreData(userID, zip, 1)
+
             /*
             Here implement caching.
             See: https://github.com/mitchtabian/Dagger-Hilt-Playerground/blob/Basic-MVI-Repository-Pattern/
@@ -32,7 +32,7 @@ class ExploreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
         } catch (e : Exception) {
             when (e) {
                 is IOException, is HttpException -> emit(DataState.Error("Keine Verbindung"))
-                else -> emit(DataState.Error("Es ist ein Fehler unterlaufen"))
+                else -> emit(DataState.Error("Es ist ein Fehler aufgetreten"))
             }
         }
     }

@@ -18,25 +18,6 @@ object ApplicationUtils {
 
     const val DEFAULT_USER_ID = 1
 
-    /**
-     * Generates an API-Key on the flight with the userID and the current time -> Always different
-     * @param userID id of the user
-     * @return Pattern: xxxxxxxx-xxxx-xxxx  (0-9, A, B, C, D, E, F)
-     */
-    fun generateAPIkey(userID: Int): String {
-        val minute = Calendar.getInstance()[Calendar.MINUTE] + 1
-        val msb = userID * minute * 2718281828459L
-        return digits(msb shr 32, 8) + "-" + digits(msb shr 16, 4) + "-" + digits(
-            msb,
-            4
-        )
-    }
-
-    private fun digits(value: Long, digits: Int): String {
-        val plc = 1L shl digits * 4
-        return java.lang.Long.toHexString(plc or (value and plc - 1)).substring(1)
-    }
-
     const val DEFAULT_ZIP = "89547"
     const val DEFAULT_LAT = 50.5943186f
     const val DEFAULT_LNG = 9.9428628f

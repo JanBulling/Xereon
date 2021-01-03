@@ -9,7 +9,20 @@
         android:id="@+id/defaultStoreFragment"
         android:name="com.xereon.xereon.ui.store.DefaultStoreFragment"
         android:label="Store"
-        tools:layout="@layout/frg_default_store"  />
+        tools:layout="@layout/frg_default_store">
+        <argument
+            android:name="simpleStore"
+            android:defaultValue="@null"
+            app:argType="com.xereon.xereon.data.model.SimpleStore"
+            app:nullable="true" />
+        <argument
+            android:name="simpleStoreId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="xereon.de/store/{simpleStoreId}" />
+    </fragment>
     <fragment
         android:id="@+id/exploreFragment"
         android:name="com.xereon.xereon.ui.explore.ExploreFragment"
@@ -30,5 +43,24 @@
         android:name="com.xereon.xereon.ui.search.SearchFragment"
         android:label="Suche"
         tools:layout="@layout/frg_search" />
-    <action android:id="@+id/Action_to_Store" app:destination="@id/defaultStoreFragment" />
+    <action android:id="@+id/action_to_Store" app:destination="@id/defaultStoreFragment" />
+    <fragment
+        android:id="@+id/defaultProductFragment"
+        android:name="com.xereon.xereon.ui.product.DefaultProductFragment"
+        android:label="Produkt"
+        tools:layout="@layout/frg_default_product">
+        <argument
+            android:name="simpleProduct"
+            android:defaultValue="@null"
+            app:argType="com.xereon.xereon.data.model.SimpleProduct"
+            app:nullable="true" />
+        <argument
+            android:name="simpleProductId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="xereon.de/product/{simpleProductId}" />
+    </fragment>
+    <action android:id="@+id/action_to_Product" app:destination="@id/defaultProductFragment" />
 </navigation>

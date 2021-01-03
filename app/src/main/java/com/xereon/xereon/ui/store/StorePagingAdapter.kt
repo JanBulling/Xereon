@@ -1,7 +1,11 @@
 package com.xereon.xereon.ui.store
 
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.data.model.SimpleProduct
@@ -46,10 +50,27 @@ class StorePagingAdapter(
         }
     }
 
+    fun withCustomLoadStateFooter(
+        footer: LoadStateAdapter<*>
+    ) : ConcatAdapter {
+        addLoadStateListener { loadStates ->
+
+            if (loadStates.source.refresh is LoadState.NotLoading && itemCount <= 1) {
+                footer.loadState = LoadState.Error(Throwable("empty"))
+            }
+            else
+                footer.loadState = when (loadStates.refresh) {
+                    is LoadState.NotLoading -> loadStates.append
+                    else -> loadStates.refresh
+                }
+        }
+        return ConcatAdapter(this, footer)
+    }
+
     override fun getItemCount() = OFFSET + super.getItemCount()
 
     interface OnClickListener {
-        fun onClick(store: SimpleProduct)
+        fun onClick(product: SimpleProduct)
     }
 
     fun setStore(storeInsert: Store) {

@@ -1,5 +1,6 @@
 package com.xereon.xereon.adapter
 
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.LoadState
@@ -35,7 +36,8 @@ class ProductLoadStateAdapter(private val retry: () -> Unit) :
 
         fun bind(loadState: LoadState) {
             binding.isLoading = loadState is LoadState.Loading
-            binding.isError = loadState is LoadState.Error
+            binding.isError = loadState is LoadState.Error && !loadState.error.message.equals("empty")
+            binding.isEmpty = loadState is LoadState.Error && loadState.error.message.equals("empty")
         }
     }
 }
