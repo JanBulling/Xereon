@@ -46,11 +46,16 @@ interface XereonAPI {
         @Query("version") version: Int
     ): ExploreData
 
+
+
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/stores/store-information.php")
     suspend fun getStoreInformation(
         @Query("id") storeId: Int
     ): Store
+
+
+
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/products/products.php")
@@ -66,4 +71,32 @@ interface XereonAPI {
     suspend fun getProductDetails(
         @Query("id") productID: Int
     ): Product
+
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/stores/get-stores-surroundings.php")
+    suspend fun getStoresInArea(
+        @Query("postalcode") zip: String
+    ): List<LocationStore>
+
+
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/debug/home/main-search.php")
+    suspend fun searchStoreName(
+        @Query("name") query: String,
+        @Query("postalcode") zip: String,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int
+    ): List<SimpleStore>
+
+
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/debug/home/main-search.php")
+    suspend fun searchStore(
+        @Query("query") query: String,
+        @Query("postalcode") zip: String,
+        @Query("order") order: Int,
+        @Query("filter") filter: Int,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int
+    ): List<SimpleStore>
 }

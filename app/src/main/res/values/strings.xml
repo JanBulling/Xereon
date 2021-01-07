@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Xereon</string>
+    <array name="day_of_week_short">
+        <item>Mo</item>
+        <item>Di</item>
+        <item>Mi</item>
+        <item>Do</item>
+        <item>Fr</item>
+        <item>Sa</item>
+        <item>So</item>
+    </array>
+
 </resources>

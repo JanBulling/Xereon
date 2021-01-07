@@ -1,14 +1,19 @@
-package com.xereon.xereon.utils
+package com.xereon.xereon.util
 
+import android.graphics.Typeface
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.xereon.xereon.R
+import com.xereon.xereon.data.util.CategoryUtils
+import com.xereon.xereon.data.util.OpeningUtils
+import com.xereon.xereon.data.util.PriceUtils
 
 @BindingAdapter("isVisible")
 fun setIsVisible(view: View, show: Boolean) {
@@ -28,20 +33,30 @@ fun setImageURL(imageView: ImageView, url: String?) {
         .into(imageView)
 }
 
+@BindingAdapter("imageRes")
+fun setImageResource(imageView: ImageView, resId: Int) {
+    if (resId != -1)
+        imageView.setImageResource(resId)
+    else
+        imageView.setImageDrawable(null)
+}
+
 @BindingAdapter(value = ["price", "unit"])
 fun setPriceText(view: TextView, price: String?, unit: Int) {
-    val priceValue = "$price € / $unit"
-    view.setText(priceValue)
+    val priceValue = PriceUtils.getPriceWithUnitAsString(price ?: "0.00", unit)
+    view.text = priceValue
 }
 
 @BindingAdapter("backgroundColor")
-fun setBackgroundColor(view: View, storeCategory: Int) {
-    view.setBackgroundColor( ContextCompat.getColor(view.context, R.color.type_red) )
+fun setBackgroundColor(view: View, category: Int) {
+    @ColorRes val colorId = CategoryUtils.getCategoryColorId(category)
+    view.backgroundTintList = view.context.getColorStateList(colorId)
 }
 
 @BindingAdapter("textCategoryColor")
 fun setTextCategoryColor(view: TextView, storeCategory: Int) {
-    view.setTextColor( ContextCompat.getColor(view.context, R.color.type_azure) )
+    @ColorRes val colorId = CategoryUtils.getCategoryColorId(storeCategory)
+    view.setTextColor( ContextCompat.getColor(view.context, colorId) )
 }
 
 @BindingAdapter("websiteText")
@@ -55,4 +70,18 @@ fun setWebsiteText(view: TextView, websiteURL: String?) {
         view.text = Html.fromHtml(linkAddress)
         view.movementMethod = LinkMovementMethod.getInstance()
     }
+}
+
+@BindingAdapter("isCurrentDay")
+fun setCurrentDay(view: TextView, isCurrentDay: Boolean) {
+    if (isCurrentDay) {
+        view.setTextColor( ContextCompat.getColor(view.context, R.color.primary) )
+        view.setTypeface(null, Typeface.BOLD)
+    }
+}
+
+@BindingAdapter("todayOpening")
+fun setOpeningForToday(view: TextView, openingString: String?) {
+    val opening = OpeningUtils.getOpeningTimesToday(view.context, openingString ?: ",,,,,,")
+    view.text = opening
 }

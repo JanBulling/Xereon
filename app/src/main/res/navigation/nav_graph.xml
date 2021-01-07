@@ -21,13 +21,17 @@
             app:argType="integer" />
         <deepLink
             android:id="@+id/deepLink"
-            app:uri="xereon.de/store/{simpleStoreId}" />
+            app:uri="test.com/store/{simpleStoreId}" />
     </fragment>
     <fragment
         android:id="@+id/exploreFragment"
         android:name="com.xereon.xereon.ui.explore.ExploreFragment"
         android:label="Entdecken"
-        tools:layout="@layout/frg_explore" />
+        tools:layout="@layout/frg_explore" >
+        <action
+            android:id="@+id/action_To_AllCategories"
+            app:destination="@id/alLCategoriesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.xereon.xereon.ui.favorites.FavoritesFragment"
@@ -60,7 +64,12 @@
             app:argType="integer" />
         <deepLink
             android:id="@+id/deepLink2"
-            app:uri="xereon.de/product/{simpleProductId}" />
+            app:uri="test.com/product/{simpleProductId}" />
     </fragment>
     <action android:id="@+id/action_to_Product" app:destination="@id/defaultProductFragment" />
+    <fragment
+        android:id="@+id/alLCategoriesFragment"
+        android:name="com.xereon.xereon.ui.categories.AllCategoriesFragment"
+        android:label="Kategorien"
+        tools:layout="@layout/frg_categories"/>
 </navigation>

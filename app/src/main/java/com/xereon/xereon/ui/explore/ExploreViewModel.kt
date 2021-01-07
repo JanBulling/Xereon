@@ -5,8 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.xereon.xereon.data.model.ExploreData
 import com.xereon.xereon.data.repository.ExploreRepository
-import com.xereon.xereon.utils.ApplicationUtils
-import com.xereon.xereon.utils.DataState
+import com.xereon.xereon.util.DataState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

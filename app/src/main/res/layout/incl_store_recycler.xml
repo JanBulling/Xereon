@@ -7,6 +7,12 @@
         <variable
             name="store"
             type="com.xereon.xereon.data.model.Store" />
+        <variable
+            name="openingTimes"
+            type="String[]" />
+        <variable
+            name="currentDay"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,9 +34,10 @@
         <RelativeLayout
             android:id="@+id/store_type_color"
             android:layout_width="match_parent"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:background="@color/type_red"
             app:backgroundColor="@{store.category}"
+            android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/store_header_img">
 
@@ -40,11 +47,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:ellipsize="end"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="@font/roboto_bold"
                 android:lines="1"
                 android:text="@{store.type}"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 tools:text="Elektronik" />
         </RelativeLayout>
 
@@ -89,21 +96,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                tools:text="4.56" />
+                android:text="4.56" />
 
             <TextView
                 android:id="@+id/store_rating_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                tools:text="(144)" />
+                android:text="(144)" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/store_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginEnd="16dp"
             app:imageURL="@{store.logoImageURL}"
             app:layout_constraintBottom_toTopOf="@id/store_address"
@@ -179,7 +186,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -283,9 +290,11 @@
             layout="@layout/incl_opening_hours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="12dp"
+            app:opening="@{openingTimes}"
+            app:currentDay="@{currentDay}"
             app:layout_constraintTop_toBottomOf="@id/store_opening_title" />
 
         <TextView
@@ -319,7 +328,7 @@
         <View
             android:id="@+id/store_peak_chart"
             android:layout_width="0dp"
-            android:layout_height="90dp"
+            android:layout_height="85dp"
             android:layout_marginTop="8dp"
             android:background="@color/gray_2"
             app:layout_constraintEnd_toStartOf="@id/store_peak_times_next"

@@ -1,10 +1,14 @@
 package com.xereon.xereon.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.xereon.xereon.network.XereonAPI
+import com.xereon.xereon.util.Constants.PREFERENCES_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -35,4 +39,10 @@ object AppModule {
     @Provides
     fun provideXereonAPI(retrofit: Retrofit) :XereonAPI =
         retrofit.create(XereonAPI::class.java)
+
+
+    @Singleton
+    @Provides
+    fun providePreferences(@ApplicationContext app: Context): SharedPreferences =
+        app.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 }

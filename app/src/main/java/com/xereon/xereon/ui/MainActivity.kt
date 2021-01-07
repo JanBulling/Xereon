@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         bottom_navigation.setupWithNavController(navController)
     }
 
-    fun setBottomNavBarVisibility(visible: Boolean) {
+    override fun setBottomNavBarVisibility(visible: Boolean) {
         bottom_navigation.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-    fun setToolbarVisibility(visible: Boolean) {
+    override fun setToolbarVisibility(visible: Boolean) {
         top_navigation.visibility = if (visible) View.VISIBLE else View.GONE
     }
 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="store"
+            type="com.xereon.xereon.data.model.SimpleStore" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/gray_0"
+        android:foreground="?selectableItemBackground"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/recycler_store_image"
+            android:layout_width="73dp"
+            android:layout_height="73dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="6dp"
+            android:padding="3dp"
+            app:imageURL="@{store.logoImageURL}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_groceries" />
+
+        <TextView
+            android:id="@+id/recycler_store_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="95dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_medium"
+            android:maxLines="2"
+            android:paddingEnd="40dp"
+            android:text="@{store.name}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/recycler_store_type"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Lebensmittel" />
+
+        <TextView
+            android:id="@+id/recycler_store_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="95dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_bold"
+            android:lines="1"
+            android:text="@{store.type}"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_store_name"
+            app:textCategoryColor="@{store.category}"
+            tools:text="Supermarkt" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,23 +1,15 @@
 package com.xereon.xereon.ui.store
 
-import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import com.xereon.xereon.data.model.ExploreData
-import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.Store
-import com.xereon.xereon.data.repository.ExploreRepository
 import com.xereon.xereon.data.repository.StoreRepository
-import com.xereon.xereon.utils.ApplicationUtils
-import com.xereon.xereon.utils.DataState
-import kotlinx.coroutines.coroutineScope
+import com.xereon.xereon.util.DataState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.reflect.Parameter
-import kotlin.math.absoluteValue
 
 class StoreViewModel
     @ViewModelInject

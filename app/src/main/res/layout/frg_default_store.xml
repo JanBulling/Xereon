@@ -50,7 +50,7 @@
             app:show="@{!isSuccessful}"
             app:show2="@{!isLoading}"
             android:textAlignment="center"
-            android:text="Überprüfen Sie Ihre Verbindung. Diese Filiale kann auch vom Betreiber entfernt worden sein."
+            android:text="Überprüfen Sie Ihre Verbindung und versuchen Sie es später erneut.\nDiese Filiale kann auch vom Betreiber entfernt worden sein."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_max="310dp"

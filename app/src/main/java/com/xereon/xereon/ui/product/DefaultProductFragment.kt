@@ -11,7 +11,7 @@ import com.xereon.xereon.R
 import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.databinding.FrgDefaultProductBinding
 import com.xereon.xereon.ui.MainActivity
-import com.xereon.xereon.utils.DataState
+import com.xereon.xereon.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,6 +40,10 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product) {
         (activity as MainActivity).setBottomNavBarVisibility(false)
         (activity as MainActivity).setActionBarTitle(productName)
 
+        binding.storeNotFoundRetry.setOnClickListener {
+            viewModel.getProductData(productID, true)
+        }
+
         subscribeObserver()
 
         viewModel.getProductData(productID)
@@ -57,13 +61,14 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product) {
                     (activity as MainActivity).setActionBarTitle(dataState.data.name)
                     binding.product = dataState.data
                     binding.isLoading = false
+                    binding.isSuccessful = true
                 }
                 is DataState.Loading -> {
                     binding.isLoading = true
                 }
                 is DataState.Error -> {
                     binding.isLoading = false
-                    d("[APP_DEBUG]", "ERROR")
+                    binding.isSuccessful = false
                 }
             }
         })

@@ -2,8 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="isLoading" type="boolean" />
+        <variable
+            name="isLoading"
+            type="boolean" />
+        <variable
+            name="locationCity"
+            type="String" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -11,22 +17,6 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         tools:context=".ui.explore.ExploreFragment">
-
-        <!--com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="10dp">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="?attr/actionBarTheme"
-                app:title="Entdecken" />
-
-        </com.google.android.material.appbar.AppBarLayout-->
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/explore_scroll_parent"
@@ -99,7 +89,8 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Lebensmittel"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_groceries" />
 
                         <TextView
                             android:id="@+id/explore_category_cloth"
@@ -114,7 +105,6 @@
                             android:paddingHorizontal="8dp"
                             android:text="Mode / Kleidung"
                             android:textColor="@color/black" />
-
                     </TableRow>
 
                     <TableRow
@@ -133,7 +123,8 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Dienstleistungen"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_barber" />
 
                         <TextView
                             android:id="@+id/explore_category_restaurant"
@@ -147,8 +138,8 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Restaurant"
-                            android:textColor="@color/black" />
-
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_restaurant" />
                     </TableRow>
 
                     <TableRow
@@ -182,7 +173,6 @@
                             android:paddingHorizontal="8dp"
                             android:text="Hotel"
                             android:textColor="@color/black" />
-
                     </TableRow>
 
                     <TableRow
@@ -201,8 +191,8 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Elektrik"
-                            android:textColor="@color/black" />
-
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_electronics" />
                     </TableRow>
 
                 </TableLayout>
@@ -213,11 +203,12 @@
                     android:layout_height="25dp"
                     android:layout_marginEnd="16dp"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/primary"
+                    app:drawableTint="@color/primary"
+                    app:drawableEndCompat="@drawable/ic_arrow_right"
                     android:fontFamily="@font/roboto"
                     android:foreground="?selectableItemBackground"
                     android:padding="3dp"
-                    android:text="Alle Anzeigen"
+                    android:text="Alle Kategorien"
                     android:textColor="@color/primary"
                     android:textSize="13sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -279,7 +270,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="264dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Neue Geschäfte in Gerstetten"
+                    android:text="@{`Neue Geschäfte in ` + locationCity}"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"

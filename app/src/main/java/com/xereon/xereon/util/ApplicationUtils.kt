@@ -1,6 +1,5 @@
-package com.xereon.xereon.utils
+package com.xereon.xereon.util
 
-import java.util.*
 import java.util.regex.Pattern
 
 object ApplicationUtils {

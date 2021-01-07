@@ -1,4 +1,4 @@
-package com.xereon.xereon.utils
+package com.xereon.xereon.util
 
 sealed class DataState<out R> {
     data class Success<out T>(val data: T) : DataState<T>()

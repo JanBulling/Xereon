@@ -1,6 +1,5 @@
 package com.xereon.xereon.ui.store
 
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.LoadState
@@ -13,6 +12,8 @@ import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.databinding.InclStoreRecyclerBinding
 import com.xereon.xereon.databinding.RecyclerProductVerticalBinding
 import com.xereon.xereon.adapter.util.CustomPagingDataAdapter
+import com.xereon.xereon.data.util.OpeningUtils
+import java.util.*
 
 class StorePagingAdapter(
     private val mListener: OnClickListener
@@ -83,6 +84,8 @@ class StorePagingAdapter(
 
         fun bind() {
             binding.store = store
+            binding.currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+            binding.openingTimes = OpeningUtils.getOpeningTimes(store?.openinghours!!)
         }
     }
 

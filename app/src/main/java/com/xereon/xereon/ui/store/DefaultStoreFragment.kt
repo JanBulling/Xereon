@@ -1,12 +1,9 @@
 package com.xereon.xereon.ui.store
 
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.d
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +21,7 @@ import com.xereon.xereon.databinding.FrgDefaultStoreBinding
 import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
 import com.xereon.xereon.ui.store.StorePagingAdapter.Companion.VIEW_TYPE_PRODUCT
-import com.xereon.xereon.utils.DataState
+import com.xereon.xereon.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

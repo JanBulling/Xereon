@@ -1,10 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="noResults"
+            type="Boolean" />
+        <variable
+            name="noSearch"
+            type="Boolean" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".ui.search.SearchFragment">
+
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{noSearch}"
+            tools:visibility="visible"
+            android:src="@drawable/img_undraw_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.4"/>
+
+        <ImageView
+            android:id="@+id/search_not_found_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{noResults}"
+            tools:visibility="gone"
+            android:src="@drawable/img_undraw_file_searching"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:visibility="gone"
+            android:layout_marginTop="16dp"
+            android:text="Keine Ergebnisse gefunden"
+            android:textColor="@color/error"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="18sp"
+            app:isVisible="@{noResults}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_not_found_img"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Suchen Sie geziehlt nach Filialen"
+            android:textColor="@color/error"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="18sp"
+            app:isVisible="@{noSearch}"
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_img"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:textColor="@color/text_gray"
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            tools:visibility="visible"
+            app:isVisible="@{noSearch}"
+            android:text="Finden Sie Filialen über den Namen, die Kategorie oder den Unternehmenstyp!"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_max="310dp"
+            app:layout_constraintTop_toBottomOf="@id/search_img"/>
+        <TextView
+            android:layout_width="0dp"
+            tools:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:textColor="@color/text_gray"
+            android:fontFamily="@font/roboto"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            app:isVisible="@{noResults}"
+            android:text="Ihre Suche ergab leider keinen Treffer. Verwenden Sie ggf. allgemeinere Suchbegriffe."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_max="310dp"
+            app:layout_constraintTop_toBottomOf="@id/search_img"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_testing_recycler"

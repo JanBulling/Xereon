@@ -8,7 +8,7 @@ import com.xereon.xereon.network.XereonAPI
 import kotlinx.coroutines.delay
 import java.io.IOException
 
-class StorePagingSource(
+class ProductsPagingSource(
     private val xereonAPI: XereonAPI,
     private val storeId: Int,
     private val query: String
@@ -24,7 +24,7 @@ class StorePagingSource(
             LoadResult.Page(
                 data = response,
                 prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (response.isEmpty()) null else currentPage + 1
+                nextKey = if (response.size < params.loadSize) null else currentPage + 1
             )
         } catch (exception: Exception) {
             LoadResult.Error(exception)

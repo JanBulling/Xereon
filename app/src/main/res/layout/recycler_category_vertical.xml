@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="category"
+            type="com.xereon.xereon.data.model.Category" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/gray_2"
+        android:foreground="?selectableItemBackground">
+
+        <TextView
+            android:id="@+id/recycler_category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="74dp"
+            tools:text="Lebensmittel"
+            android:text="@{category.categoryName}"
+            android:paddingEnd="40dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+
+        <ImageView
+            android:id="@+id/recycler_category_img"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="9dp"
+            android:padding="3dp"
+            app:imageRes="@{category.iconId}"
+            app:backgroundColor="@{category.categoryIndex}"
+            tools:src="@drawable/ic_groceries"
+            android:background="@drawable/bg_round"
+            tools:backgroundTint="@color/type_green"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+</layout>

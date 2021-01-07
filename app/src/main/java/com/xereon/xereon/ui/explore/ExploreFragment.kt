@@ -1,9 +1,7 @@
 package com.xereon.xereon.ui.explore
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -18,16 +16,14 @@ import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgExploreBinding
 import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
-import com.xereon.xereon.ui.store.DefaultStoreFragment
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
-import com.xereon.xereon.ui.store.DefaultStoreFragment_GeneratedInjector
-import com.xereon.xereon.utils.DataState
+import com.xereon.xereon.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.frg_explore.*
 
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter.OnClickListener {
-
-    private val viewModel: ExploreViewModel by activityViewModels()
+    private val viewModel by activityViewModels<ExploreViewModel>()
 
     private var _binding: FrgExploreBinding? = null
     private val binding get() = _binding!!
@@ -55,14 +51,29 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
         _binding = FrgExploreBinding.bind(view)
         (activity as MainActivity).setBottomNavBarVisibility(true)
 
+        binding.locationCity = "Herbrechtingen"
+        binding.exploreRecyclerNewStores.setHasFixedSize(true)
         binding.exploreRecyclerNewStores.adapter = newStoresAdapter
+
+        binding.exploreRecyclerPopular.setHasFixedSize(true)
         binding.exploreRecyclerPopular.adapter = popularAdapter
+
+        binding.exploreRecyclerRecommendations.setHasFixedSize(true)
         binding.exploreRecyclerRecommendations.adapter = recommendationsAdapter
+
+        explore_all_categories.setOnClickListener { _ ->
+            findNavController().navigate(R.id.action_To_AllCategories)
+        }
 
         subscribeObserver()
 
         if (savedInstanceState == null)
             viewModel.getExploreData(1, "89542")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun subscribeObserver() {
