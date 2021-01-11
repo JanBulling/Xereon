@@ -10,17 +10,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class ProductViewModel
-    @ViewModelInject
-    constructor(
-        private val productRepository: ProductRepository,
-        @Assisted savedStateHandle: SavedStateHandle
-    ) : ViewModel() {
+class ProductViewModel @ViewModelInject constructor(
+    private val productRepository: ProductRepository,
+) : ViewModel() {
 
     private val _productData: MutableLiveData<DataState<Product>> = MutableLiveData()
 
-    val productData : LiveData<DataState<Product>>
-        get() = _productData
+    val productData : LiveData<DataState<Product>> get() = _productData
 
     fun getProductData(productId: Int, isRetry: Boolean = false) {
         if (!isRetry && _productData.value != null)

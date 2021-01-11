@@ -72,4 +72,23 @@
         android:name="com.xereon.xereon.ui.categories.AllCategoriesFragment"
         android:label="Kategorien"
         tools:layout="@layout/frg_categories"/>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.xereon.xereon.ui.categories.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/frg_category">
+        <argument
+            android:name="category"
+            app:argType="com.xereon.xereon.data.model.Category" />
+    </fragment>
+    <action android:id="@+id/action_to_Category" app:destination="@id/categoryFragment" />
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.xereon.xereon.ui.categories.SubCategoryFragment"
+        android:label="SubCategoryFragment" >
+        <argument
+            android:name="type"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_to_SubCategory" app:destination="@id/subCategoryFragment" />
 </navigation>

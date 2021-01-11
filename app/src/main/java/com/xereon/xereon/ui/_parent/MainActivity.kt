@@ -1,8 +1,7 @@
-package com.xereon.xereon.ui
+package com.xereon.xereon.ui._parent
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.xereon.xereon.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.frg_explore.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainActivityCallback {
@@ -22,6 +20,7 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme_Material)
         setContentView(R.layout.activity_main)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment
@@ -37,12 +36,22 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         bottom_navigation.setupWithNavController(navController)
     }
 
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container)
+        val fragment = navHostFragment?.childFragmentManager?.primaryNavigationFragment
+        if (fragment is OnBackPressedListener) {
+            if (fragment.onBackPressed())
+                return
+        }
+        super.onBackPressed()
+    }
+
     override fun setBottomNavBarVisibility(visible: Boolean) {
         bottom_navigation.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     override fun setToolbarVisibility(visible: Boolean) {
-        top_navigation.visibility = if (visible) View.VISIBLE else View.GONE
+        top_navigation_app_bar.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     override fun onSupportNavigateUp(): Boolean {

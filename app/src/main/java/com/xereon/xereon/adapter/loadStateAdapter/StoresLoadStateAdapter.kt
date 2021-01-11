@@ -1,19 +1,18 @@
-package com.xereon.xereon.adapter
+package com.xereon.xereon.adapter.loadStateAdapter
 
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.xereon.xereon.databinding.RecyclerLoadStateBinding
+import com.xereon.xereon.databinding.RecyclerLoadStateStoresBinding
 
-class ProductLoadStateAdapter(private val retry: () -> Unit) :
-    LoadStateAdapter<ProductLoadStateAdapter.ViewHolder>() {
+class StoresLoadStateAdapter (private val retry: () -> Unit) :
+    LoadStateAdapter<StoresLoadStateAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ViewHolder {
         val binding =
-            RecyclerLoadStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            RecyclerLoadStateStoresBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(binding)
     }
@@ -23,7 +22,7 @@ class ProductLoadStateAdapter(private val retry: () -> Unit) :
     }
 
 
-    inner class ViewHolder(private val binding: RecyclerLoadStateBinding) :
+    inner class ViewHolder(private val binding: RecyclerLoadStateStoresBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {

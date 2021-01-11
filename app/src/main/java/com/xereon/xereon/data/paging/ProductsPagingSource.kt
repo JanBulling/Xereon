@@ -1,25 +1,24 @@
 package com.xereon.xereon.data.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
-import com.bumptech.glide.load.HttpException
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.network.XereonAPI
+import com.xereon.xereon.util.Constants.ORDER_DEFAULT
 import kotlinx.coroutines.delay
-import java.io.IOException
 
 class ProductsPagingSource(
     private val xereonAPI: XereonAPI,
     private val storeId: Int,
-    private val query: String
+    private val query: String,
+    private val productsOrder: Int = ORDER_DEFAULT
 ) : PagingSource<Int, SimpleProduct>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleProduct> {
         val currentPage = params.key ?: 1
 
         return try {
-            delay(1000)
-            val response = xereonAPI.getProductsFromStore(storeId, currentPage, params.loadSize, query)
+            delay(250)
+            val response = xereonAPI.getProductsFromStore(storeId, query, productsOrder, currentPage, params.loadSize)
 
             LoadResult.Page(
                 data = response,

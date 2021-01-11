@@ -14,8 +14,8 @@ data class Product(
     val similar: List<SimpleProduct>
 ) {
     val productImageURL get() = "http://vordertuer.bplaced.net/app-img/products/$id.png"
-    val logoImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/logo/$id.png"
-    val officeImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/store/$id"
+    val logoImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/logo/$storeID.png"
+    val officeImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/store/$storeID"
 
     override fun toString() = "Product $name($id) from $storeName($storeID) costs $price $unit"
 }

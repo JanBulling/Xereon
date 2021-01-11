@@ -48,7 +48,7 @@
             app:imageRes="@{category.iconId}"
             app:backgroundColor="@{category.categoryIndex}"
             tools:src="@drawable/ic_groceries"
-            android:background="@drawable/bg_round"
+            android:background="@drawable/bg_round_alpha"
             tools:backgroundTint="@color/type_green"
             android:layout_centerVertical="true"/>
 

@@ -35,7 +35,8 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
         }
     }
 
-    fun searchProduct(storeID: Int, query: String) =
+
+    fun getProducts(storeID: Int, query: String, productsOrder: Int) =
         Pager(
             config = PagingConfig(
                 initialLoadSize = 10,
@@ -43,13 +44,14 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
                 maxSize = 100,
                 prefetchDistance = 1,
                 enablePlaceholders = false
-            ), pagingSourceFactory = { ProductsPagingSource(xereonAPI, storeID, query) }
+            ), pagingSourceFactory = { ProductsPagingSource(xereonAPI, storeID, query, productsOrder) }
         ).liveData
+
 
     suspend fun getStoresInArea(zip: String) : Flow<DataState<List<LocationStore>>> = flow {
         emit(DataState.Loading)
         try {
-            delay(200)
+            delay(250)
             val networkState = xereonAPI.getStoresInArea(zip)
 
             emit(DataState.Success(networkState))

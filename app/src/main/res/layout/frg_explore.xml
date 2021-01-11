@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.xereon.xereon.data.util.CategoryUtils"/>
         <variable
             name="isLoading"
             type="boolean" />
         <variable
             name="locationCity"
             type="String" />
+        <variable
+            name="tableCategoryClickListener"
+            type="com.xereon.xereon.ui.explore.OnTableItemSelect" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -90,6 +94,7 @@
                             android:paddingHorizontal="8dp"
                             android:text="Lebensmittel"
                             android:textColor="@color/black"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_GROCERIES)}"
                             app:drawableStartCompat="@drawable/ic_groceries" />
 
                         <TextView
@@ -104,7 +109,9 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Mode / Kleidung"
-                            android:textColor="@color/black" />
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_CLOTH)}"
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_cloth"/>
                     </TableRow>
 
                     <TableRow
@@ -123,8 +130,9 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Dienstleistungen"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_SERVICES)}"
                             android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_barber" />
+                            app:drawableStartCompat="@drawable/ic_barber"/>
 
                         <TextView
                             android:id="@+id/explore_category_restaurant"
@@ -138,6 +146,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Restaurant"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_RESTAURANT)}"
                             android:textColor="@color/black"
                             app:drawableStartCompat="@drawable/ic_restaurant" />
                     </TableRow>
@@ -158,7 +167,9 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Unterhaltung"
-                            android:textColor="@color/black" />
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_ENTERTAINMENT)}"
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_entertainment"/>
 
                         <TextView
                             android:id="@+id/explore_category_hotels"
@@ -167,12 +178,14 @@
                             android:layout_margin="3dp"
                             android:background="@color/gray_2"
                             android:clickable="true"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_HOTEL)}"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Hotel"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            app:drawableStartCompat="@drawable/ic_hotel"/>
                     </TableRow>
 
                     <TableRow
@@ -186,6 +199,7 @@
                             android:layout_margin="3dp"
                             android:background="@color/gray_2"
                             android:clickable="true"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_ELECTRONIC)}"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:gravity="center"
@@ -219,7 +233,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="48dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Vorschläge für Sie"
                     android:textColor="@color/black"
@@ -242,13 +256,15 @@
                     android:id="@+id/explore_recycler_recommendations"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="28dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
-                    android:paddingEnd="16dp"
+                    android:paddingEnd="8dp"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:isVisible="@{!isLoading}"
+                    tools:listitem="@layout/recycler_product_horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
 
@@ -268,8 +284,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="264dp"
+                    android:layout_marginTop="284dp"
                     android:fontFamily="@font/roboto_bold"
+                    tools:text="Neue Geschäfte in Herbrechtingen"
                     android:text="@{`Neue Geschäfte in ` + locationCity}"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -290,14 +307,16 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/explore_recycler_new_stores"
                     android:layout_width="match_parent"
-                    android:layout_height="190dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_height="185dp"
+                    android:layout_marginTop="28dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:isVisible="@{!isLoading}"
+                    tools:listitem="@layout/recycler_store_horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
 
@@ -317,7 +336,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="224dp"
+                    android:layout_marginTop="240dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Beliebt"
                     android:textColor="@color/black"
@@ -329,13 +348,15 @@
                     android:id="@+id/explore_recycler_popular"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="14dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
-                    android:paddingEnd="16dp"
+                    android:paddingEnd="8dp"
                     android:visibility="gone"
                     app:isVisible="@{!isLoading}"
+                    tools:visibility="visible"
+                    tools:listitem="@layout/recycler_product_horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
 
@@ -355,7 +376,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="256dp"
+                    android:layout_marginTop="284dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="Zuletzt bestellt"
                     android:textColor="@color/black"
@@ -366,12 +387,12 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/explore_recycler_last_ordered"
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="230dp"
                     android:layout_marginTop="8dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     android:paddingStart="8dp"
-                    android:paddingEnd="16dp"
+                    android:paddingEnd="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@id/explore_title_last_ordered" />
 

@@ -35,7 +35,7 @@
             android:id="@+id/store_type_color"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:background="@color/type_red"
+            android:background="@color/black"
             app:backgroundColor="@{store.category}"
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"

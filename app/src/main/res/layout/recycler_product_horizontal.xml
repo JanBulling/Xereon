@@ -7,15 +7,11 @@
         <variable
             name="product"
             type="com.xereon.xereon.data.model.SimpleProduct" />
-        <variable
-            name="clickListener"
-            type="com.xereon.xereon.adapter.ProductHorizontalAdapter.OnClickListener" />
     </data>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginEnd="5dp"
-        android:onClick="@{() -> clickListener.onClick(product)}"
         android:layout_width="150dp"
         android:layout_height="230dp">
 

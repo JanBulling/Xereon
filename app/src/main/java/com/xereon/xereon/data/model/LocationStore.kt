@@ -8,6 +8,7 @@ data class LocationStore(
     val name : String,
     val latitude: Float,
     val longitude: Float,
+    val type: String,
     val category : Int
 ) : ClusterItem {
     val logoImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/logo/$id.png"
@@ -19,5 +20,9 @@ data class LocationStore(
 
     override fun getTitle() = name
     override fun getPosition() = latLng
-    override fun getSnippet() = null
+    override fun getSnippet() = type
+
+    fun toStore() =
+        Store(id, name, "---", latitude, longitude, "--", "--", "--",
+            "--", "--,--,--,--,--,--,--", type, category, true, false)
 }

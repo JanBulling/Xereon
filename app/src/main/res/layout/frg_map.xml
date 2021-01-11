@@ -4,22 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="isLoading"
-            type="Boolean" />
-
-        <variable
-            name="isLoadingStore"
-            type="Boolean" />
-
-        <variable
-            name="storeName"
-            type="String" />
-
-        <variable
-            name="currentStore"
-            type="com.xereon.xereon.data.model.Store" />
+        <variable name="isLoading" type="Boolean" />
+        <variable name="isLoadingStore" type="Boolean" />
+        <variable name="isSearching" type="Boolean" />
+        <variable name="currentStore" type="com.xereon.xereon.data.model.Store" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -42,9 +30,18 @@
             android:indeterminateTint="@color/black"
             app:isVisible="@{isLoading}" />
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/map_places_search"
+            android:layout_width="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_height="248dp"
             android:visibility="gone"
-            tools:visibility="visible"
+            android:elevation="10dp"
+            app:isVisible="@{isSearching}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/map_bottom_sheet_behaviour"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +62,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/roboto_bold"
                     android:maxLines="2"
-                    android:text="@{storeName}"
+                    android:text="@{currentStore.name}"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"

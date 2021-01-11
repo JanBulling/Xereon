@@ -1,18 +1,18 @@
 package com.xereon.xereon.ui.categories
 
 import android.os.Bundle
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.adapters.SearchViewBindingAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
-import com.xereon.xereon.adapter.CategoryVerticalAdapter
+import com.xereon.xereon.adapter.recyclerAdapter.CategoryVerticalAdapter
+import com.xereon.xereon.data.model.Category
 import com.xereon.xereon.data.util.CategoryUtils
-import com.xereon.xereon.ui.MainActivity
+import com.xereon.xereon.ui._parent.MainActivity
 import kotlinx.android.synthetic.main.frg_categories.*
 
 class AllCategoriesFragment : Fragment(R.layout.frg_categories) {
@@ -23,6 +23,12 @@ class AllCategoriesFragment : Fragment(R.layout.frg_categories) {
         (activity as MainActivity).setBottomNavBarVisibility(false)
 
         categoryAdapter = CategoryVerticalAdapter()
+        categoryAdapter.setOnItemClickListener(object: CategoryVerticalAdapter.ItemClickListener{
+            override fun onItemClick(category: Category) {
+                val action = CategoryFragmentDirections.actionToCategory(category)
+                findNavController().navigate(action)
+            }
+        })
         categoryAdapter.submitList(CategoryUtils.getAllCategories().toList())
         all_categories_list.apply {
             itemAnimator = null

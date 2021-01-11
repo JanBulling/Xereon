@@ -16,13 +16,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Material"
+        android:theme="@style/SplashScreenTheme"
         tools:ignore="AllowBackup">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAaAtKWHiNPi_x7XKeRAFnMNAORzrPNoBk"/>
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui._parent.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

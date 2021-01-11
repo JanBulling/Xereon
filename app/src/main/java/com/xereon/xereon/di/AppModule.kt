@@ -2,6 +2,7 @@ package com.xereon.xereon.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.xereon.xereon.network.AlgoliaPlacesApi
 import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.util.Constants.PREFERENCES_NAME
 import dagger.Module
@@ -21,24 +22,38 @@ object AppModule {
 
     @Singleton
     @Provides
+    @XereonAnnotation
     fun provideRetrofit() : Retrofit {
-
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)
-
         return Retrofit.Builder()
                 .baseUrl(XereonAPI.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build()
     }
+    @Singleton
+    @Provides
+    fun provideXereonAPI(@XereonAnnotation retrofit: Retrofit): XereonAPI =
+        retrofit.create(XereonAPI::class.java)
+
 
     @Singleton
     @Provides
-    fun provideXereonAPI(retrofit: Retrofit) :XereonAPI =
-        retrofit.create(XereonAPI::class.java)
+    @AlgoliaAnnotation
+    fun providePlacesRetrofit() : Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(AlgoliaPlacesApi.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+    @Singleton
+    @Provides
+    fun provideAlgoliaAPI(@AlgoliaAnnotation retrofit: Retrofit): AlgoliaPlacesApi =
+        retrofit.create(AlgoliaPlacesApi::class.java)
+
 
 
     @Singleton

@@ -1,4 +1,4 @@
-package com.xereon.xereon.adapter
+package com.xereon.xereon.adapter.recyclerAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +13,10 @@ import android.widget.Filter
 class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.ViewHolder>(), Filterable {
 
     private lateinit var completeList: List<Category>
+    private lateinit var itemClickListener: ItemClickListener
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecyclerCategoryVerticalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -27,17 +30,19 @@ class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.Vie
         differ.currentList.size
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private val diffCallback = object: DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category) =
             oldItem.categoryIndex == newItem.categoryIndex
 
         override fun areContentsTheSame(oldItem: Category, newItem: Category) =
             oldItem.hashCode() == newItem.hashCode()
-
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     fun submitList(list: List<Category>) {
         if (!::completeList.isInitialized)
             completeList = list
@@ -45,6 +50,13 @@ class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.Vie
         differ.submitList(list)
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    fun setOnItemClickListener(clickListener: ItemClickListener) { itemClickListener = clickListener }
+    interface ItemClickListener{ fun onItemClick(category:Category) }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     override fun getFilter(): Filter {
         return object : Filter() {
             private val filterResults = FilterResults()
@@ -76,12 +88,25 @@ class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.Vie
         }
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     inner class ViewHolder(private val binding: RecyclerCategoryVerticalBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(category: Category) {
-            binding.category = category
+        init {
+            binding.root.setOnClickListener {
+                val currentIndex = bindingAdapterPosition
+                if (currentIndex != RecyclerView.NO_POSITION) {
+                    val currentCategory = differ.currentList[currentIndex]
+                    if (currentCategory != null)
+                        itemClickListener.onItemClick(currentCategory)
+                }
+            }
         }
 
+        fun bind(category: Category) {
+            binding.category = category
+            binding.executePendingBindings()
+        }
     }
 }

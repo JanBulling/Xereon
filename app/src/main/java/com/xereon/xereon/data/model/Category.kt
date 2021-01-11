@@ -1,8 +1,11 @@
 package com.xereon.xereon.data.model
 
+import android.os.Parcelable
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Category(
     val categoryIndex: Int,
     val categoryName: String,
@@ -11,5 +14,5 @@ data class Category(
     @DrawableRes val headerImgId: Int,
     val categoryDescription: String,
     val subCategories: Array<String>
-) {
+): Parcelable {
 }

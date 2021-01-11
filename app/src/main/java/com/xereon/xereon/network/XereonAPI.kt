@@ -16,6 +16,10 @@ interface XereonAPI {
         const val IP_LOCATION_BASE_URL = ""
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////   LOGIN / REGISTER   /////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @GET("app-php/users/login.php")
     suspend fun login(
         @Query("email") email: String,
@@ -38,6 +42,9 @@ interface XereonAPI {
     suspend fun getLocationWithIP(): IPLocationResponse
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////   HOME / PRODUCTS / STORES   //////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/home/home.php")
     suspend fun getExploreData(
@@ -46,24 +53,20 @@ interface XereonAPI {
         @Query("version") version: Int
     ): ExploreData
 
-
-
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/stores/store-information.php")
     suspend fun getStoreInformation(
         @Query("id") storeId: Int
     ): Store
 
-
-
-
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/products/products.php")
     suspend fun getProductsFromStore(
         @Query("id") storeId: Int,
+        @Query("search") query: String,
+        @Query("order") productsOrder: Int,
         @Query("page") page: Int,
-        @Query("limit") limit: Int,
-        @Query("search") query: String
+        @Query("limit") limit: Int
     ): List<SimpleProduct>
 
     @Headers("Authorization: $ACCESS_KEY")
@@ -79,6 +82,9 @@ interface XereonAPI {
     ): List<LocationStore>
 
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////   SEARCH   /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/debug/home/main-search.php")
     suspend fun searchStoreName(
@@ -88,6 +94,24 @@ interface XereonAPI {
         @Query("page") page: Int
     ): List<SimpleStore>
 
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/debug/home/main-search.php")
+    suspend fun searchStoreByCategory(
+        @Query("category") category: Int,
+        @Query("postalcode") zip: String,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int
+    ): List<SimpleStore>
+
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/debug/home/main-search.php")
+    suspend fun searchStoreByType(
+        @Query("type") type: String,
+        @Query("name") query: String,
+        @Query("postalcode") zip: String,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int
+    ): List<SimpleStore>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/debug/home/main-search.php")

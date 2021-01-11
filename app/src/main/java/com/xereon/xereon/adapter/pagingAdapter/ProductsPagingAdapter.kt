@@ -1,4 +1,4 @@
-package com.xereon.xereon.ui.store
+package com.xereon.xereon.adapter.pagingAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,6 +7,7 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.xereon.xereon.adapter.recyclerAdapter.ProductHorizontalAdapter
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.databinding.InclStoreRecyclerBinding
@@ -15,20 +16,21 @@ import com.xereon.xereon.adapter.util.CustomPagingDataAdapter
 import com.xereon.xereon.data.util.OpeningUtils
 import java.util.*
 
-class StorePagingAdapter(
-    private val mListener: OnClickListener
-) : CustomPagingDataAdapter<SimpleProduct, RecyclerView.ViewHolder>(COMPARATOR, offset = OFFSET) {
+class ProductsPagingAdapter() :
+    CustomPagingDataAdapter<SimpleProduct, RecyclerView.ViewHolder>(COMPARATOR, offset = OFFSET) {
 
-    private var store: Store? = null
+    private lateinit var itemClickListener: ItemClickListener
+    private lateinit var store: Store
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == VIEW_TYPE_STORE) {
-            val binding =
-                InclStoreRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ViewHolderStore(binding)
+        return if (viewType == VIEW_TYPE_STORE) {
+            val binding = InclStoreRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ViewHolderStore(binding)
         } else {
             val binding = RecyclerProductVerticalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return ViewHolderProduct(binding)
+            ViewHolderProduct(binding)
         }
     }
 
@@ -45,12 +47,17 @@ class StorePagingAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when(position) {
-            0 ->  VIEW_TYPE_STORE
+            0 -> VIEW_TYPE_STORE
             itemCount -> VIEW_TYPE_LOADING
             else -> VIEW_TYPE_PRODUCT
         }
     }
 
+    override fun getItemCount() =
+        OFFSET + super.getItemCount()
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     fun withCustomLoadStateFooter(
         footer: LoadStateAdapter<*>
     ) : ConcatAdapter {
@@ -68,36 +75,52 @@ class StorePagingAdapter(
         return ConcatAdapter(this, footer)
     }
 
-    override fun getItemCount() = OFFSET + super.getItemCount()
 
-    interface OnClickListener {
-        fun onClick(product: SimpleProduct)
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    fun setOnItemClickListener(clickListener: ItemClickListener) { itemClickListener = clickListener }
+    interface ItemClickListener{ fun onItemClick(simpleProduct: SimpleProduct) }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     fun setStore(storeInsert: Store) {
         store = storeInsert
         notifyItemChanged(0)
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     inner class ViewHolderStore(private val binding: InclStoreRecyclerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
             binding.store = store
             binding.currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-            binding.openingTimes = OpeningUtils.getOpeningTimes(store?.openinghours!!)
+            binding.openingTimes = OpeningUtils.getOpeningTimes(store.openinghours)
         }
     }
 
     inner class ViewHolderProduct(private val binding: RecyclerProductVerticalBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            binding.root.setOnClickListener {
+                val currentIndex = bindingAdapterPosition - OFFSET
+                if (currentIndex != RecyclerView.NO_POSITION) {
+                    val item = getItem(currentIndex)
+                    if (item != null)
+                        itemClickListener.onItemClick(item)
+                }
+            }
+        }
+
         fun bind(currentProduct: SimpleProduct) {
             binding.product = currentProduct
-            binding.clickListener = mListener
+            binding.executePendingBindings()
         }
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     companion object {
 
         private val COMPARATOR = object : DiffUtil.ItemCallback<SimpleProduct>() {
@@ -105,8 +128,9 @@ class StorePagingAdapter(
                     = oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: SimpleProduct, newItem: SimpleProduct)
-                    = oldItem == newItem
+                    = oldItem.hashCode() == newItem.hashCode()
         }
+
         const val VIEW_TYPE_STORE = 0
         const val VIEW_TYPE_PRODUCT = 1
         const val VIEW_TYPE_LOADING = 2

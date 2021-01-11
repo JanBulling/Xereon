@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.xereon.xereon.R
+import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.data.util.OpeningUtils
 import com.xereon.xereon.data.util.PriceUtils
@@ -84,4 +85,12 @@ fun setCurrentDay(view: TextView, isCurrentDay: Boolean) {
 fun setOpeningForToday(view: TextView, openingString: String?) {
     val opening = OpeningUtils.getOpeningTimesToday(view.context, openingString ?: ",,,,,,")
     view.text = opening
+}
+
+@BindingAdapter("priceStartingValue")
+fun setPriceStartingValue(view: TextView, product: Product?) {
+    if (product != null) {
+        val price = product.price.toFloat()
+        view.text = PriceUtils.calculateTotalPrice(price, product.unit, 1)
+    }
 }

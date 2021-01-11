@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class SimpleStore(
     var id : Int,
     val name : String,
+    val city: String,
     val type : String,
     val category : Int
 ) : Parcelable {

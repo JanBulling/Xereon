@@ -3,6 +3,7 @@ package com.xereon.xereon.ui.store
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -12,27 +13,28 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
-import com.xereon.xereon.adapter.ProductLoadStateAdapter
+import com.xereon.xereon.adapter.loadStateAdapter.ProductsLoadStateAdapter
+import com.xereon.xereon.adapter.pagingAdapter.ProductsPagingAdapter
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.databinding.FrgDefaultStoreBinding
-import com.xereon.xereon.ui.MainActivity
+import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
-import com.xereon.xereon.ui.store.StorePagingAdapter.Companion.VIEW_TYPE_PRODUCT
+import com.xereon.xereon.adapter.pagingAdapter.ProductsPagingAdapter.Companion.VIEW_TYPE_PRODUCT
+import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAdapter.OnClickListener {
+class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagingAdapter.ItemClickListener {
     private val viewModel by viewModels<StoreViewModel>()
     private val args by navArgs<DefaultStoreFragmentArgs>()
 
     private var _binding: FrgDefaultStoreBinding? = null
     private val binding get() = _binding!!
 
-    private val adapter: StorePagingAdapter = StorePagingAdapter(this)
+    private val productsAdapter = ProductsPagingAdapter()
 
     private var storeID: Int = -1
     private var storeName: String = ""
@@ -55,27 +57,30 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAd
         val gridLayoutManager = GridLayoutManager(context, 2)
         gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                val viewType = adapter.getItemViewType(position)
-
+                val viewType = productsAdapter.getItemViewType(position)
                 return if (viewType == VIEW_TYPE_PRODUCT) 1 else 2
             }
         }
-        binding.storeRecycler.layoutManager = gridLayoutManager
-        binding.storeRecycler.setHasFixedSize(true)
-        binding.storeRecycler.adapter = adapter.withCustomLoadStateFooter(
-            footer = ProductLoadStateAdapter { adapter.retry() }
-        )
+
+        productsAdapter.setOnItemClickListener(this)
+
+        binding.storeRecycler.apply {
+            layoutManager = gridLayoutManager
+            setHasFixedSize(true)
+            adapter = productsAdapter.withCustomLoadStateFooter(
+                footer = ProductsLoadStateAdapter { productsAdapter.retry() }
+            )
+        }
+
         binding.storeNotFoundRetry.setOnClickListener {
-            viewModel.getStoreData(true)
-            viewModel.getAllProducts()
+            viewModel.getStoreData(storeID, true)
+            viewModel.getAllProducts(storeID)
         }
 
         subscribeObserver()
-        viewModel.setStoreId(storeID)
-        viewModel.setUserId(1)
 
-        viewModel.getStoreData()
-        viewModel.getAllProducts()
+        viewModel.getStoreData(storeID)
+        viewModel.getAllProducts(storeID)
 
         setHasOptionsMenu(true)
     }
@@ -88,7 +93,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAd
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater.inflate(R.menu.menu_search, menu)
+        inflater.inflate(R.menu.menu_store, menu)
 
         val searchItem = menu.findItem(R.id.menu_item_search)
         val searchView = searchItem.actionView as SearchView
@@ -96,17 +101,17 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAd
         searchView.queryHint = "Produkte suchen"
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus)
-                searchView.setQuery(viewModel.currentQuery.value, false)
-            else if (searchView.query.isNullOrBlank() && !viewModel.currentQuery.value.isNullOrBlank()) {
-                    adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-                    binding.storeRecycler.scrollToPosition(1)
-                    viewModel.searchProducts("")
-                    searchView.clearFocus()
+                searchView.setQuery(viewModel.currentQuery, false)
+            else if (searchView.query.isNullOrBlank() && !viewModel.currentQuery.isBlank()) {
+                productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+                binding.storeRecycler.scrollToPosition(1)
+                viewModel.searchProducts("")
+                searchView.clearFocus()
             }
         }
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                adapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+                productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
                 binding.storeRecycler.scrollToPosition(1)
                 viewModel.searchProducts(query ?: "")
                 searchView.clearFocus()
@@ -117,12 +122,35 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAd
         })
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_item_order_default -> orderProducts(Constants.ORDER_DEFAULT)
+            R.id.menu_item_order_price_low -> orderProducts(Constants.ORDER_PRICE_LOW)
+            R.id.menu_item_order_price_high -> orderProducts(Constants.ORDER_PRICE_HIGH)
+            R.id.menu_item_order_app_offer -> orderProducts(Constants.ORDER_ONLY_IN_APP)
+            R.id.menu_item_order_a_z -> orderProducts(Constants.ORDER_NAME_A_Z)
+            R.id.menu_item_order_z_a -> orderProducts(Constants.ORDER_NAME_Z_A)
+            else ->
+                super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun orderProducts(orderIndex: Int): Boolean {
+        if (viewModel.currentProductOrder != orderIndex) {
+            productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+            binding.storeRecycler.scrollToPosition(1)
+            viewModel.sortProducts(orderIndex)
+            return true
+        }
+        return false
+    }
+
     private fun subscribeObserver() {
         viewModel.storeData.observe(viewLifecycleOwner, Observer { dataState ->
             when(dataState) {
                 is DataState.Success<Store> -> {
                     (activity as MainActivity).setActionBarTitle(dataState.data.name)
-                    adapter.setStore(dataState.data)
+                    productsAdapter.setStore(dataState.data)
                     binding.isSuccessful = true
                     binding.isLoading = false
                 }
@@ -130,33 +158,18 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), StorePagingAd
                     binding.isLoading = true
                 }
                 is DataState.Error -> {
-                    //displayError(dataState.message)
                     binding.isSuccessful = false
                     binding.isLoading = false
                 }
             }
         })
         viewModel.productData.observe(viewLifecycleOwner, Observer {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            productsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
     }
 
-    private fun displayError(string: String){
-        val snackBar = Snackbar.make(requireView(), string, Snackbar.LENGTH_INDEFINITE)
-        snackBar.setAction("Retry") {
-            viewModel.getStoreData(true)
-            viewModel.getAllProducts()
-        }
-        snackBar.setActionTextColor(resources.getColor(R.color.white))
-        val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
-        snackBar.show()
-    }
-
-    override fun onClick(product: SimpleProduct) {
-        val action = DefaultProductFragmentDirections.actionToProduct(product)
+    override fun onItemClick(simpleProduct: SimpleProduct) {
+        val action = DefaultProductFragmentDirections.actionToProduct(simpleProduct)
         findNavController().navigate(action)
-
-        //Toast.makeText(context, "Clicked on: ${product.name}", Toast.LENGTH_SHORT).show()
     }
 }

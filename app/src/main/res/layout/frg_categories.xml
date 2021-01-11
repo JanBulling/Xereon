@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/all_categories_scroll_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -53,9 +54,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
-                android:paddingBottom="8dp"
+                android:paddingBottom="16dp"
                 android:textColor="@color/gray_6"
-                android:text="Es fehlt eine Kategorie? - Teilen Sie uns geren Vorschlag mit unter entwicklung@xereon.de!"
+                android:text="Es fehlt eine Kategorie? - Teilen Sie uns Ihren Vorschlag unter entwicklung@xereon.de mit!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/all_categories_list"/>
