@@ -2,6 +2,8 @@ package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.*
+import com.xereon.xereon.util.Constants
+import com.xereon.xereon.util.Constants.ORDER_DEFAULT
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -85,42 +87,26 @@ interface XereonAPI {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////   SEARCH   /////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    @Headers("Authorization: $ACCESS_KEY")
-    @GET("app-php/debug/home/main-search.php")
-    suspend fun searchStoreName(
-        @Query("name") query: String,
-        @Query("postalcode") zip: String,
-        @Query("limit") limit: Int,
-        @Query("page") page: Int
-    ): List<SimpleStore>
-
-    @Headers("Authorization: $ACCESS_KEY")
-    @GET("app-php/debug/home/main-search.php")
-    suspend fun searchStoreByCategory(
-        @Query("category") category: Int,
-        @Query("postalcode") zip: String,
-        @Query("limit") limit: Int,
-        @Query("page") page: Int
-    ): List<SimpleStore>
-
-    @Headers("Authorization: $ACCESS_KEY")
-    @GET("app-php/debug/home/main-search.php")
-    suspend fun searchStoreByType(
-        @Query("type") type: String,
-        @Query("name") query: String,
-        @Query("postalcode") zip: String,
-        @Query("limit") limit: Int,
-        @Query("page") page: Int
-    ): List<SimpleStore>
-
+    /**
+     * @see CategoryUtils
+     * @see Constants
+     *
+     * Example: Search for a store in category 0 (Lebensmittel) with the type "metzger" and the name
+     * should include "heußler". The results should be ordered in type 1 (A->Z) and pagination is applyed
+     *
+     * main-search.php?name=heußler&postalcode=89542&category=0&type=metzger&order=1&page=1&limit=20
+     *
+     * If no category / name / type is given, the query is "" (empyt string)
+     */
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/debug/home/main-search.php")
     suspend fun searchStore(
-        @Query("query") query: String,
-        @Query("postalcode") zip: String,
-        @Query("order") order: Int,
-        @Query("filter") filter: Int,
-        @Query("limit") limit: Int,
-        @Query("page") page: Int
-    ): List<SimpleStore>
+        @Query("name") query: String = "",
+        @Query("postalcode") zip: String = Constants.DEFAULT_ZIP,
+        @Query("category") category: Int? = null,
+        @Query("type") type: String = "",
+        @Query("order") orderStores: Int = ORDER_DEFAULT,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 20
+        ): List<SimpleStore>
 }

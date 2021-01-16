@@ -2,6 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@color/white"/>
-    <item android:drawable="@drawable/img_undraw_void" android:gravity="center"/>
+    <item android:drawable="@drawable/xereon_logo" android:gravity="center"/>
 
 </layer-list>

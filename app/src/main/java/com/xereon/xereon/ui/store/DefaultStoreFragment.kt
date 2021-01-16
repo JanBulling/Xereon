@@ -51,7 +51,6 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgDefaultStoreBinding.bind(view)
-        (activity as MainActivity).setBottomNavBarVisibility(false)
         (activity as MainActivity).setActionBarTitle(storeName)
 
         val gridLayoutManager = GridLayoutManager(context, 2)

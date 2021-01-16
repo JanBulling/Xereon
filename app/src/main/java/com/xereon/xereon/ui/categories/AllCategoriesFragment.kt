@@ -20,8 +20,6 @@ class AllCategoriesFragment : Fragment(R.layout.frg_categories) {
     private lateinit var categoryAdapter: CategoryVerticalAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).setBottomNavBarVisibility(false)
-
         categoryAdapter = CategoryVerticalAdapter()
         categoryAdapter.setOnItemClickListener(object: CategoryVerticalAdapter.ItemClickListener{
             override fun onItemClick(category: Category) {

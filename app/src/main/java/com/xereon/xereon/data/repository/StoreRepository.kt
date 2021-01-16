@@ -23,7 +23,6 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
     suspend fun getStoreData(storeID: Int): Flow<DataState<Store>> = flow {
         emit(DataState.Loading)
         try {
-            delay(200)
             val networkStoreData = xereonAPI.getStoreInformation(storeID)
 
             emit(DataState.Success(networkStoreData))
@@ -51,7 +50,6 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
     suspend fun getStoresInArea(zip: String) : Flow<DataState<List<LocationStore>>> = flow {
         emit(DataState.Loading)
         try {
-            delay(250)
             val networkState = xereonAPI.getStoresInArea(zip)
 
             emit(DataState.Success(networkState))

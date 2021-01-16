@@ -13,15 +13,22 @@ class SearchRepository @Inject constructor(
     private val xereonAPI: XereonAPI
 ) {
 
-    fun searchStoreByName(query: String, zip: String) =
+    fun searchStore(query: String, zip: String, category: Int?, orderStores: Int) =
         Pager(
             config = PagingConfig(
-                initialLoadSize = 20,
-                pageSize = 20,
+                initialLoadSize = 10,
+                pageSize = 10,
                 maxSize = 100,
                 prefetchDistance = 5,
                 enablePlaceholders = false
-            ), pagingSourceFactory = { StoresPagingSource(xereonAPI, query, zip) }
+            ), pagingSourceFactory = {
+                StoresPagingSource(
+                    xereonAPI,
+                    query = query,
+                    zip = zip,
+                    category = category,
+                    orderStores = orderStores
+                )
+            }
         ).liveData
-
 }

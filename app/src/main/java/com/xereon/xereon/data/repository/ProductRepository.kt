@@ -18,7 +18,6 @@ class ProductRepository @Inject constructor(private val xereonAPI: XereonAPI) {
     suspend fun getProductDetails(productId: Int) : Flow<DataState<Product>> = flow {
         emit(DataState.Loading)
         try {
-            delay(200)
             val networkStoreData = xereonAPI.getProductDetails(productId)
 
             emit(DataState.Success(networkStoreData))

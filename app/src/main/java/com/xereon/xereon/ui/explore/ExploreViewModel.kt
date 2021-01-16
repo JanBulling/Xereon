@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.xereon.xereon.data.model.ExploreData
 import com.xereon.xereon.data.repository.ExploreRepository
 import com.xereon.xereon.util.DataState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -13,18 +14,20 @@ class ExploreViewModel @ViewModelInject constructor(
         private val exploreRepository : ExploreRepository
 ) : ViewModel() {
 
-    private val _dataState: MutableLiveData<DataState<ExploreData>> = MutableLiveData()
+    val exploreData= MutableLiveData<DataState<ExploreData>>()
+    val loading = MutableLiveData(false)
+    val error = MutableLiveData<String>()
 
-    val dataState : LiveData<DataState<ExploreData>> get() = _dataState
+    init {
+        newExploreData()
+    }
 
-    fun getExploreData(userID: Int, zip: String, isRetry: Boolean = false) {
-        if (!isRetry && _dataState.value != null)
-            return
-
+    fun newExploreData() {
         viewModelScope.launch {
-            exploreRepository.getExploreData(userID, zip).onEach { dataState ->
-                _dataState.value = dataState
+            exploreRepository.getExploreData(1, "89542").onEach { dataState ->
+                exploreData.value = dataState
             }.launchIn(viewModelScope)
+
         }
     }
 }

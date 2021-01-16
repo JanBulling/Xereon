@@ -22,7 +22,7 @@ class ClusterRenderer(
 ) : DefaultClusterRenderer<LocationStore>(context, map, clusterManager) {
 
     init{
-        minClusterSize = 6
+        minClusterSize = 5
     }
 
     override fun getClusterText(bucket: Int): String {

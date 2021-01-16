@@ -1,27 +1,38 @@
 package com.xereon.xereon.data.paging
 
+import android.util.Log
 import androidx.paging.PagingSource
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.network.XereonAPI
+import com.xereon.xereon.util.Constants
+import com.xereon.xereon.util.Constants.ORDER_DEFAULT
 import kotlinx.coroutines.delay
 
 class StoresPagingSource(
     private val xereonAPI: XereonAPI,
     private val query: String,  /*Type or name depending on the selected flag*/
     private val zip: String,
-    private val searchType: Int = SEARCH_BY_NAME,
-    private val type: String = ""
+    private val type: String = "",
+    private var category: Int? = null,
+    private val orderStores: Int = ORDER_DEFAULT,
 ) : PagingSource<Int, SimpleStore>(){
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleStore> {
         val currentPage = params.key ?: 1
 
         return try {
-            val response = when(searchType) {
-                SEARCH_BY_NAME -> xereonAPI.searchStoreName(query, zip, params.loadSize, currentPage)
-                SEARCH_BY_TYPE -> xereonAPI.searchStoreByType(type, query, zip, params.loadSize, currentPage)
-                else -> xereonAPI.searchStoreName(query, zip, params.loadSize, currentPage)
-            }
+            if (category == -1)
+                category = null
+
+            val response = xereonAPI.searchStore(
+                query = query,
+                zip = zip,
+                category = category,
+                type = type,
+                orderStores = orderStores,
+                page = currentPage,
+                limit = params.loadSize
+            )
 
             LoadResult.Page(
                 data = response,
@@ -31,10 +42,5 @@ class StoresPagingSource(
         } catch (exception: Exception) {
             LoadResult.Error(exception)
         }
-    }
-
-    companion object {
-        const val SEARCH_BY_NAME = 0
-        const val SEARCH_BY_TYPE = 1
     }
 }

@@ -57,6 +57,10 @@ object CategoryUtils {
     const val CATEGORY_ENTERTAINMENT = 12
     const val CATEGORY_OTHERS = 13
 
+    private val mCategoriesName = arrayOf("Lebensmittel", "Mode / Kleidung", "Dienstleistung", "Restaurant",
+        "Kosmetik", "Elektronik", "Unterhaltung", "Hotel", "Medizinbedarf", "Bauen & Wohnen", "Medien & Spielwaren",
+        "Sportbedarf", "Handwerk", "Sonstiges")
+
     private val mCategories = arrayOf(
         Category(9, "Bauen & Wohnen", R.color.type_red, R.drawable.ic_living, -1,
             "Alles von Möbelgeschäften und Baumärkten bis zu Tierbedarf und Blumen als nette Geschenke gibt's hier alles!",
@@ -86,9 +90,9 @@ object CategoryUtils {
             "Alles von Supermärkten bis zum Bäcker und zur Käserei!",
             arrayOf("Supermarkt", "Bäcker", "Metzger", "Getränke", "Biomarkt", "Käserei", "Spirituosen", "Gewürze")
         ),
-        Category(10, "Medien und Spielwaren", R.color.type_red, R.drawable.ic_toy, -1,
+        Category(10, "Medien & Spielwaren", R.color.type_red, R.drawable.ic_toy, -1,
             "Ihre Kinder können Stundenlang nach den neusetn Spielzeugen suchen und Sie können sich einen schönen Film aussuchen!",
-            arrayOf("Bücher", "Filme", "Musik", "Zeitschriften", "Medien", "Musikinstrumente", "Spielwaren", "Unterhaltungsartikel")
+            arrayOf("Buchhandlung", "Filme", "Musik", "Zeitschriften", "Medien", "Musikinstrumente", "Spielwaren", "Unterhaltungsartikel")
         ),
         Category(8, "Medizinbedarf", R.color.type_rose, R.drawable.ic_medical, -1, "Aua! Was war das? Leiber schnell zu einem Arzt oder einer nahegelegenen Apotheke!",
             arrayOf("Apotheke", "Drogerie" , "Optiker", "Arzt")
@@ -119,5 +123,8 @@ object CategoryUtils {
 
     fun getCategory(categoryIndex: Int) = mCategories[categoryIndex]
 
-    fun getCategoryName(categoryIndex: Int) = mCategories[categoryIndex]
+    fun getCategoriesName() = mCategoriesName
+    fun getCategoryName(categoryIndex: Int) = mCategoriesName[categoryIndex]
+    fun getCategoryNameSize() = mCategoriesName.size
+    fun getNumberOfCategories() = mCategories.size
 }

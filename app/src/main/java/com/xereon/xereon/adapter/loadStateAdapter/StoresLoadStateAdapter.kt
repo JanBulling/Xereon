@@ -21,7 +21,6 @@ class StoresLoadStateAdapter (private val retry: () -> Unit) :
         holder.bind(loadState)
     }
 
-
     inner class ViewHolder(private val binding: RecyclerLoadStateStoresBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -36,7 +35,6 @@ class StoresLoadStateAdapter (private val retry: () -> Unit) :
         fun bind(loadState: LoadState) {
             binding.isLoading = loadState is LoadState.Loading
             binding.isError = loadState is LoadState.Error && !loadState.error.message.equals("empty")
-            binding.isEmpty = loadState is LoadState.Error && loadState.error.message.equals("empty")
         }
     }
 }

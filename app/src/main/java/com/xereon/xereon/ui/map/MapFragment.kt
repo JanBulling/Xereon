@@ -55,7 +55,6 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).setBottomNavBarVisibility(true)
 
         _binding = FrgMapBinding.bind(view)
 

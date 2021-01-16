@@ -32,13 +32,11 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
     private val binding get() = _binding!!
 
     private val newStoresAdapter = StoreHorizontalAdapter()
-
     private val recommendationsAdapter = ProductHorizontalAdapter()
     private val popularAdapter = ProductHorizontalAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgExploreBinding.bind(view)
-        (activity as MainActivity).setBottomNavBarVisibility(true)
 
         recommendationsAdapter.setOnItemClickListener(this)
         popularAdapter.setOnItemClickListener(this)
@@ -69,9 +67,6 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
         }
 
         subscribeObserver()
-
-        if (savedInstanceState == null)
-            viewModel.getExploreData(1, "89542")
     }
 
     override fun onDestroyView() {
@@ -80,7 +75,7 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
     }
 
     private fun subscribeObserver() {
-        viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
+        viewModel.exploreData.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
                 is DataState.Success<ExploreData> -> {
                     binding.isLoading = false
@@ -102,7 +97,7 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
     private fun displayError(message: String) {
         val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("Retry") {
-            viewModel.getExploreData(1, "89542", true)
+            viewModel.newExploreData()
         }
         snackBar.setActionTextColor(Color.WHITE)
         val snackBarView: View = snackBar.view

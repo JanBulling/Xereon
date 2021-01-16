@@ -18,7 +18,17 @@
             android:id="@+id/top_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="?attr/actionBarTheme">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/top_navigation_search_input"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:iconifiedByDefault="false"
+                app:queryHint="Filialen suchen"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

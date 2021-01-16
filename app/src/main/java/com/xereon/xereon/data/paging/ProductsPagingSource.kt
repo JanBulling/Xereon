@@ -17,7 +17,6 @@ class ProductsPagingSource(
         val currentPage = params.key ?: 1
 
         return try {
-            delay(250)
             val response = xereonAPI.getProductsFromStore(storeId, query, productsOrder, currentPage, params.loadSize)
 
             LoadResult.Page(

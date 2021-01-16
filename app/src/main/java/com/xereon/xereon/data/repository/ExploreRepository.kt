@@ -18,15 +18,12 @@ class ExploreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
     suspend fun getExploreData(userID: Int, zip : String): Flow<DataState<ExploreData>> = flow {
         emit(DataState.Loading)
         try {
-            delay(500)
             val networkExplore = xereonAPI.getExploreData(userID, zip, 1)
-
             /*
             Here implement caching.
             See: https://github.com/mitchtabian/Dagger-Hilt-Playerground/blob/Basic-MVI-Repository-Pattern/
                  app/src/main/java/com/codingwithmitch/daggerhiltplayground/repository/MainRepository.kt
             */
-
             emit(DataState.Success(networkExplore))
         } catch (e : Exception) {
             when (e) {

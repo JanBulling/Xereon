@@ -32,7 +32,6 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgCategoryBinding.bind(view)
-        (activity as MainActivity).setBottomNavBarVisibility(false)
         (activity as MainActivity).setActionBarTitle(args.category.categoryName)
 
         viewModel.getExampleStoresWithCategory(args.category.categoryIndex, "89542")

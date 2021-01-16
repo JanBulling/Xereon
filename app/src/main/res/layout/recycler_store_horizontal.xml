@@ -10,13 +10,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginEnd="5dp"
-        android:layout_width="135dp"
+        android:layout_width="130dp"
         android:layout_height="185dp">
 
         <ImageView
             android:id="@+id/recycler_store_image"
-            android:layout_width="115dp"
-            android:layout_height="115dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginTop="3dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="2dp"

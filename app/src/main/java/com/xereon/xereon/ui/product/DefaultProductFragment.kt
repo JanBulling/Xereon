@@ -49,7 +49,6 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgDefaultProductBinding.bind(view)
-        (activity as MainActivity).setBottomNavBarVisibility(false)
         (activity as MainActivity).setActionBarTitle(productName)
 
         similarAdapter.setOnItemClickListener(this)

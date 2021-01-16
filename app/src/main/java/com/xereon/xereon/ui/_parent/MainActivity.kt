@@ -34,6 +34,24 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         bottom_navigation.setupWithNavController(navController)
+        bottom_navigation.setOnNavigationItemReselectedListener { /*NO-OP*/ }
+
+        navController.addOnDestinationChangedListener {_, destination, _ ->
+            when (destination.id) {
+                R.id.exploreFragment, R.id.favoritesFragment, R.id.mapFragment -> {
+                    bottom_navigation.visibility = View.VISIBLE
+                    top_navigation_search_input.visibility = View.GONE
+                }
+                R.id.searchFragment -> {
+                    bottom_navigation.visibility = View.VISIBLE
+                    top_navigation_search_input.visibility = View.VISIBLE
+                }
+                else -> {
+                    bottom_navigation.visibility = View.GONE
+                    top_navigation_search_input.visibility = View.GONE
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -46,14 +64,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         super.onBackPressed()
     }
 
-    override fun setBottomNavBarVisibility(visible: Boolean) {
-        bottom_navigation.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
-    override fun setToolbarVisibility(visible: Boolean) {
-        top_navigation_app_bar.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
@@ -61,4 +71,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
     override fun setActionBarTitle(title: String) {
         supportActionBar!!.title = title
     }
+
+    fun getSearch() = top_navigation_search_input
 }
