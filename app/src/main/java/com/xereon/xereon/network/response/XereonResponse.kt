@@ -1,4 +1,4 @@
-package com.xereon.xereon.network
+package com.xereon.xereon.network.response
 
 data class XereonResponse(
     private val coded : Int,

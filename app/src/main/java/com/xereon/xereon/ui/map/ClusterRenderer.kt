@@ -1,4 +1,4 @@
-package com.xereon.xereon.util
+package com.xereon.xereon.ui.map
 
 import android.content.Context
 import android.graphics.Color

@@ -15,12 +15,10 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
-import com.xereon.xereon.adapter.loadStateAdapter.ProductsLoadStateAdapter
 import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
 import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
 import com.xereon.xereon.data.model.SimpleStore
-import com.xereon.xereon.databinding.FrgSearchBinding
 import com.xereon.xereon.databinding.FrgSubCategoryBinding
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,33 +56,31 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
                         storeAdapter.itemCount < 1
             }
         }
-        binding.buttonRetry.setOnClickListener {
-            storeAdapter.retry()
-        }
-
-        binding.subCategoryStores.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext())
-            itemAnimator = null
-            adapter = storeAdapter.withLoadStateFooter(
-                footer = StoresLoadStateAdapter { storeAdapter.retry() }
-            )
+        binding.apply {
+            buttonRetry.setOnClickListener {
+                storeAdapter.retry()
+            }
+            subCategoryStores.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(requireContext())
+                itemAnimator = null
+                adapter = storeAdapter.withLoadStateFooter(
+                    footer = StoresLoadStateAdapter { storeAdapter.retry() }
+                )
+            }
         }
 
         subscribeToObserver()
 
-        viewModel.getAllStoresWithType(args.type)
+        viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, zip = "89542"))
 
         setHasOptionsMenu(true)
     }
 
     private fun subscribeToObserver() {
-        viewModel.storeData.observe(viewLifecycleOwner, Observer {
+        viewModel.typeStores.observe(viewLifecycleOwner, Observer {
             storeAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
-        //viewModel.storeSearch.observe(viewLifecycleOwner, Observer {
-        //    storeAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-        //})
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -98,12 +94,12 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
         searchView.queryHint = "Kategorie suchen"
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus)
-                searchView.setQuery(viewModel.currentQuery, false)
-            else if (searchView.query.isNullOrBlank() && !viewModel.currentQuery.isBlank()) {
+                searchView.setQuery(viewModel.searchQuery, false)
+            else if (searchView.query.isNullOrBlank() && !viewModel.searchQuery.isBlank()) {
                 storeAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
                 sub_category_stores.scrollToPosition(0)
-                viewModel.searchStore("")
+                viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, zip = "89542"))
                 searchView.clearFocus()
             }
         }
@@ -112,7 +108,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
                 storeAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
                 sub_category_stores.scrollToPosition(0)
-                viewModel.searchStore(query ?: "")
+                viewModel.searchStore(CategoryViewModel.SearchQuery(query ?: "", args.type, "89542"))
                 searchView.clearFocus()
                 return true
             }

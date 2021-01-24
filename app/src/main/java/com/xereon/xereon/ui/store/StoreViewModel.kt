@@ -1,5 +1,6 @@
 package com.xereon.xereon.ui.store
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -7,61 +8,91 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.repository.StoreRepository
-import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.Constants.ORDER_DEFAULT
+import com.xereon.xereon.ui.categories.CategoryViewModel
+import com.xereon.xereon.ui.search.SearchViewModel
+import com.xereon.xereon.util.*
+import com.xereon.xereon.util.Constants.SortTypes
 import com.xereon.xereon.util.Constants.TAG
-import com.xereon.xereon.util.DataState
-import com.xereon.xereon.util.DoubleTrigger
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class StoreViewModel @ViewModelInject constructor(
     private val storeRepository: StoreRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    ) : ViewModel() {
 
-    private val _storeId = savedStateHandle.getLiveData<Int>(STORE_ID_KEY)
-    private val _currentQuery = savedStateHandle.getLiveData<String>(STORE_LAST_QUERY, "")
-    private val _currentProductsOrder = savedStateHandle.getLiveData<Int>(STORE_LAST_PRODUCTS_ORDER, 0)
-
-    private val _storeData: MutableLiveData<DataState<Store>> = MutableLiveData()
-
-
-    val storeData : LiveData<DataState<Store>> get() = _storeData
-    val currentQuery : String get() = _currentQuery.value ?: ""
-    val currentProductOrder : Int get() = _currentProductsOrder.value ?: Constants.ORDER_DEFAULT
-
-    val productData = Transformations.switchMap(DoubleTrigger(_currentQuery, _currentProductsOrder)) {
-        Log.d(TAG, "${it.first},   ${it.second}")
-        storeRepository.getProducts(_storeId.value ?: -1, it.first ?: "", it.second ?: ORDER_DEFAULT).cachedIn(viewModelScope)
+    sealed class StoreEvent {
+        class Success(val storeData: Store): StoreEvent()
+        class Failure(val errorText: String): StoreEvent()
+        object Loading : StoreEvent()
     }
 
+    @Parcelize
+    data class SearchQuery(
+        val storeId: Int = -1,
+        val query: String = "",
+        val sorting: SortTypes = SortTypes.SORT_RESPONSE_DEFAULT,
+    ) : Parcelable
 
-    fun getStoreData(storeId: Int, isRetry: Boolean = false) {
-        if (!isRetry && _storeData.value != null)
+    private val _search = savedStateHandle.getLiveData<SearchQuery>(STORE_SEARCH_PRODUCT_QUERY)
+
+    private val _storeData = MutableLiveData<StoreEvent>(StoreEvent.Loading)
+    val storeData: LiveData<StoreEvent> get() = _storeData
+
+    val products = Transformations.switchMap(_search) {
+        storeRepository.getProducts(it.storeId, it.query, it.sorting).cachedIn(viewModelScope)
+    }
+
+    var queryText: String = ""
+    var storeId: Int = -1
+    var sorting: SortTypes = SortTypes.SORT_RESPONSE_DEFAULT
+
+    fun getStore(storeId: Int) {
+        try {
+            if (_storeData.value is StoreEvent.Success)
+                return
+            viewModelScope.launch {
+                _storeData.value = StoreEvent.Loading
+                when (val response = storeRepository.getStore(storeId)) {
+                    is Resource.Error -> _storeData.value = StoreEvent.Failure(response.message!!)
+                    is Resource.Success -> _storeData.value = StoreEvent.Success(response.data!!)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unexpected error in StoreViewModel: ${e.message}")
+        }
+    }
+
+    private fun newProductSearch() {
+        val searchQuery = SearchQuery(
+            storeId = storeId,
+            query = queryText,
+            sorting = sorting
+        )
+        _search.value = searchQuery
+    }
+
+    fun getAllProducts(storeId: Int) {
+        if (products.value != null)
             return
-        viewModelScope.launch {
-            _storeId.value = storeId
-            storeRepository.getStoreData(storeId).onEach { dataState ->
-                _storeData.value = dataState
-            }.launchIn(viewModelScope)
-        }
+
+        this.queryText = ""
+        this.storeId = storeId
+        newProductSearch()
     }
 
-    fun getAllProducts(storeId: Int, isRetry: Boolean = false) {
-        if (productData.value == null || isRetry) {
-            _storeId.value = storeId
-            _currentQuery.value = ""
-        }
+    fun sortProduct(sorting: SortTypes) {
+        this.sorting = sorting
+        newProductSearch()
     }
 
-    fun searchProducts(query: String) { _currentQuery.value = query }
-    fun sortProducts(order: Int) { _currentProductsOrder.value = order }
+    fun searchProduct(textQuery: String) {
+        this.queryText = textQuery
+        newProductSearch()
+    }
 
     companion object {
-        private const val STORE_ID_KEY = "store_id"
-        private const val STORE_LAST_QUERY = "last_query"
-        private const val STORE_LAST_PRODUCTS_ORDER = "last_order"
+        private const val STORE_SEARCH_PRODUCT_QUERY = "keys.ui.store.storeViewModel.query"
     }
 }

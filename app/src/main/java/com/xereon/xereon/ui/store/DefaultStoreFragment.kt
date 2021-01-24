@@ -1,6 +1,7 @@
 package com.xereon.xereon.ui.store
 
 import android.os.Bundle
+import android.util.Log.d
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,7 +24,7 @@ import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
 import com.xereon.xereon.adapter.pagingAdapter.ProductsPagingAdapter.Companion.VIEW_TYPE_PRODUCT
 import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.DataState
+import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,25 +61,25 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
                 return if (viewType == VIEW_TYPE_PRODUCT) 1 else 2
             }
         }
-
         productsAdapter.setOnItemClickListener(this)
 
-        binding.storeRecycler.apply {
-            layoutManager = gridLayoutManager
-            setHasFixedSize(true)
-            adapter = productsAdapter.withCustomLoadStateFooter(
-                footer = ProductsLoadStateAdapter { productsAdapter.retry() }
-            )
-        }
-
-        binding.storeNotFoundRetry.setOnClickListener {
-            viewModel.getStoreData(storeID, true)
-            viewModel.getAllProducts(storeID)
+        binding.apply {
+            storeRecycler.apply {
+                layoutManager = gridLayoutManager
+                setHasFixedSize(true)
+                adapter = productsAdapter.withCustomLoadStateFooter(
+                    footer = ProductsLoadStateAdapter { productsAdapter.retry() }
+                )
+            }
+            storeNotFoundRetry.setOnClickListener {
+                viewModel.getStore(storeID)
+                viewModel.getAllProducts(storeID)
+            }
         }
 
         subscribeObserver()
 
-        viewModel.getStoreData(storeID)
+        viewModel.getStore(storeID)
         viewModel.getAllProducts(storeID)
 
         setHasOptionsMenu(true)
@@ -100,11 +101,11 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
         searchView.queryHint = "Produkte suchen"
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus)
-                searchView.setQuery(viewModel.currentQuery, false)
-            else if (searchView.query.isNullOrBlank() && !viewModel.currentQuery.isBlank()) {
+                searchView.setQuery(viewModel.queryText, false)
+            else if (searchView.query.isNullOrBlank() && !viewModel.queryText.isBlank()) {
                 productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
                 binding.storeRecycler.scrollToPosition(1)
-                viewModel.searchProducts("")
+                viewModel.searchProduct("")
                 searchView.clearFocus()
             }
         }
@@ -112,7 +113,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
             override fun onQueryTextSubmit(query: String?): Boolean {
                 productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
                 binding.storeRecycler.scrollToPosition(1)
-                viewModel.searchProducts(query ?: "")
+                viewModel.searchProduct(query ?: "")
                 searchView.clearFocus()
                 return true
             }
@@ -123,46 +124,43 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_item_order_default -> orderProducts(Constants.ORDER_DEFAULT)
-            R.id.menu_item_order_price_low -> orderProducts(Constants.ORDER_PRICE_LOW)
-            R.id.menu_item_order_price_high -> orderProducts(Constants.ORDER_PRICE_HIGH)
-            R.id.menu_item_order_app_offer -> orderProducts(Constants.ORDER_ONLY_IN_APP)
-            R.id.menu_item_order_a_z -> orderProducts(Constants.ORDER_NAME_A_Z)
-            R.id.menu_item_order_z_a -> orderProducts(Constants.ORDER_NAME_Z_A)
+            R.id.menu_item_order_default -> sortProducts(Constants.SortTypes.SORT_RESPONSE_DEFAULT)
+            R.id.menu_item_order_price_low -> sortProducts(Constants.SortTypes.SORT_RESPONSE_PRICE_LOW)
+            R.id.menu_item_order_price_high -> sortProducts(Constants.SortTypes.SORT_RESPONSE_PRICE_HIGH)
+            R.id.menu_item_order_app_offer -> sortProducts(Constants.SortTypes.SORT_RESPONSE_ONLY_IN_APP)
+            R.id.menu_item_order_a_z -> sortProducts(Constants.SortTypes.SORT_RESPONSE_A_Z)
+            R.id.menu_item_order_z_a -> sortProducts(Constants.SortTypes.SORT_RESPONSE_Z_A)
             else ->
                 super.onOptionsItemSelected(item)
         }
     }
 
-    private fun orderProducts(orderIndex: Int): Boolean {
-        if (viewModel.currentProductOrder != orderIndex) {
-            productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
-            binding.storeRecycler.scrollToPosition(1)
-            viewModel.sortProducts(orderIndex)
-            return true
-        }
-        return false
+    private fun sortProducts(sorting: Constants.SortTypes): Boolean {
+        productsAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+        binding.storeRecycler.scrollToPosition(1)
+        viewModel.sortProduct(sorting)
+        return true
     }
 
     private fun subscribeObserver() {
-        viewModel.storeData.observe(viewLifecycleOwner, Observer { dataState ->
-            when(dataState) {
-                is DataState.Success<Store> -> {
-                    (activity as MainActivity).setActionBarTitle(dataState.data.name)
-                    productsAdapter.setStore(dataState.data)
+        viewModel.storeData.observe(viewLifecycleOwner, Observer { event ->
+            when(event) {
+                is StoreViewModel.StoreEvent.Success -> {
+                    (activity as MainActivity).setActionBarTitle(event.storeData.name)
+                    productsAdapter.setStore(event.storeData)
                     binding.isSuccessful = true
                     binding.isLoading = false
                 }
-                is DataState.Loading -> {
-                    binding.isLoading = true
-                }
-                is DataState.Error -> {
-                    binding.isSuccessful = false
+                is StoreViewModel.StoreEvent.Failure -> {
                     binding.isLoading = false
+                    binding.isSuccessful = false
+                }
+                is StoreViewModel.StoreEvent.Loading -> {
+                    binding.isLoading = true
                 }
             }
         })
-        viewModel.productData.observe(viewLifecycleOwner, Observer {
+        viewModel.products.observe(viewLifecycleOwner, Observer {
             productsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
     }
@@ -170,5 +168,13 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
     override fun onItemClick(simpleProduct: SimpleProduct) {
         val action = DefaultProductFragmentDirections.actionToProduct(simpleProduct)
         findNavController().navigate(action)
+    }
+
+    override fun onSearchClicked() {
+        d(TAG, "search")
+    }
+
+    override fun onAddToFavoriteClicked() {
+        d(TAG, "fav")
     }
 }

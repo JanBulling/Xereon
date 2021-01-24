@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="isLoading" type="Boolean" />
-        <variable name="isLoadingStore" type="Boolean" />
-        <variable name="isSearching" type="Boolean" />
         <variable name="currentStore" type="com.xereon.xereon.data.model.Store" />
     </data>
 
@@ -27,15 +24,14 @@
             android:layout_gravity="top|end"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:indeterminateTint="@color/black"
-            app:isVisible="@{isLoading}" />
+            android:visibility="gone"
+            android:indeterminateTint="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/map_places_search"
             android:layout_width="match_parent"
             android:layout_height="248dp"
             android:visibility="gone"
-            app:isVisible="@{isSearching}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <androidx.core.widget.NestedScrollView
@@ -89,8 +85,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="8dp"
+                    android:visibility="gone"
                     android:indeterminateTint="@color/black"
-                    app:isVisible="@{isLoadingStore}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

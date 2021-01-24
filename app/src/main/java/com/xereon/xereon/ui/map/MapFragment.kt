@@ -2,19 +2,17 @@ package com.xereon.xereon.ui.map
 
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log.d
-import android.util.Log.e
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -23,16 +21,11 @@ import com.google.maps.android.clustering.ClusterManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
 import com.xereon.xereon.data.model.LocationStore
-import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.model.places.Place
 import com.xereon.xereon.databinding.FrgMapBinding
-import com.xereon.xereon.network.PlacesRequest
-import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.ui._parent.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
-import com.xereon.xereon.util.ClusterRenderer
-import com.xereon.xereon.util.Constants.TAG
-import com.xereon.xereon.util.DataState
+import com.xereon.xereon.util.Constants
 import kotlinx.android.synthetic.main.frg_map.*
 import java.lang.Exception
 import java.lang.NullPointerException
@@ -68,14 +61,18 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
             googleMap = it
 
             clusterManager = ClusterManager(requireContext(), googleMap)
-            clusterManager?.renderer = ClusterRenderer(requireContext(), googleMap, clusterManager)
+            clusterManager?.renderer = ClusterRenderer(
+                requireContext(),
+                googleMap,
+                clusterManager
+            )
 
             googleMap?.setOnCameraIdleListener {
                 clusterManager?.onCameraIdle()
 
                 val zip = getPostalCode(googleMap?.cameraPosition?.target)
                 if (zip.isNotEmpty())
-                    viewModel.getStoresInArea(zip)
+                    viewModel.getStores(zip)
             }
 
             googleMap?.setOnMarkerClickListener(clusterManager)
@@ -84,7 +81,7 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
                 if (currentStoreId != it.id) {
                     currentStoreId = it.id
                     binding.currentStore = it.toStore()
-                    viewModel.getStoreData(it.id)
+                    viewModel.getStore(it.id)
                 }
 
                 false /* show name of store above marker */
@@ -101,13 +98,13 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
             /*Hide BottomSheet if clicked on the map*/
             googleMap?.setOnMapClickListener {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                binding.isSearching = false
+                binding.mapPlacesSearch.isVisible = false
                 searchView.clearFocus()
             }
 
-            googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(viewModel.getMapPosition()))
+            googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(viewModel.getCameraPosition()))
 
-            viewModel.getStoresInArea("89542", initialCall = true)  //get data, if cluster manager is ready
+            viewModel.getStores(Constants.DEFAULT_ZIP, initialCall = true)  //get data, if cluster manager is ready
         }
 
         map_bottom_store_more_information.setOnClickListener {
@@ -147,8 +144,8 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
                 if (query.isNullOrEmpty())
                     placesAdapter.submitList(emptyList())
                 else {
-                    viewModel.searchPlace(query)
-                    binding.isSearching = true
+                    viewModel.autocompletePlace(query)
+                    binding.mapPlacesSearch.isVisible = true
                 }
                 return true
             }
@@ -156,14 +153,14 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 placesAdapter.submitList(emptyList())
-                binding.isSearching = false
+                binding.mapPlacesSearch.isVisible = false
                 searchView.clearFocus()
             }
         }
     }
 
     private fun subscribeObserver() {
-        viewModel.loadingStateForStores.observe(viewLifecycleOwner, Observer { dataState ->
+        /*viewModel.loadingStateForStores.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
                 DataState.SUCCESS_INDEX -> binding.isLoading = false
                 DataState.LOADING_INDEX -> binding.isLoading = true
@@ -172,34 +169,27 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
                     displayError("Keine Verbindung...")
                 }
             }
-        })
-        viewModel.allStores.observe(viewLifecycleOwner, Observer { stores ->
+        })*/
+        viewModel.loadedStores.observe(viewLifecycleOwner, Observer { stores ->
             clusterManager?.addItems(stores)
             clusterManager?.cluster()
         })
-        viewModel.selectedStore.observe(viewLifecycleOwner, Observer { dataState ->
-            when (dataState) {
-                is DataState.Success -> {
-                    binding.isLoadingStore = false
-                    binding.currentStore = dataState.data
-                    binding.mapBottomSheetBehaviour.visibility = View.VISIBLE
+        viewModel.selectedStore.observe(viewLifecycleOwner, Observer { event ->
+            when (event) {
+                is MapViewModel.MapStoreEvent.Success -> {
+                    binding.mapBottomLoading.isVisible = false
+                    binding.currentStore = event.storeData
+                    binding.mapBottomSheetBehaviour.isVisible = true
                 }
-                is DataState.Loading -> binding.isLoadingStore = true
-                is DataState.Error -> {
-                    binding.isLoadingStore = false
-                    displayError(dataState.message)
+                is MapViewModel.MapStoreEvent.Loading -> binding.mapBottomLoading.isVisible = true
+                is MapViewModel.MapStoreEvent.Failure -> {
+                    binding.mapBottomLoading.isVisible = false
+                    displayError(event.errorText)
                 }
             }
         })
-        viewModel.placesResponse.observe(viewLifecycleOwner, Observer {
-            when(it) {
-                is DataState.Success -> {
-                    placesAdapter.submitList(it.data.hits)
-                }
-                is DataState.Error -> {
-                    e(TAG, "PLACES RESPONSE: ERROR ${it.message}")
-                }
-            }
+        viewModel.places.observe(viewLifecycleOwner, Observer { placesResponse ->
+            placesAdapter.submitList(placesResponse.hits)
         })
     }
 
@@ -241,7 +231,7 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     override fun onItemClick(place: Place) {
         val location = LatLng(place.coordinares.latitude.toDouble(), place.coordinares.longitude.toDouble())
         googleMap?.animateCamera(CameraUpdateFactory.newLatLng(location))
-        binding.isSearching = false
+        binding.mapPlacesSearch.isVisible = false
         searchView.clearFocus()
     }
 

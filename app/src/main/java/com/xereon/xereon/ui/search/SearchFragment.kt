@@ -2,7 +2,6 @@ package com.xereon.xereon.ui.search
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -28,11 +27,7 @@ import com.xereon.xereon.databinding.FrgSearchBinding
 import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.ui._parent.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
-import com.xereon.xereon.util.Constants.ORDER_DEFAULT
-import com.xereon.xereon.util.Constants.ORDER_NAME_A_Z
-import com.xereon.xereon.util.Constants.ORDER_NAME_Z_A
-import com.xereon.xereon.util.Constants.TAG
-import com.xereon.xereon.util.DataState
+import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,7 +47,7 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.searchBottomSheetBehaviour)
         bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.peekHeight = 750
+        bottomSheetBehavior.peekHeight = 850
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         bottomSheetBehavior.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(p0: View, p1: Float) { /*NO-OP*/ }
@@ -93,7 +88,7 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
         }
 
         val categoriesChipGroup = binding.searchChipGroupSelectFilter
-        for (i in 0 until (CategoryUtils.getCategoryNameSize()-1)) {
+        for (i in 0 until (CategoryUtils.getNumberOfCategories()-1)) {
             val chip = Chip(requireContext())
             chip.text = CategoryUtils.getCategoryName(i)
             chip.isCheckable = true
@@ -101,15 +96,15 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
             categoriesChipGroup.addView(chip)
             chip.setOnClickListener {
                 if (chip.isChecked) //gets checked or unchecked first, so test for opposit
-                    viewModel.onSelectedCategoryChanged(i)
+                    viewModel.category = i
             }
 
-            if (i == viewModel.selectedCategory)    //check button by default
+            if (i == viewModel.category)    //check button by default
                 categoriesChipGroup.check(chip.id)
         }
         categoriesChipGroup.setOnCheckedChangeListener { _, id ->
             if (id == View.NO_ID)
-                viewModel.onSelectedCategoryChanged(-1)
+                viewModel.category = -1
         }
 
         binding.searchSearchBtn.setOnClickListener{
@@ -117,20 +112,20 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
         }
 
         binding.searchSortRadioGroup.setOnCheckedChangeListener { _, id ->
-            val searchIndex =  when (id) {
-                R.id.search_sort_default -> ORDER_DEFAULT
-                R.id.search_sort_A_Z -> ORDER_NAME_A_Z
-                R.id.search_sort_Z_A -> ORDER_NAME_Z_A
-                else -> ORDER_DEFAULT
+            val searchSorting =  when (id) {
+                R.id.search_sort_default -> Constants.SortTypes.SORT_RESPONSE_DEFAULT
+                R.id.search_sort_A_Z -> Constants.SortTypes.SORT_RESPONSE_A_Z
+                R.id.search_sort_Z_A -> Constants.SortTypes.SORT_RESPONSE_Z_A
+                else -> Constants.SortTypes.SORT_RESPONSE_DEFAULT
             }
 
-            viewModel.onSelectedOrderingChanged(searchIndex)
+            viewModel.sorting = searchSorting
         }
 
-        binding.searchExpandRegion.isChecked = viewModel.expandedRegion
+        /*binding.searchExpandRegion.isChecked = viewModel.expandedRegion
         binding.searchExpandRegion.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onExpandedSettingChanged(isChecked)
-        }
+        }*/
 
         binding.searchFab.setOnClickListener { openFilterPanel() }
         binding.searchSortingBackground.setOnClickListener{ hideFilterPanel() }
@@ -150,7 +145,7 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
     }
 
     private fun subscribeToObserver() {
-        viewModel.stores.observe(viewLifecycleOwner, Observer {
+        viewModel.searchResponse.observe(viewLifecycleOwner, Observer {
             storeAdapter.submitData(viewLifecycleOwner.lifecycle, it)
             binding.alreadySearched = true
         })
@@ -177,7 +172,7 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                viewModel.onQueryChanged(query ?: "")
+                viewModel.queryText = query ?: ""
                 return true
             }
         })

@@ -16,7 +16,6 @@ import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgCategoryBinding
 import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
-import com.xereon.xereon.util.DataState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,7 +33,7 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
         _binding = FrgCategoryBinding.bind(view)
         (activity as MainActivity).setActionBarTitle(args.category.categoryName)
 
-        viewModel.getExampleStoresWithCategory(args.category.categoryIndex, "89542")
+        viewModel.getExampleStores(args.category.categoryIndex)
 
         subCategoriesAdapter.submitList(args.category.subCategories)
         subCategoriesAdapter.setOnItemClickListener(object : SubCategoriesAdapter.ItemClickListener{
@@ -51,15 +50,18 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
             }
         })
 
-        binding.category = args.category
-        binding.categorySubcategoriesList.apply {
-            itemAnimator = null
-            adapter = subCategoriesAdapter
-        }
+        binding.apply {
+            category = args.category
 
-        binding.categoryCloseList.apply {
-            setHasFixedSize(true)
-            adapter = storesAdapter
+            categorySubcategoriesList.apply {
+                itemAnimator = null
+                adapter = subCategoriesAdapter
+            }
+
+            categoryCloseList.apply {
+                setHasFixedSize(true)
+                adapter = storesAdapter
+            }
         }
 
         subscribeToObserver()
@@ -71,14 +73,18 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
     }
 
     private fun subscribeToObserver() {
-        viewModel.exampleStores.observe(viewLifecycleOwner, Observer {dataState ->
-            when(dataState) {
-                is DataState.Success -> {
-                    storesAdapter.submitList(dataState.data)
+        viewModel.exampleStores.observe(viewLifecycleOwner, Observer {event ->
+            when (event) {
+                is CategoryViewModel.CategoryEvent.Success -> {
+                    storesAdapter.submitList(event.examplesData)
                 }
-                is DataState.Error -> {
-                    displayError(dataState.message)
+                is CategoryViewModel.CategoryEvent.Failure -> {
+                    displayError(event.errorText)
                 }
+                is CategoryViewModel.CategoryEvent.Loading -> {
+
+                }
+                else -> Unit
             }
         })
     }
@@ -86,7 +92,7 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
     private fun displayError(message: String) {
         val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("Retry") {
-            viewModel.getExampleStoresWithCategory(args.category.categoryIndex, "89542", true)
+            viewModel.getExampleStores(args.category.categoryIndex)
         }
         snackBar.setActionTextColor(Color.WHITE)
         val snackBarView: View = snackBar.view

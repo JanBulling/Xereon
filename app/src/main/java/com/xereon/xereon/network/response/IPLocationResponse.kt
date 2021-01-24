@@ -1,4 +1,4 @@
-package com.xereon.xereon.network
+package com.xereon.xereon.network.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

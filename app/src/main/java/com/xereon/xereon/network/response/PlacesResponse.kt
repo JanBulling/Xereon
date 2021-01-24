@@ -1,4 +1,4 @@
-package com.xereon.xereon.network
+package com.xereon.xereon.network.response
 
 import com.google.gson.annotations.SerializedName
 import com.xereon.xereon.data.model.places.Place

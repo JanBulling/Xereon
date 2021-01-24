@@ -1,12 +1,9 @@
 package com.xereon.xereon.data.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.network.XereonAPI
-import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.Constants.ORDER_DEFAULT
-import kotlinx.coroutines.delay
+import com.xereon.xereon.util.Constants.SortTypes
 
 class StoresPagingSource(
     private val xereonAPI: XereonAPI,
@@ -14,7 +11,7 @@ class StoresPagingSource(
     private val zip: String,
     private val type: String = "",
     private var category: Int? = null,
-    private val orderStores: Int = ORDER_DEFAULT,
+    private val sort: SortTypes = SortTypes.SORT_RESPONSE_DEFAULT,
 ) : PagingSource<Int, SimpleStore>(){
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleStore> {
@@ -29,15 +26,19 @@ class StoresPagingSource(
                 zip = zip,
                 category = category,
                 type = type,
-                orderStores = orderStores,
+                sort = sort.index,
                 page = currentPage,
                 limit = params.loadSize
             )
+            
+            val result = response.body()
+            if (!response.isSuccessful || result == null)
+                return LoadResult.Error(Throwable(response.message()))
 
             LoadResult.Page(
-                data = response,
+                data = result,
                 prevKey = if (currentPage == 1) null else currentPage - 1,
-                nextKey = if (response.size < params.loadSize) null else currentPage + 1
+                nextKey = if (result.size < params.loadSize) null else currentPage + 1
             )
         } catch (exception: Exception) {
             LoadResult.Error(exception)

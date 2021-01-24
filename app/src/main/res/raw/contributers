@@ -1,1 +1,35 @@
 sorting horizontal icon: Created by Shiva, from the Noun Project
+
+
+
+
+SELECT
+  id, name, city, postcode, type, category
+FROM
+  my_table AS t
+WHERE
+  (
+    t.name LIKE '%@search_query%'
+    OR t.type LIKE '%@search_query%'
+  )
+  AND t.category = CASE
+                    WHEN category_query = -1 THEN t.category
+                    ELSE category_query
+                   END
+  AND t.postcode LIKE CASE
+                        WHEN use_external THEN '@zip_first_three%'
+                        ELSE '@zip_first_four'
+                      END
+
+ORDER BY
+
+  CASE
+    WHEN order_input = 0 THEN t.id  -- default: nach erstelldatum sortiert, aber neuste zuerst
+    WHEN order_input = 2 THEN t.name -- von z nach a
+  END DESC,
+  CASE
+    WHEN order_input = 1 THEN t.name -- von a nach z
+  END ASC
+
+LIMIT
+  10, 50

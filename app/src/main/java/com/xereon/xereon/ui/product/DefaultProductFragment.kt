@@ -1,21 +1,24 @@
 package com.xereon.xereon.ui.product
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log.e
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.ProductHorizontalAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.ProductVerticalAdapter
-import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.databinding.FrgDefaultProductBinding
 import com.xereon.xereon.ui._parent.MainActivity
-import com.xereon.xereon.util.DataState
+import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.frg_default_product.*
 
@@ -32,19 +35,16 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
 
     private var productID: Int = -1
     private var productName: String = ""
-    private var numberSelected = 0
+    private var numberSelected = 1
 
     private val similarAdapter = ProductHorizontalAdapter()
     private val productsFromSameStoreAdapter = ProductVerticalAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (args.simpleProduct == null)
-            productID = args.simpleProductId
-        else {
-            productID = args.simpleProduct!!.id
-            productName = args.simpleProduct!!.name
-        }
+
+        productID = args.simpleProduct?.id ?: args.simpleProductId ?: 0
+        productName = args.simpleProduct?.name ?: ""
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,20 +54,22 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
         similarAdapter.setOnItemClickListener(this)
         productsFromSameStoreAdapter.setOnItemClickListener(this)
 
-        binding.storeNotFoundRetry.setOnClickListener {
-            viewModel.getProductData(productID, true)
+        binding.apply {
+            storeNotFoundRetry.setOnClickListener {
+                viewModel.getProduct(productID)
+            }
+            productProductsSameStore.adapter = productsFromSameStoreAdapter
+            productSimilarList.apply{
+                setHasFixedSize(true)
+                adapter = similarAdapter
+            }
+            productAddToCart.setOnClickListener { addToCart() }
+            productAddToCartFab.setOnClickListener { addToCart() }
         }
-
-        binding.productSimilarList.apply{
-            setHasFixedSize(true)
-            adapter = similarAdapter
-        }
-
-        binding.productProductsSameStore.adapter = productsFromSameStoreAdapter
 
         subscribeObserver()
 
-        viewModel.getProductData(productID)
+        viewModel.getProduct(productID)
     }
 
     override fun onDestroyView() {
@@ -76,27 +78,36 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
     }
 
     private fun subscribeObserver() {
-        viewModel.productData.observe(viewLifecycleOwner, Observer { dataState ->
-            when(dataState) {
-                is DataState.Success<Product> -> {
+        viewModel.productData.observe(viewLifecycleOwner, Observer {event ->
+            when (event) {
+                is ProductViewModel.ProductEvent.Success -> {
+                    (activity as MainActivity).setActionBarTitle(event.productData.name)
 
-                    (activity as MainActivity).setActionBarTitle(dataState.data.name)
-                    productsFromSameStoreAdapter.submitList(dataState.data.otherStoreProducts)
-                    similarAdapter.submitList(dataState.data.similar)
-                    binding.product = dataState.data
+                    binding.apply {
+                        productLoading.isVisible = false
+                        productScrollParent.isVisible = true
+                        product = event.productData
+                    }
 
-                    binding.isLoading = false
-                    binding.isSuccessful = true
+                    productsFromSameStoreAdapter.submitList(event.productData.otherStoreProducts)
+                    similarAdapter.submitList(event.productData.similar)
 
-                    setUpNumberPicker(dataState.data.unit, dataState.data.price)
+                    setUpNumberPicker(event.productData.unit, event.productData.price)
                 }
-                is DataState.Loading -> {
-                    binding.isLoading = true
+                is ProductViewModel.ProductEvent.Failure -> {
+                    binding.apply {
+                        productLoading.isVisible = false
+                        productError.isVisible = true
+                    }
+                    e(TAG, "Error in ProductData: ${event.errorText}")
                 }
-                is DataState.Error -> {
-                    binding.isLoading = false
-                    binding.isSuccessful = false
+                is ProductViewModel.ProductEvent.Loading -> {
+                    binding.apply {
+                        productLoading.isVisible = true
+                        productError.isVisible = false
+                    }
                 }
+                else -> Unit
             }
         })
     }
@@ -111,9 +122,17 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
             wrapSelectorWheel = false
             setOnValueChangedListener { _, _, newValue ->
                 numberSelected = newValue
-                product_order_price.text = PriceUtils.calculateTotalPrice(price.toFloat(), unit, newValue)
+                product_order_price.text = PriceUtils.calculateTotalPriceAsString(price.toFloat(), unit, newValue)
             }
         }
+    }
+
+    private fun addToCart() {
+        viewModel.addToShoppingCart(numberSelected)
+        Snackbar.make(binding.root, "In den Warenkorb hinzugefüfgt", Snackbar.LENGTH_LONG)
+            .setAction("Zum Warenkorb") {
+                findNavController().navigate(R.id.action_to_ShoppingCart)
+            }.setActionTextColor(Color.parseColor("#ADD8E6")).show()
     }
 
     override fun onItemClick(simpleProduct: SimpleProduct) {

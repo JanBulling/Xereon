@@ -2,11 +2,11 @@ package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.*
+import com.xereon.xereon.network.response.IPLocationResponse
+import com.xereon.xereon.network.response.XereonResponse
 import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.Constants.ORDER_DEFAULT
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
@@ -53,35 +53,35 @@ interface XereonAPI {
         @Query("id") userID: Int,
         @Query("postalcode") postalCode: String,
         @Query("version") version: Int
-    ): ExploreData
+    ): Response<ExploreData>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/stores/store-information.php")
-    suspend fun getStoreInformation(
+    suspend fun getStore(
         @Query("id") storeId: Int
-    ): Store
+    ): Response<Store>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/products/products.php")
     suspend fun getProductsFromStore(
         @Query("id") storeId: Int,
         @Query("search") query: String,
-        @Query("order") productsOrder: Int,
+        @Query("order") sort: Int = Constants.SortTypes.SORT_RESPONSE_DEFAULT.index,
         @Query("page") page: Int,
         @Query("limit") limit: Int
-    ): List<SimpleProduct>
+    ): Response<List<SimpleProduct>>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/products/product-information.php")
     suspend fun getProductDetails(
         @Query("id") productID: Int
-    ): Product
+    ): Response<Product>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/stores/get-stores-surroundings.php")
     suspend fun getStoresInArea(
         @Query("postalcode") zip: String
-    ): List<LocationStore>
+    ): Response<List<LocationStore>>
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,8 +105,8 @@ interface XereonAPI {
         @Query("postalcode") zip: String = Constants.DEFAULT_ZIP,
         @Query("category") category: Int? = null,
         @Query("type") type: String = "",
-        @Query("order") orderStores: Int = ORDER_DEFAULT,
+        @Query("order") sort: Int = Constants.SortTypes.SORT_RESPONSE_DEFAULT.index,
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20
-        ): List<SimpleStore>
+        ): Response<List<SimpleStore>>
 }

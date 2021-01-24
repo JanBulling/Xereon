@@ -1,4 +1,4 @@
-package com.xereon.xereon.util
+package com.xereon.xereon.util.view_utils
 
 import android.graphics.Typeface
 import android.text.Html
@@ -50,13 +50,13 @@ fun setPriceText(view: TextView, price: String?, unit: Int) {
 
 @BindingAdapter("backgroundColor")
 fun setBackgroundColor(view: View, category: Int) {
-    @ColorRes val colorId = CategoryUtils.getCategoryColorId(category)
+    @ColorRes val colorId = CategoryUtils.getCategoryColorResourceId(category)
     view.backgroundTintList = view.context.getColorStateList(colorId)
 }
 
 @BindingAdapter("textCategoryColor")
 fun setTextCategoryColor(view: TextView, storeCategory: Int) {
-    @ColorRes val colorId = CategoryUtils.getCategoryColorId(storeCategory)
+    @ColorRes val colorId = CategoryUtils.getCategoryColorResourceId(storeCategory)
     view.setTextColor( ContextCompat.getColor(view.context, colorId) )
 }
 
@@ -91,6 +91,6 @@ fun setOpeningForToday(view: TextView, openingString: String?) {
 fun setPriceStartingValue(view: TextView, product: Product?) {
     if (product != null) {
         val price = product.price.toFloat()
-        view.text = PriceUtils.calculateTotalPrice(price, product.unit, 1)
+        view.text = PriceUtils.calculateTotalPriceAsString(price, product.unit, 1)
     }
 }

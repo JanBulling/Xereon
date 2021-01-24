@@ -85,10 +85,17 @@
     <fragment
         android:id="@+id/subCategoryFragment"
         android:name="com.xereon.xereon.ui.categories.SubCategoryFragment"
-        android:label="SubCategoryFragment" >
+        android:label="SubCategoryFragment"
+        tools:layout="@layout/frg_sub_category">
         <argument
             android:name="type"
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_to_SubCategory" app:destination="@id/subCategoryFragment" />
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.xereon.xereon.ui.shoppingCart.ShoppingCartFragment"
+        android:label="Warenkorb"
+        tools:layout="@layout/frg_shopping_cart"/>
+    <action android:id="@+id/action_to_ShoppingCart" app:destination="@id/shoppingCartFragment" />
 </navigation>

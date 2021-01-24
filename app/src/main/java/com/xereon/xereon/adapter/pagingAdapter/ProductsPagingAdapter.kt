@@ -78,7 +78,11 @@ class ProductsPagingAdapter() :
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun setOnItemClickListener(clickListener: ItemClickListener) { itemClickListener = clickListener }
-    interface ItemClickListener{ fun onItemClick(simpleProduct: SimpleProduct) }
+    interface ItemClickListener{
+        fun onItemClick(simpleProduct: SimpleProduct)
+        fun onSearchClicked()
+        fun onAddToFavoriteClicked()
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,9 +97,13 @@ class ProductsPagingAdapter() :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            binding.store = store
-            binding.currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-            binding.openingTimes = OpeningUtils.getOpeningTimes(store.openinghours)
+            binding.apply {
+                store = this@ProductsPagingAdapter.store
+                currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+                openingTimes = OpeningUtils.getOpeningTimes(this@ProductsPagingAdapter.store.openinghours)
+                storeSaveFavorite.setOnClickListener { itemClickListener.onAddToFavoriteClicked() }
+                storeSearch.setOnClickListener { itemClickListener.onSearchClicked() }
+            }
         }
     }
 

@@ -1,10 +1,13 @@
-package com.xereon.xereon.network
+package com.xereon.xereon.network.response
 
 import com.google.gson.annotations.SerializedName
 
 data class PlacesRequest(
     @SerializedName("query") val query: String,
-    @SerializedName("type") val type: List<String> = listOf(TYPE_CITY, TYPE_ADDRESS),
+    @SerializedName("type") val type: List<String> = listOf(
+        TYPE_CITY,
+        TYPE_ADDRESS
+    ),
     @SerializedName("countries") val countries: String = COUNTRY_GERMANY,
     @SerializedName("language") val language: String = LANGUAGE_GERMAN,
     @SerializedName("hitsPerPage") val hitsPerPage: Int = 4

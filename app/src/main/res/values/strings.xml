@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Xereon</string>
+
+    <string name="total_price_incl_tax"><font color="#252525"><b>Gesamt</b></font> <font color="#969696"><small>incl. MwSt.</small></font></string>
+
     <array name="day_of_week_short">
         <item>Mo</item>
         <item>Di</item>

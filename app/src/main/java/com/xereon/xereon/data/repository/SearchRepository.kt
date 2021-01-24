@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.xereon.xereon.data.paging.StoresPagingSource
 import com.xereon.xereon.network.XereonAPI
+import com.xereon.xereon.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,7 +14,7 @@ class SearchRepository @Inject constructor(
     private val xereonAPI: XereonAPI
 ) {
 
-    fun searchStore(query: String, zip: String, category: Int?, orderStores: Int) =
+    fun searchStore(query: String, zip: String, category: Int?, sort: Constants.SortTypes) =
         Pager(
             config = PagingConfig(
                 initialLoadSize = 10,
@@ -27,7 +28,7 @@ class SearchRepository @Inject constructor(
                     query = query,
                     zip = zip,
                     category = category,
-                    orderStores = orderStores
+                    sort = sort
                 )
             }
         ).liveData

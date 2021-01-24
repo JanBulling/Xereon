@@ -1,5 +1,8 @@
 package com.xereon.xereon.network
 
+import com.xereon.xereon.network.response.PlacesRequest
+import com.xereon.xereon.network.response.PlacesResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -19,6 +22,6 @@ interface AlgoliaPlacesApi {
     @POST("1/places/query")
     suspend fun getPlacesResults(
         @Body placesRequest: PlacesRequest
-    ): PlacesResponse
+    ): Response<PlacesResponse>
 
 }

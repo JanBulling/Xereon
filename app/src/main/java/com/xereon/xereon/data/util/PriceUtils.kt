@@ -67,14 +67,18 @@ object PriceUtils {
 
     fun getStepsAsStringArray(unit_index: Int) = UNIT_STEPS[unit_index]
 
-    fun calculateTotalPrice(price: Float, unit: Int, count: Int) : String {
+    fun calculateTotalPriceAsString(price: Float, unit: Int, count: Int) : String {
+        val newPrice = calculateTotalPrice(price, unit, count)
+
+        return (String.format("%.2f", newPrice) + "€").replace(",", ".")
+    }
+
+    fun calculateTotalPrice(price: Float?, unit: Int, count: Int) : Float {
         val factor = when(unit) {
             UNIT_WEIGHT_SMALL, UNIT_WEIGHT_MEDIUM, UNIT_WEIGHT_LARGE -> 0.5f
             else -> 1f
         }
 
-        val newPrice = price * count * factor
-
-        return (String.format("%.2f", newPrice) + "€").replace(",", ".")
+        return (price ?: 0f) * count * factor
     }
 }

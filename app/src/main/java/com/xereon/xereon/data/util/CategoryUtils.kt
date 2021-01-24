@@ -2,7 +2,6 @@ package com.xereon.xereon.data.util
 
 import com.xereon.xereon.R
 import com.xereon.xereon.data.model.Category
-import java.util.*
 
 object CategoryUtils {
 
@@ -25,7 +24,7 @@ object CategoryUtils {
             = if (category < CATEGORY_HUES.size) CATEGORY_HUES[category]
                 else 0f
 
-    private val CATEGORY_COLOR_IDS = intArrayOf(
+    private val CATEGORY_COLOR_RESOURCE_IDS = intArrayOf(
         R.color.type_green,  /*Lebensmittel*/
         R.color.type_red,  /*Mode / Kleidung*/
         R.color.type_azure,  /*Dienstleistungen*/
@@ -38,26 +37,28 @@ object CategoryUtils {
         /* RED:  Bauen & Wohnen, Medien & Spielwaren, Sportbedarf, Handwerk, Sonstiges*/
     )
 
-    fun getCategoryColorId(category: Int)
-            = if (category < CATEGORY_COLOR_IDS.size) CATEGORY_COLOR_IDS[category]
+    fun getCategoryColorResourceId(category: Int)
+            = if (category < CATEGORY_COLOR_RESOURCE_IDS.size) CATEGORY_COLOR_RESOURCE_IDS[category]
                 else R.color.type_red
 
-    const val CATEGORY_LIVING = 0
-    const val CATEGORY_SERVICES = 1
-    const val CATEGORY_ELECTRONIC = 2
-    const val CATEGORY_CRAFT = 3
-    const val CATEGORY_HOTEL = 4
-    const val CATEGORY_COSMETICS = 5
-    const val CATEGORY_GROCERIES = 6
-    const val CATEGORY_MEDIA_AND_TOYS = 7
-    const val CATEGORY_MEDICINE = 8
-    const val CATEGORY_CLOTH = 9
-    const val CATEGORY_RESTAURANT = 10
-    const val CATEGORY_SPORTS = 11
-    const val CATEGORY_ENTERTAINMENT = 12
-    const val CATEGORY_OTHERS = 13
+    enum class Categories(val category: Int) {
+        CATEGORY_LIVING(9),
+        CATEGORY_SERVICES(2),
+        CATEGORY_ELECTRONIC(5),
+        CATEGORY_CRAFT(12),
+        CATEGORY_HOTEL(7),
+        CATEGORY_COSMETICS(4),
+        CATEGORY_GROCERIES(0),
+        CATEGORY_MEDIA_AND_TOYS(10),
+        CATEGORY_MEDICINE(8),
+        CATEGORY_CLOTH(1),
+        CATEGORY_RESTAURANT(3),
+        CATEGORY_SPORTS(11),
+        CATEGORY_ENTERTAINMENT(6),
+        CATEGORY_OTHERS(20),
+    }
 
-    private val mCategoriesName = arrayOf("Lebensmittel", "Mode / Kleidung", "Dienstleistung", "Restaurant",
+    private val mCategoryNames = arrayOf("Lebensmittel", "Mode / Kleidung", "Dienstleistung", "Restaurant",
         "Kosmetik", "Elektronik", "Unterhaltung", "Hotel", "Medizinbedarf", "Bauen & Wohnen", "Medien & Spielwaren",
         "Sportbedarf", "Handwerk", "Sonstiges")
 
@@ -120,11 +121,12 @@ object CategoryUtils {
     )
 
     fun getAllCategories() = mCategories
+    fun getAllCategoryNames() = mCategoryNames
 
-    fun getCategory(categoryIndex: Int) = mCategories[categoryIndex]
+    fun getCategory(category: Categories) = mCategories[category.ordinal]
+    fun getCategoryName(category: Categories) = mCategoryNames[category.ordinal]
+    fun getCategoryName(categoryIndexInArray: Int) = mCategoryNames[categoryIndexInArray]
 
-    fun getCategoriesName() = mCategoriesName
-    fun getCategoryName(categoryIndex: Int) = mCategoriesName[categoryIndex]
-    fun getCategoryNameSize() = mCategoriesName.size
+    fun getCategoryNameSize() = mCategoryNames.size
     fun getNumberOfCategories() = mCategories.size
 }

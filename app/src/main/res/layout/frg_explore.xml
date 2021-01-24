@@ -94,7 +94,7 @@
                             android:paddingHorizontal="8dp"
                             android:text="Lebensmittel"
                             android:textColor="@color/black"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_GROCERIES)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_GROCERIES)}"
                             app:drawableStartCompat="@drawable/ic_groceries" />
 
                         <TextView
@@ -109,7 +109,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Mode / Kleidung"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_CLOTH)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_CLOTH)}"
                             android:textColor="@color/black"
                             app:drawableStartCompat="@drawable/ic_cloth"/>
                     </TableRow>
@@ -130,7 +130,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Dienstleistungen"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_SERVICES)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_SERVICES)}"
                             android:textColor="@color/black"
                             app:drawableStartCompat="@drawable/ic_barber"/>
 
@@ -146,7 +146,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Restaurant"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_RESTAURANT)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_RESTAURANT)}"
                             android:textColor="@color/black"
                             app:drawableStartCompat="@drawable/ic_restaurant" />
                     </TableRow>
@@ -167,7 +167,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="8dp"
                             android:text="Unterhaltung"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_ENTERTAINMENT)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ENTERTAINMENT)}"
                             android:textColor="@color/black"
                             app:drawableStartCompat="@drawable/ic_entertainment"/>
 
@@ -178,7 +178,7 @@
                             android:layout_margin="3dp"
                             android:background="@color/gray_2"
                             android:clickable="true"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_HOTEL)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_HOTEL)}"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:gravity="center"
@@ -199,7 +199,7 @@
                             android:layout_margin="3dp"
                             android:background="@color/gray_2"
                             android:clickable="true"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.CATEGORY_ELECTRONIC)}"
+                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ELECTRONIC)}"
                             android:fontFamily="@font/roboto_medium"
                             android:foreground="?selectableItemBackground"
                             android:gravity="center"

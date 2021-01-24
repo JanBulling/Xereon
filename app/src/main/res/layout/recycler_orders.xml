@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        app:cardBackgroundColor="@color/white"
+        android:foreground="?selectableItemBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/order_store_img"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_round"
+                android:backgroundTint="@color/gray_1"
+                android:src="@drawable/img_undraw_void"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/order_store_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="86dp"
+                android:fontFamily="@font/roboto_bold"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                app:layout_constraintBottom_toTopOf="@id/order_store_number_products"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/order_store_img"
+                app:layout_constraintTop_toTopOf="@id/order_store_img"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Store name" />
+
+            <TextView
+                android:id="@+id/order_store_number_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/roboto"
+                android:text="Anzahl an Produkten: 28"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@id/order_store_info"
+                app:layout_constraintStart_toEndOf="@id/order_store_img"
+                app:layout_constraintTop_toBottomOf="@id/order_store_name" />
+
+            <TextView
+                android:id="@+id/order_store_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/roboto"
+                android:text="Nur Vorbestellung möglich"
+                android:textColor="@color/gray_7"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/order_store_img"
+                app:layout_constraintStart_toEndOf="@id/order_store_img"
+                app:layout_constraintTop_toBottomOf="@id/order_store_number_products" />
+
+            <TextView
+                android:id="@+id/order_store_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="36dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="15.58€"
+                android:textColor="@color/primary"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/order_store_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/order_store_img" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintTop_toTopOf="@id/order_store_img"
+                app:layout_constraintBottom_toBottomOf="@id/order_store_img"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="46dp"
+                android:text="Alles Bestellen"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:textAllCaps="false"
+                app:iconGravity="start"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_shopping_cart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/order_store_img"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

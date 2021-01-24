@@ -1,32 +1,77 @@
 package com.xereon.xereon.ui.product
 
-import androidx.hilt.Assisted
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.data.repository.ProductRepository
-import com.xereon.xereon.util.DataState
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.xereon.xereon.data.util.PriceUtils
+import com.xereon.xereon.db.OrderProductDao
+import com.xereon.xereon.db.model.OrderProduct
+import com.xereon.xereon.util.Constants
+import com.xereon.xereon.util.Resource
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ProductViewModel @ViewModelInject constructor(
     private val productRepository: ProductRepository,
+    private val dao: OrderProductDao,
 ) : ViewModel() {
 
-    private val _productData: MutableLiveData<DataState<Product>> = MutableLiveData()
+    sealed class ProductEvent {
+        class Success(val productData: Product): ProductEvent()
+        class Failure(val errorText: String): ProductEvent()
+        object Loading : ProductEvent()
+    }
 
-    val productData : LiveData<DataState<Product>> get() = _productData
+    private val _productData = MutableLiveData<ProductEvent>(ProductEvent.Loading)
+    val productData: LiveData<ProductEvent> get() = _productData
 
-    fun getProductData(productId: Int, isRetry: Boolean = false) {
-        if (!isRetry && _productData.value != null)
-            return
 
-        viewModelScope.launch {
-            productRepository.getProductDetails(productId).onEach { dataState ->
-                _productData.value = dataState
-            }.launchIn(viewModelScope)
+    fun getProduct(productId: Int) {
+        try {
+            if (_productData.value is ProductEvent.Success)
+                return
+            viewModelScope.launch {
+                _productData.value = ProductEvent.Loading
+                when (val response = productRepository.getProduct(productId)) {
+                    is Resource.Error -> _productData.value = ProductEvent.Failure(response.message!!)
+                    is Resource.Success -> _productData.value = ProductEvent.Success(response.data!!)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
         }
     }
 
+    fun addToShoppingCart(count: Int) {
+        try {
+            viewModelScope.launch {
+                _productData.value.let {
+                    if (it is ProductEvent.Success) {
+                        val product = it.productData
+                        insertInShoppingCartTable(product, count)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
+        }
+    }
+
+    private suspend fun insertInShoppingCartTable(product: Product, count: Int) {
+        val totalPrice = PriceUtils.calculateTotalPrice(product.price.toFloatOrNull(), product.unit, count)
+        dao.insert(
+            OrderProduct(
+                id = product.id,
+                name = product.name,
+                price = product.price.toFloatOrNull() ?: 0f,
+                completePrice = totalPrice,
+                unit = product.unit,
+                count = count,
+                storeID = product.storeID,
+                storeName = product.storeName
+            )
+        )
+    }
 }

@@ -22,7 +22,7 @@
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
-            android:layout_height="170dp"
+            android:layout_height="200dp"
             android:indeterminateTint="@color/primary"
             android:visibility="visible"
             app:isVisible="@{isLoading}"
