@@ -29,7 +29,7 @@
         android:label="Entdecken"
         tools:layout="@layout/frg_explore" >
         <action
-            android:id="@+id/action_To_AllCategories"
+            android:id="@+id/action_to_AllCategories"
             app:destination="@id/alLCategoriesFragment" />
     </fragment>
     <fragment
@@ -80,6 +80,9 @@
         <argument
             android:name="category"
             app:argType="com.xereon.xereon.data.model.Category" />
+        <action
+            android:id="@+id/action_Category_to_SubCategory"
+            app:destination="@id/subCategoryFragment" />
     </fragment>
     <action android:id="@+id/action_to_Category" app:destination="@id/categoryFragment" />
     <fragment
@@ -91,11 +94,38 @@
             android:name="type"
             app:argType="string" />
     </fragment>
-    <action android:id="@+id/action_to_SubCategory" app:destination="@id/subCategoryFragment" />
     <fragment
         android:id="@+id/shoppingCartFragment"
         android:name="com.xereon.xereon.ui.shoppingCart.ShoppingCartFragment"
         android:label="Warenkorb"
-        tools:layout="@layout/frg_shopping_cart"/>
-    <action android:id="@+id/action_to_ShoppingCart" app:destination="@id/shoppingCartFragment" />
+        tools:layout="@layout/frg_shopping_cart">
+        <action
+            android:id="@+id/action_to_ShoppingCartProduct"
+            app:destination="@id/shoppingCartProductsFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_to_ShoppingCart"
+        app:destination="@id/shoppingCartFragment"
+        app:popUpTo="@id/shoppingCartFragment"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/shoppingCartProductsFragment"
+        android:name="com.xereon.xereon.ui.shoppingCart.ShoppingCartProductsFragment"
+        android:label="Warenkorb"
+        tools:layout="@layout/frg_shopping_cart_product">
+        <argument
+            android:name="storeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <dialog
+        android:id="@+id/deleteAllOrdersDialogFragment"
+        android:name="com.xereon.xereon.ui.shoppingCart.DeleteAllOrdersDialogFragment"
+        android:label="DeleteAllOrdersDialogFragment" >
+        <argument
+            android:name="storeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </dialog>
+    <action android:id="@+id/action_to_DeleteAllDialog" app:destination="@id/deleteAllOrdersDialogFragment" />
 </navigation>

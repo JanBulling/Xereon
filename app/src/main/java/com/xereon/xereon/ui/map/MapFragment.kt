@@ -10,7 +10,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -27,6 +29,7 @@ import com.xereon.xereon.ui._parent.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
 import kotlinx.android.synthetic.main.frg_map.*
+import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import java.lang.NullPointerException
 import java.util.*
@@ -40,7 +43,7 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     private var googleMap: GoogleMap? = null
     private var clusterManager: ClusterManager<LocationStore>? = null
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>;
+    //private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>;
     private var currentStoreId = -1
 
     private val placesAdapter = PlacesAdapter()
@@ -51,13 +54,15 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
 
         _binding = FrgMapBinding.bind(view)
 
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.mapBottomSheetBehaviour)
-        bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        //bottomSheetBehavior = BottomSheetBehavior.from(binding.mapBottomSheetBehaviour)
+        /*bottomSheetBehavior.apply {
+            isHideable = true
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }*/
 
-        mapView?.onCreate(savedInstanceState)
+        binding.mapView.onCreate(savedInstanceState)
 
-        mapView?.getMapAsync {
+        binding.mapView.getMapAsync {
             googleMap = it
 
             clusterManager = ClusterManager(requireContext(), googleMap)
@@ -77,7 +82,8 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
 
             googleMap?.setOnMarkerClickListener(clusterManager)
             clusterManager?.setOnClusterItemClickListener {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                binding.mapBottomSheetBehaviour.isVisible = true
+                //bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                 if (currentStoreId != it.id) {
                     currentStoreId = it.id
                     binding.currentStore = it.toStore()
@@ -97,25 +103,29 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
 
             /*Hide BottomSheet if clicked on the map*/
             googleMap?.setOnMapClickListener {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                //bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                binding.mapBottomSheetBehaviour.isVisible = false
                 binding.mapPlacesSearch.isVisible = false
                 searchView.clearFocus()
             }
 
             googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(viewModel.getCameraPosition()))
 
-            viewModel.getStores(Constants.DEFAULT_ZIP, initialCall = true)  //get data, if cluster manager is ready
+            viewModel.getStores(Constants.DEFAULT_POSTCODE, initialCall = true)  //get data, if cluster manager is ready
         }
 
-        map_bottom_store_more_information.setOnClickListener {
+        binding.mapBottomStoreMoreInformation.setOnClickListener {
             val action = DefaultStoreFragmentDirections.actionToStore(simpleStoreId = currentStoreId)
             findNavController().navigate(action)
         }
 
-        map_places_search.apply {
+        binding.mapBottomSheetBehaviour.isVisible = viewModel.isBottomSheetVisible
+
+        binding.mapPlacesSearch.apply {
             itemAnimator = null
             adapter = placesAdapter
             setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
         placesAdapter.setOnItemClickListener(this)
@@ -160,16 +170,15 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     }
 
     private fun subscribeObserver() {
-        /*viewModel.loadingStateForStores.observe(viewLifecycleOwner, Observer { dataState ->
-            when (dataState) {
-                DataState.SUCCESS_INDEX -> binding.isLoading = false
-                DataState.LOADING_INDEX -> binding.isLoading = true
-                DataState.ERROR_INDEX -> {
-                    binding.isLoading = false
-                    displayError("Keine Verbindung...")
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.eventChannel.collect { event ->
+                when(event) {
+                    is MapViewModel.MapStoreEvent.ShowErrorMessage ->
+                        displayError(event.message)
+                    else -> Unit
                 }
             }
-        })*/
+        }
         viewModel.loadedStores.observe(viewLifecycleOwner, Observer { stores ->
             clusterManager?.addItems(stores)
             clusterManager?.cluster()
@@ -179,12 +188,10 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
                 is MapViewModel.MapStoreEvent.Success -> {
                     binding.mapBottomLoading.isVisible = false
                     binding.currentStore = event.storeData
-                    binding.mapBottomSheetBehaviour.isVisible = true
                 }
                 is MapViewModel.MapStoreEvent.Loading -> binding.mapBottomLoading.isVisible = true
                 is MapViewModel.MapStoreEvent.Failure -> {
                     binding.mapBottomLoading.isVisible = false
-                    displayError(event.errorText)
                 }
             }
         })
@@ -221,10 +228,12 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     }
 
     override fun onBackPressed(): Boolean {
-        if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN)
+        //if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN)
+        if (!binding.mapBottomSheetBehaviour.isVisible)
             return false
 
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        binding.mapBottomSheetBehaviour.isVisible = false
+        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         return true
     }
 
@@ -238,31 +247,33 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     ////////////////////////////////////////////////////////////////////////////////////////////////
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        binding.mapView.onStart()
     }
     override fun onResume() {
         super.onResume()
-        mapView?.onResume()
+        binding.mapView.onResume()
     }
     override fun onPause() {
         super.onPause()
-        mapView?.onPause()
+        binding.mapView.onPause()
     }
     override fun onStop() {
         super.onStop()
-        mapView?.onStop()
+        binding.mapView.onStop()
     }
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.isBottomSheetVisible = binding.mapBottomSheetBehaviour.isVisible
         viewModel.saveCameraPosition(googleMap?.cameraPosition)
-        mapView?.onDestroy()
+        binding.mapView.onDestroy()
+        _binding = null
     }
     override fun onSaveInstanceState(outState: Bundle) {
-        mapView?.onSaveInstanceState(outState)
+        binding.mapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView?.onLowMemory()
+        binding.mapView.onLowMemory()
     }
 }

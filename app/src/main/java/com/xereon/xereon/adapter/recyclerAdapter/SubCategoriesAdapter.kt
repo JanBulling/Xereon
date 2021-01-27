@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.R
 import com.xereon.xereon.data.model.SimpleProduct
 
-class SubCategoriesAdapter() : RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder>() {
+/* Array and not list focused */
+class SubCategoriesAdapter : RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder>() {
 
     private lateinit var itemClickListener: ItemClickListener
     private lateinit var list: Array<String>
@@ -16,7 +17,8 @@ class SubCategoriesAdapter() : RecyclerView.Adapter<SubCategoriesAdapter.ViewHol
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_sub_category, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.recycler_sub_category, parent, false)
         return ViewHolder(view)
     }
 
@@ -35,22 +37,29 @@ class SubCategoriesAdapter() : RecyclerView.Adapter<SubCategoriesAdapter.ViewHol
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    fun setOnItemClickListener(clickListener: ItemClickListener) { itemClickListener = clickListener }
-    interface ItemClickListener{ fun onItemClick(subCategory: String) }
+    fun setOnItemClickListener(clickListener: ItemClickListener) {
+        itemClickListener = clickListener
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(subCategory: String)
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    inner class ViewHolder(private val view: View)
-        : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private var textView: TextView = view.findViewById(R.id.recycler_sub_category_name)
 
         init {
+
             view.setOnClickListener {
-                val currentIndex = bindingAdapterPosition
-                if (currentIndex != RecyclerView.NO_POSITION) {
-                    val currentCategory = list[currentIndex]
-                    itemClickListener.onItemClick(currentCategory)
+                if (::itemClickListener.isInitialized) {
+                    val currentIndex = bindingAdapterPosition
+                    if (currentIndex != RecyclerView.NO_POSITION) {
+                        val currentCategory = list[currentIndex]
+                        itemClickListener.onItemClick(currentCategory)
+                    }
                 }
             }
         }

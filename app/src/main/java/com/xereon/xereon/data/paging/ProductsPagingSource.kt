@@ -9,7 +9,7 @@ class ProductsPagingSource(
     private val xereonAPI: XereonAPI,
     private val storeId: Int,
     private val query: String,
-    private val sort: SortTypes = SortTypes.SORT_RESPONSE_DEFAULT
+    private val sort: SortTypes = SortTypes.SORT_RESPONSE_NEW_FIRST
 ) : PagingSource<Int, SimpleProduct>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleProduct> {

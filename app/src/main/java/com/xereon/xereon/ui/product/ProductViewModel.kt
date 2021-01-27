@@ -3,13 +3,18 @@ package com.xereon.xereon.ui.product
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.data.repository.ProductRepository
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.db.OrderProductDao
 import com.xereon.xereon.db.model.OrderProduct
+import com.xereon.xereon.ui.explore.ExploreViewModel
+import com.xereon.xereon.ui.shoppingCart.ShoppingCartViewModel
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Resource
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -19,54 +24,63 @@ class ProductViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     sealed class ProductEvent {
-        class Success(val productData: Product): ProductEvent()
-        class Failure(val errorText: String): ProductEvent()
+        data class Success(val productData: Product) : ProductEvent()
+        data class Failure(val errorText: String) : ProductEvent()
+        data class ShowErrorMessage(val message: String) : ProductEvent()
         object Loading : ProductEvent()
     }
 
     private val _productData = MutableLiveData<ProductEvent>(ProductEvent.Loading)
     val productData: LiveData<ProductEvent> get() = _productData
 
+    private val _eventChannel = Channel<ProductEvent>()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     fun getProduct(productId: Int) {
-        try {
-            if (_productData.value is ProductEvent.Success)
-                return
-            viewModelScope.launch {
+        if (_productData.value is ProductEvent.Success)
+            return
+        viewModelScope.launch {
+            try {
                 _productData.value = ProductEvent.Loading
                 when (val response = productRepository.getProduct(productId)) {
-                    is Resource.Error -> _productData.value = ProductEvent.Failure(response.message!!)
-                    is Resource.Success -> _productData.value = ProductEvent.Success(response.data!!)
+                    is Resource.Error -> {
+                        if (BuildConfig.DEBUG)
+                            _eventChannel.send(ProductEvent.ShowErrorMessage(response.message!!))
+                        _productData.value = ProductEvent.Failure(response.message!!)
+                    }
+                    is Resource.Success ->
+                        _productData.value = ProductEvent.Success(response.data!!)
                 }
+            } catch (e: Exception) {
+                Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
+                _eventChannel.send(ProductEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
             }
-        } catch (e: Exception) {
-            Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
         }
     }
 
-    fun addToShoppingCart(count: Int) {
+    fun addToShoppingCart(count: Int) = viewModelScope.launch {
         try {
-            viewModelScope.launch {
-                _productData.value.let {
-                    if (it is ProductEvent.Success) {
-                        val product = it.productData
-                        insertInShoppingCartTable(product, count)
-                    }
+            _productData.value.let {
+                if (it is ProductEvent.Success) {
+                    val product = it.productData
+                    insertInShoppingCartTable(product, count)
                 }
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
+            _eventChannel.send(ProductEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
         }
     }
 
     private suspend fun insertInShoppingCartTable(product: Product, count: Int) {
-        val totalPrice = PriceUtils.calculateTotalPrice(product.price.toFloatOrNull(), product.unit, count)
+        val totalPrice =
+            PriceUtils.calculateTotalPrice(product.price.toFloatOrNull(), product.unit, count)
         dao.insert(
             OrderProduct(
                 id = product.id,
                 name = product.name,
                 price = product.price.toFloatOrNull() ?: 0f,
-                completePrice = totalPrice,
+                totalPrice = totalPrice,
                 unit = product.unit,
                 count = count,
                 storeID = product.storeID,

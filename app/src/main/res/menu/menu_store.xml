@@ -16,8 +16,10 @@
 
         <menu>
             <!-- "sort" submenu -->
-            <item android:id="@+id/menu_item_order_default"
-                android:title="Erstelldatum (Standard)"/>
+            <item android:id="@+id/menu_item_new_first"
+                android:title="Neuste Produkte zuerst"/>
+            <item android:id="@+id/menu_item_old_first"
+                android:title="Älteste Produkte zuerst"/>
             <item android:id="@+id/menu_item_order_price_low"
                 android:title="Preis aufsteigend"/>
             <item android:id="@+id/menu_item_order_price_high"

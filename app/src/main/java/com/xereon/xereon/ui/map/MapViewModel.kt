@@ -5,12 +5,16 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.LocationStore
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.repository.PlacesRepository
 import com.xereon.xereon.data.repository.StoreRepository
+import com.xereon.xereon.di.ProvLatLng
+import com.xereon.xereon.di.ProvPostCode
 import com.xereon.xereon.network.response.PlacesRequest
 import com.xereon.xereon.network.response.PlacesResponse
+import com.xereon.xereon.ui.product.ProductViewModel
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.DEFAULT_LAT
 import com.xereon.xereon.util.Constants.DEFAULT_LNG
@@ -18,19 +22,29 @@ import com.xereon.xereon.util.Constants.DEFAULT_ZOOM
 import com.xereon.xereon.util.Constants.MAX_NUMBER_STORES_ON_MAP
 import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.view_utils.notifyObserver
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
 class MapViewModel @ViewModelInject constructor(
     private val storeRepository: StoreRepository,
     private val placesRepository: PlacesRepository
 ) : ViewModel() {
 
+    @Inject @ProvLatLng lateinit var latLng: LatLng
+
     sealed class MapStoreEvent {
-        class Success(val storeData: Store) : MapStoreEvent()
-        class Failure(val errorText: String) : MapStoreEvent()
+        data class Success(val storeData: Store) : MapStoreEvent()
+        data class Failure(val errorText: String) : MapStoreEvent()
+        data class ShowErrorMessage(val message: String) : MapStoreEvent()
         object Loading : MapStoreEvent()
     }
+
+    /* for snackbars */
+    private val _eventChannel = Channel<MapStoreEvent>()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     /* the places response */
     private val _places: MutableLiveData<PlacesResponse> = MutableLiveData()
@@ -47,25 +61,29 @@ class MapViewModel @ViewModelInject constructor(
     private val _loadedStores = MutableLiveData<ArrayList<LocationStore>>()
     val loadedStores: LiveData<ArrayList<LocationStore>> get() = _loadedStores
 
+    var isBottomSheetVisible: Boolean = false
+
     /* the camera position  */
-    private var cameraPosition = CameraPosition.fromLatLngZoom(LatLng(DEFAULT_LAT, DEFAULT_LNG), DEFAULT_ZOOM)
+    private var cameraPosition =
+        CameraPosition.fromLatLngZoom(LatLng(DEFAULT_LAT.toDouble(), DEFAULT_LNG.toDouble()), DEFAULT_ZOOM)
+
     fun getCameraPosition() = cameraPosition
 
 
     fun getStores(zip: String, initialCall: Boolean = false) {
-        try {
-            //cause the list is saved in an livedata, it gets not observed on first load
-            if (_loadedZips.size > 0 && initialCall) {
-                _loadedStores.notifyObserver()
-                return
-            }
+        //cause the list is saved in an livedata, it gets not observed on first load
+        if (_loadedZips.size > 0 && initialCall) {
+            _loadedStores.notifyObserver()
+            return
+        }
 
-            //check, if zip isn't already loaded
-            val shortedZip = zip.substring(0, 4)
-            if (_loadedZips.contains(shortedZip))
-                return
+        //check, if zip isn't already loaded
+        val shortedZip = zip.substring(0, 4)
+        if (_loadedZips.contains(shortedZip))
+            return
 
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 _loadedZips.add(shortedZip)
 
                 when (val response = storeRepository.getStoresInArea(zip)) {
@@ -88,53 +106,55 @@ class MapViewModel @ViewModelInject constructor(
                     }
                     is Resource.Error -> {
                         _loadedZips.remove(shortedZip)
+                        if (BuildConfig.DEBUG)
+                            _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
                     }
                 }
-
+            } catch (e: Exception) {
+                Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
+                _eventChannel.send(MapStoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
             }
-        } catch (e: Exception) {
-            Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
         }
     }
 
-    fun getStore(storeId: Int) {
+    fun getStore(storeId: Int) = viewModelScope.launch {
         try {
-            viewModelScope.launch {
-                _selectedStore.value = MapStoreEvent.Loading
-                when (val response = storeRepository.getStore(storeId)) {
-                    is Resource.Success -> _selectedStore.value =
-                        MapStoreEvent.Success(response.data!!)
-                    is Resource.Error -> _selectedStore.value =
-                        MapStoreEvent.Failure(response.message!!)
+            _selectedStore.value = MapStoreEvent.Loading
+            when (val response = storeRepository.getStore(storeId)) {
+                is Resource.Success ->
+                    _selectedStore.value = MapStoreEvent.Success(response.data!!)
+                is Resource.Error -> {
+                    if (BuildConfig.DEBUG)
+                        _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
+                    _selectedStore.value = MapStoreEvent.Failure(response.message!!)
                 }
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
+            _eventChannel.send(MapStoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
         }
     }
 
-    fun autocompletePlace(query: String) {
+    fun autocompletePlace(query: String) = viewModelScope.launch {
         try {
-            viewModelScope.launch {
-                val request = PlacesRequest(
-                    query = query,
-                    hitsPerPage = 4
-                )
-                when (val response = placesRepository.getPlaces(request)) {
-                    is Resource.Success -> _places.value = response.data
-                    is Resource.Error -> {
-                        Log.e(
-                            Constants.TAG,
-                            "Unexpected error in MapViewModel: ${response.message}"
-                        )
-                        _places.value = PlacesResponse(emptyList(), 0, 0, "")
-                    }
+            val request = PlacesRequest(
+                query = query,
+                hitsPerPage = 4
+            )
+            when (val response = placesRepository.getPlaces(request)) {
+                is Resource.Success -> _places.value = response.data
+                is Resource.Error -> {
+                    if (BuildConfig.DEBUG)
+                        _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
+                    _places.value = PlacesResponse(emptyList(), 0, 0, "")
                 }
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
+            _eventChannel.send(MapStoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
         }
     }
+
 
     fun saveCameraPosition(cameraPosition: CameraPosition?) {
         if (cameraPosition != null)

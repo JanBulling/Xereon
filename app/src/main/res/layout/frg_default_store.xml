@@ -89,5 +89,4 @@
             app:show="@{!isLoading}"
             app:show2="@{isSuccessful}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

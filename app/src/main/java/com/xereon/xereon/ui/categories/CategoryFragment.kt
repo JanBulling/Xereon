@@ -14,9 +14,12 @@ import com.xereon.xereon.adapter.recyclerAdapter.StoreHorizontalAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.SubCategoriesAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgCategoryBinding
+import com.xereon.xereon.di.ProvPostCode
 import com.xereon.xereon.ui._parent.MainActivity
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
+import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.frg_category) {
@@ -29,23 +32,25 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
     private val storesAdapter = StoreHorizontalAdapter()
     private var subCategoriesAdapter = SubCategoriesAdapter()
 
+    @JvmField @Inject @ProvPostCode var postcode: String = Constants.DEFAULT_POSTCODE
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgCategoryBinding.bind(view)
-        (activity as MainActivity).setActionBarTitle(args.category.categoryName)
+        (requireActivity() as MainActivity).setActionBarTitle(args.category.categoryName)
 
-        viewModel.getExampleStores(args.category.categoryIndex)
+        viewModel.getExampleStores(args.category.categoryIndex, postcode)
 
         subCategoriesAdapter.submitList(args.category.subCategories)
         subCategoriesAdapter.setOnItemClickListener(object : SubCategoriesAdapter.ItemClickListener{
             override fun onItemClick(subCategory: String) {
-                val action = SubCategoryFragmentDirections.actionToSubCategory(type = subCategory)
+                val action = CategoryFragmentDirections.actionCategoryToSubCategory(type = subCategory)
                 findNavController().navigate(action)
             }
         })
 
         storesAdapter.setOnItemClickListener(object: StoreHorizontalAdapter.ItemClickListener{
             override fun onItemClick(simpleStore: SimpleStore) {
-                val action = DefaultStoreFragmentDirections.actionToStore(simpleStore = simpleStore)
+                val action = CategoryFragmentDirections.actionToStore(simpleStore = simpleStore)
                 findNavController().navigate(action)
             }
         })
@@ -92,7 +97,7 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
     private fun displayError(message: String) {
         val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("Retry") {
-            viewModel.getExampleStores(args.category.categoryIndex)
+            viewModel.getExampleStores(args.category.categoryIndex, "")
         }
         snackBar.setActionTextColor(Color.WHITE)
         val snackBarView: View = snackBar.view

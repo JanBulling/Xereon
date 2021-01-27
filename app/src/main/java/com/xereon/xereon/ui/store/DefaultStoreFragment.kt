@@ -10,10 +10,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.ProductsLoadStateAdapter
 import com.xereon.xereon.adapter.pagingAdapter.ProductsPagingAdapter
@@ -26,6 +28,7 @@ import com.xereon.xereon.adapter.pagingAdapter.ProductsPagingAdapter.Companion.V
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagingAdapter.ItemClickListener {
@@ -124,7 +127,8 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_item_order_default -> sortProducts(Constants.SortTypes.SORT_RESPONSE_DEFAULT)
+            R.id.menu_item_new_first -> sortProducts(Constants.SortTypes.SORT_RESPONSE_NEW_FIRST)
+            R.id.menu_item_old_first -> sortProducts(Constants.SortTypes.SORT_RESPONSE_OLD_FIRST)
             R.id.menu_item_order_price_low -> sortProducts(Constants.SortTypes.SORT_RESPONSE_PRICE_LOW)
             R.id.menu_item_order_price_high -> sortProducts(Constants.SortTypes.SORT_RESPONSE_PRICE_HIGH)
             R.id.menu_item_order_app_offer -> sortProducts(Constants.SortTypes.SORT_RESPONSE_ONLY_IN_APP)
@@ -163,6 +167,14 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
         viewModel.products.observe(viewLifecycleOwner, Observer {
             productsAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.eventChannel.collect { event ->
+                when (event) {
+                    is StoreViewModel.StoreEvent.ShowErrorMessage -> displayError(event.message)
+                    else -> Unit
+                }
+            }
+        }
     }
 
     override fun onItemClick(simpleProduct: SimpleProduct) {
@@ -176,5 +188,12 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
 
     override fun onAddToFavoriteClicked() {
         d(TAG, "fav")
+    }
+
+    private fun displayError(message: String) {
+        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
+        val snackBarView: View = snackBar.view
+        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
+        snackBar.show()
     }
 }

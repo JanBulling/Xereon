@@ -1,5 +1,7 @@
 package com.xereon.xereon.data.util
 
+import java.util.*
+
 object PriceUtils {
 
     private const val UNIT_PIECE_TINY = 0       /*per    piece;   1 - 2*/
@@ -18,15 +20,15 @@ object PriceUtils {
 
     private val UNIT_STEPS =
         arrayOf(
-            arrayOf("-", "1", "2"), //PIECE_TINY
-            arrayOf("-", "1", "2", "3", "4", "5"),  //PIECE_SMALL
-            arrayOf("-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),    //PIECE_MEDIUM
-            arrayOf("-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"),
-            arrayOf("-", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"),  //PIECE_LARGE
-            arrayOf("-", "50", "100", "150", "200", "250"), //WEIGHT_SMALL
-            arrayOf("-", "50", "100", "150", "200", "250", "300", "350", "400", "450", "500"),  //WEIGHT_MEDIUM
-            arrayOf("-", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"),    //WEIGHT_BIG
-            arrayOf("-", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5")    //WEIGHT_LARGE
+            arrayOf("1", "2"), //PIECE_TINY
+            arrayOf("1", "2", "3", "4", "5"),  //PIECE_SMALL
+            arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"),    //PIECE_MEDIUM
+            arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"),
+            arrayOf("10", "20", "30", "40", "50", "60", "70", "80", "90", "100"),  //PIECE_LARGE
+            arrayOf("50", "100", "150", "200", "250"), //WEIGHT_SMALL
+            arrayOf("50", "100", "150", "200", "250", "300", "350", "400", "450", "500"),  //WEIGHT_MEDIUM
+            arrayOf("100", "200", "300", "400", "500", "600", "700", "800", "900", "1000"),    //WEIGHT_BIG
+            arrayOf("0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5")    //WEIGHT_LARGE
         )
 
 
@@ -65,12 +67,17 @@ object PriceUtils {
                 else -> ""
             }
 
+    fun getCountWithUnit(unit_index: Int, count: Int) : String {
+        val countAsString = getStepsAsStringArray(unit_index).get(count-1)
+        return "$countAsString ${getBaseUnit(unit_index)}"
+    }
+
     fun getStepsAsStringArray(unit_index: Int) = UNIT_STEPS[unit_index]
 
     fun calculateTotalPriceAsString(price: Float, unit: Int, count: Int) : String {
         val newPrice = calculateTotalPrice(price, unit, count)
 
-        return (String.format("%.2f", newPrice) + "€").replace(",", ".")
+        return String.format(Locale.US ?: null, "%.2f", newPrice) + "€"
     }
 
     fun calculateTotalPrice(price: Float?, unit: Int, count: Int) : Float {
@@ -81,4 +88,7 @@ object PriceUtils {
 
         return (price ?: 0f) * count * factor
     }
+
+    fun getMaxCount(unit_index: Int) =
+        UNIT_STEPS[unit_index].size
 }

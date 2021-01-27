@@ -76,6 +76,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/product_scroll_parent"
             android:visibility="gone"
+            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

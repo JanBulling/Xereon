@@ -1,27 +1,22 @@
 package com.xereon.xereon.di
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.xereon.xereon.db.XereonDatabase
 import com.xereon.xereon.network.AlgoliaPlacesApi
 import com.xereon.xereon.network.XereonAPI
-import com.xereon.xereon.util.Constants.PREFERENCES_NAME
-import com.xereon.xereon.util.DispatcherProvider
+import com.xereon.xereon.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -78,30 +73,14 @@ object AppModule {
     @Singleton
     fun provideOrderProductDao(db: XereonDatabase) = db.orderProductDao()
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    @ApplicationScope
     @Provides
     @Singleton
     fun provideApplicationScope() = CoroutineScope(SupervisorJob())
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    @Singleton
-    @Provides
-    fun providePreferences(@ApplicationContext app: Context): SharedPreferences =
-        app.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    @Singleton
-    @Provides
-    fun provideDispatchers(): DispatcherProvider = object: DispatcherProvider {
-        override val main: CoroutineDispatcher
-            get() = Dispatchers.Main
-        override val io: CoroutineDispatcher
-            get() = Dispatchers.IO
-        override val default: CoroutineDispatcher
-            get() = Dispatchers.Default
-        override val unconfined: CoroutineDispatcher
-            get() = Dispatchers.Unconfined
-
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,3 +93,7 @@ annotation class AlgoliaAnnotation
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class XereonAnnotation
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ApplicationScope

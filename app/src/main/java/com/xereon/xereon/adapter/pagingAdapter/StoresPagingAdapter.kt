@@ -1,18 +1,16 @@
 package com.xereon.xereon.adapter.pagingAdapter
 
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.xereon.xereon.data.model.SimpleProduct
+import com.bumptech.glide.Glide
 import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.RecyclerStoreVerticalBinding
-import com.xereon.xereon.util.Constants.TAG
 
 class StoresPagingAdapter() :
     PagingDataAdapter<SimpleStore, StoresPagingAdapter.ViewHolder>(COMPARATOR) {
@@ -65,8 +63,15 @@ class StoresPagingAdapter() :
         }
 
         fun bind(simpleStore: SimpleStore) {
-            binding.store = simpleStore
-            binding.executePendingBindings()
+            binding.apply {
+                Glide.with(recyclerStoreImage).load(simpleStore.logoImageURL)
+                    .into(recyclerStoreImage)
+                recyclerStoreName.text = simpleStore.name
+                recyclerStoreType.text = simpleStore.type
+                @ColorRes val colorId = CategoryUtils.getCategoryColorResourceId(simpleStore.category)
+                recyclerStoreType.setTextColor(ContextCompat.getColor(recyclerStoreType.context, colorId))
+                recyclerStoreCity.text = simpleStore.city
+            }
         }
 
     }

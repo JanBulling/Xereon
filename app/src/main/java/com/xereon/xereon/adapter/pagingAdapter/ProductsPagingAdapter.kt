@@ -2,11 +2,13 @@ package com.xereon.xereon.adapter.pagingAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.xereon.xereon.adapter.recyclerAdapter.ProductHorizontalAdapter
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.Store
@@ -14,9 +16,10 @@ import com.xereon.xereon.databinding.InclStoreRecyclerBinding
 import com.xereon.xereon.databinding.RecyclerProductVerticalBinding
 import com.xereon.xereon.adapter.util.CustomPagingDataAdapter
 import com.xereon.xereon.data.util.OpeningUtils
+import com.xereon.xereon.data.util.PriceUtils
 import java.util.*
 
-class ProductsPagingAdapter() :
+class ProductsPagingAdapter :
     CustomPagingDataAdapter<SimpleProduct, RecyclerView.ViewHolder>(COMPARATOR, offset = OFFSET) {
 
     private lateinit var itemClickListener: ItemClickListener
@@ -122,8 +125,14 @@ class ProductsPagingAdapter() :
         }
 
         fun bind(currentProduct: SimpleProduct) {
-            binding.product = currentProduct
-            binding.executePendingBindings()
+            binding.apply {
+                Glide.with(recyclerProductImg).load(currentProduct.productImageURL)
+                    .into(recyclerProductImg)
+                recyclerProductName.text = currentProduct.name
+                val priceWithUnit = PriceUtils.getPriceWithUnitAsString(currentProduct.price, currentProduct.unit)
+                recyclerProductPrice.text = priceWithUnit
+                recyclerOnlyInApp.isVisible = currentProduct.appoffer
+            }
         }
     }
 

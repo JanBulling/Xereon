@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.data.model.Category
 import com.xereon.xereon.databinding.RecyclerCategoryVerticalBinding
 import android.widget.Filter
+import java.util.*
 
+/* filterable list adapter  */
 class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.ViewHolder>(), Filterable {
 
     private lateinit var completeList: List<Category>
     private lateinit var itemClickListener: ItemClickListener
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,6 +58,13 @@ class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.Vie
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    /* Filter for filtering the categories
+    * returns all results where the name OR one name of a sub-category equals
+    * the input string
+    *
+    * O(n²)
+    *
+    */
     override fun getFilter(): Filter {
         return object : Filter() {
             private val filterResults = FilterResults()
@@ -95,11 +103,13 @@ class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.Vie
 
         init {
             binding.root.setOnClickListener {
-                val currentIndex = bindingAdapterPosition
-                if (currentIndex != RecyclerView.NO_POSITION) {
-                    val currentCategory = differ.currentList[currentIndex]
-                    if (currentCategory != null)
-                        itemClickListener.onItemClick(currentCategory)
+                if (::itemClickListener.isInitialized) {
+                    val currentIndex = bindingAdapterPosition
+                    if (currentIndex != RecyclerView.NO_POSITION) {
+                        val currentCategory = differ.currentList[currentIndex]
+                        if (currentCategory != null)
+                            itemClickListener.onItemClick(currentCategory)
+                    }
                 }
             }
         }

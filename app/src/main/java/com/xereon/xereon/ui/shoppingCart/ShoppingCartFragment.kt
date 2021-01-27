@@ -1,24 +1,20 @@
 package com.xereon.xereon.ui.shoppingCart
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.OrderStoreAdapter
-import com.xereon.xereon.databinding.FrgDefaultProductBinding
 import com.xereon.xereon.databinding.FrgShoppingCartBinding
 import com.xereon.xereon.db.StoreBasic
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.frg_shopping_cart.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.*
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ShoppingCartFragment : Fragment(R.layout.frg_shopping_cart) {
     private val viewModel by viewModels<ShoppingCartViewModel>()
@@ -34,12 +30,14 @@ class ShoppingCartFragment : Fragment(R.layout.frg_shopping_cart) {
 
         orderAdapter.setOnItemClickListener(object: OrderStoreAdapter.ItemClickListener{
             override fun onItemClick(store: StoreBasic) {
-                Toast.makeText(requireContext(), "Clicked on ${store.storeName}", Toast.LENGTH_SHORT).show()
+                val action = ShoppingCartFragmentDirections.actionToShoppingCartProduct(store.id)
+                findNavController().navigate(action)
             }
         })
 
         binding.apply {
             shoppingCartRecycler.apply {
+                itemAnimator = null
                 adapter = orderAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
@@ -54,11 +52,12 @@ class ShoppingCartFragment : Fragment(R.layout.frg_shopping_cart) {
 
     private fun subscribeObserver() {
         viewModel.stores.observe(viewLifecycleOwner, Observer {stores ->
+            binding.shoppingCartEmpty.isVisible = stores.isEmpty()
             orderAdapter.submitList(stores)
         })
 
         viewModel.totalPrice.observe(viewLifecycleOwner, Observer {totalPrice ->
-            val price = String.format("%.2f", totalPrice).replace(",", ".") + "€"
+            val price = String.format(Locale.US ?: null, "%.2f", totalPrice) + "€"
             binding.shoppingCartTotalPrice.text = price
         })
     }

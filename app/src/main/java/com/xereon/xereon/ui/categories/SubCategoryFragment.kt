@@ -21,6 +21,7 @@ import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgSubCategoryBinding
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
+import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.frg_sub_category.*
 
@@ -72,7 +73,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
 
         subscribeToObserver()
 
-        viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, zip = "89542"))
+        viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, postcode = Constants.DEFAULT_POSTCODE))
 
         setHasOptionsMenu(true)
     }
@@ -99,7 +100,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
                 storeAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
                 sub_category_stores.scrollToPosition(0)
-                viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, zip = "89542"))
+                viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, postcode = Constants.DEFAULT_POSTCODE))
                 searchView.clearFocus()
             }
         }
@@ -108,7 +109,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
                 storeAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
                 sub_category_stores.scrollToPosition(0)
-                viewModel.searchStore(CategoryViewModel.SearchQuery(query ?: "", args.type, "89542"))
+                viewModel.searchStore(CategoryViewModel.SearchQuery(query ?: "", args.type, Constants.DEFAULT_POSTCODE))
                 searchView.clearFocus()
                 return true
             }

@@ -1,405 +1,397 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.explore.ExploreFragment">
 
     <data>
-        <import type="com.xereon.xereon.data.util.CategoryUtils"/>
+
+        <import type="com.xereon.xereon.data.util.CategoryUtils" />
+
         <variable
             name="isLoading"
             type="boolean" />
-        <variable
-            name="locationCity"
-            type="String" />
+
         <variable
             name="tableCategoryClickListener"
             type="com.xereon.xereon.ui.explore.OnTableItemSelect" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/explore_scroll_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".ui.explore.ExploreFragment">
+        android:layout_height="match_parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/explore_scroll_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
+                android:id="@+id/explore_top_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="120dp"
+                android:background="#cf4a50"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <RelativeLayout
-                    android:id="@+id/explore_top_container"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="#0A0A0A"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="XEREON ist bei\nJUGEND FORSCHT dabei!\nWir gewinnen!"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/explore_title_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Kategorien"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_top_container" />
+
+            <TableLayout
+                android:id="@+id/explore_category_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:stretchColumns="*"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_categories">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="BLACK FRIDAY! Jetzt günstig einkaufen und RABATTE sichern"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="24sp" />
+                        android:id="@+id/explore_category_groceries"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_GROCERIES)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Lebensmittel"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_groceries" />
 
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/explore_category_cloth"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_CLOTH)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Mode / Kleidung"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_cloth" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/explore_title_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Kategorien"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_top_container" />
-
-                <TableLayout
-                    android:id="@+id/explore_category_table"
+                <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="4dp"
-                    android:stretchColumns="*"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_categories">
+                    android:layout_height="wrap_content">
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/explore_category_services"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_SERVICES)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Dienstleistungen"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_barber" />
 
-                        <TextView
-                            android:id="@+id/explore_category_groceries"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Lebensmittel"
-                            android:textColor="@color/black"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_GROCERIES)}"
-                            app:drawableStartCompat="@drawable/ic_groceries" />
+                    <TextView
+                        android:id="@+id/explore_category_restaurant"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_RESTAURANT)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Restaurant"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_restaurant" />
+                </TableRow>
 
-                        <TextView
-                            android:id="@+id/explore_category_cloth"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Mode / Kleidung"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_CLOTH)}"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_cloth"/>
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/explore_category_services"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Dienstleistungen"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_SERVICES)}"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_barber"/>
-
-                        <TextView
-                            android:id="@+id/explore_category_restaurant"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Restaurant"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_RESTAURANT)}"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_restaurant" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/explore_category_entertainment"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Unterhaltung"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ENTERTAINMENT)}"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_entertainment"/>
-
-                        <TextView
-                            android:id="@+id/explore_category_hotels"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_HOTEL)}"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Hotel"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_hotel"/>
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/explore_category_electrical"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_margin="3dp"
-                            android:background="@color/gray_2"
-                            android:clickable="true"
-                            android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ELECTRONIC)}"
-                            android:fontFamily="@font/roboto_medium"
-                            android:foreground="?selectableItemBackground"
-                            android:gravity="center"
-                            android:paddingHorizontal="8dp"
-                            android:text="Elektrik"
-                            android:textColor="@color/black"
-                            app:drawableStartCompat="@drawable/ic_electronics" />
-                    </TableRow>
-
-                </TableLayout>
-
-                <TextView
-                    android:id="@+id/explore_all_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_marginEnd="16dp"
-                    android:drawablePadding="10dp"
-                    app:drawableTint="@color/primary"
-                    app:drawableEndCompat="@drawable/ic_arrow_right"
-                    android:fontFamily="@font/roboto"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="3dp"
-                    android:text="Alle Kategorien"
-                    android:textColor="@color/primary"
-                    android:textSize="13sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_category_table" />
-
-                <TextView
-                    android:id="@+id/explore_title_recommendations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="48dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Vorschläge für Sie"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_category_table" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="Das könnte Sie interessieren"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/explore_recycler_recommendations"
+                <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:layout_marginTop="28dp"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    app:isVisible="@{!isLoading}"
-                    tools:listitem="@layout/recycler_product_horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+                    android:layout_height="wrap_content">
 
-                <ProgressBar
-                    android:id="@+id/explore_loading_recommendations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="100dp"
-                    android:indeterminateTint="@color/primary"
-                    app:isVisible="@{isLoading}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+                    <TextView
+                        android:id="@+id/explore_category_entertainment"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ENTERTAINMENT)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Unterhaltung"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_entertainment" />
 
-                <TextView
-                    android:id="@+id/explore_title_new_stores"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="284dp"
-                    android:fontFamily="@font/roboto_bold"
-                    tools:text="Neue Geschäfte in Herbrechtingen"
-                    android:text="@{`Neue Geschäfte in ` + locationCity}"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
+                    <TextView
+                        android:id="@+id/explore_category_hotels"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_HOTEL)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Hotel"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_hotel" />
+                </TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="Entdecken Sie neue Unternehmen"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/explore_recycler_new_stores"
+                <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="185dp"
-                    android:layout_marginTop="28dp"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    app:isVisible="@{!isLoading}"
-                    tools:listitem="@layout/recycler_store_horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+                    android:layout_height="wrap_content">
 
-                <ProgressBar
-                    android:id="@+id/explore_loading_new_stores"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="100dp"
-                    android:indeterminateTint="@color/primary"
-                    app:isVisible="@{isLoading}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+                    <TextView
+                        android:id="@+id/explore_category_electrical"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="3dp"
+                        android:background="@color/gray_2"
+                        android:clickable="true"
+                        android:fontFamily="@font/roboto_medium"
+                        android:foreground="?selectableItemBackground"
+                        android:gravity="center"
+                        android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ELECTRONIC)}"
+                        android:paddingHorizontal="8dp"
+                        android:text="Elektrik"
+                        android:textColor="@color/black"
+                        app:drawableStartCompat="@drawable/ic_electronics" />
+                </TableRow>
 
-                <TextView
-                    android:id="@+id/explore_title_popular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="240dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Beliebt"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+            </TableLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/explore_recycler_popular"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:layout_marginTop="14dp"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:visibility="gone"
-                    app:isVisible="@{!isLoading}"
-                    tools:visibility="visible"
-                    tools:listitem="@layout/recycler_product_horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+            <TextView
+                android:id="@+id/explore_all_categories"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginEnd="16dp"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/roboto"
+                android:foreground="?selectableItemBackground"
+                android:padding="3dp"
+                android:text="Alle Kategorien"
+                android:textColor="@color/primary"
+                android:textSize="13sp"
+                app:drawableEndCompat="@drawable/ic_arrow_right"
+                app:drawableTint="@color/primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_category_table" />
 
-                <ProgressBar
-                    android:id="@+id/explore_loading_popular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="100dp"
-                    android:indeterminateTint="@color/primary"
-                    app:isVisible="@{isLoading}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+            <TextView
+                android:id="@+id/explore_title_recommendations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Vorschläge für Sie"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_category_table" />
 
-                <TextView
-                    android:id="@+id/explore_title_last_ordered"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="284dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Zuletzt bestellt"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/roboto"
+                android:text="Das könnte Sie interessieren"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/explore_recycler_last_ordered"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:layout_marginTop="8dp"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@id/explore_title_last_ordered" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/explore_recycler_recommendations"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginTop="28dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"
+                app:isVisible="@{!isLoading}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations"
+                tools:listitem="@layout/recycler_product_horizontal"
+                tools:visibility="visible" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ProgressBar
+                android:id="@+id/explore_loading_recommendations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:indeterminateTint="@color/primary"
+                app:isVisible="@{isLoading}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations" />
 
-        </androidx.core.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/explore_title_new_stores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="284dp"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations"
+                tools:text="Neue Geschäfte in Herbrechtingen" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/roboto"
+                android:text="Entdecken Sie neue Filialen"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/explore_recycler_new_stores"
+                android:layout_width="match_parent"
+                android:layout_height="185dp"
+                android:layout_marginTop="28dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"
+                app:isVisible="@{!isLoading}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores"
+                tools:listitem="@layout/recycler_store_horizontal"
+                tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/explore_loading_new_stores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:indeterminateTint="@color/primary"
+                app:isVisible="@{isLoading}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+            <TextView
+                android:id="@+id/explore_title_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="240dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Beliebt"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_new_stores" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/explore_recycler_popular"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginTop="14dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"
+                app:isVisible="@{!isLoading}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_popular"
+                tools:listitem="@layout/recycler_product_horizontal"
+                tools:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/explore_loading_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:indeterminateTint="@color/primary"
+                app:isVisible="@{isLoading}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+
+            <TextView
+                android:id="@+id/explore_title_last_ordered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="284dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Zuletzt bestellt"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/explore_recycler_last_ordered"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/explore_title_last_ordered" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

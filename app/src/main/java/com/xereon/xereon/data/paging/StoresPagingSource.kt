@@ -11,7 +11,7 @@ class StoresPagingSource(
     private val zip: String,
     private val type: String = "",
     private var category: Int? = null,
-    private val sort: SortTypes = SortTypes.SORT_RESPONSE_DEFAULT,
+    private val sort: SortTypes = SortTypes.SORT_RESPONSE_NEW_FIRST,
 ) : PagingSource<Int, SimpleStore>(){
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleStore> {
