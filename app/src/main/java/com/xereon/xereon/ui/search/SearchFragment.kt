@@ -38,26 +38,11 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
     private var _binding: FrgSearchBinding? = null
     private val binding get() = _binding!!
 
-    //private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>;
-
     private val storeAdapter = StoresPagingAdapter()
     private lateinit var searchView: SearchView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgSearchBinding.bind(view)
-
-        //bottomSheetBehavior = BottomSheetBehavior.from(binding.searchBottomSheetBehaviour)
-        /*bottomSheetBehavior.apply {
-            isHideable = true
-            peekHeight = 850
-            state = BottomSheetBehavior.STATE_HIDDEN
-            setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onSlide(p0: View, p1: Float) { /*NO-OP*/ }
-                override fun onStateChanged(p0: View, state: Int) {
-                    binding.isSorting = state != BottomSheetBehavior.STATE_HIDDEN
-                }
-            })
-        }*/
 
         storeAdapter.setOnItemClickListener(object : StoresPagingAdapter.ItemClickListener {
             override fun onItemClick(simpleStore: SimpleStore) {
@@ -103,7 +88,6 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
 
     private fun setupFilter() {
         binding.apply {
-            searchFab.setOnClickListener { openFilterPanel() }
             searchSortingBackground.setOnClickListener { hideFilterPanel() }
             searchSearchBtn.setOnClickListener { performSearch() }
 
@@ -188,19 +172,19 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
 
     private fun openFilterPanel() {
         searchView.clearFocus()
-        binding.isSorting = true
-        binding.searchBottomSheetBehaviour.isVisible = true
-        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        binding.apply {
+            searchSortingBackground.isVisible = true
+            searchBottomSheetBehaviour.isVisible = true
+        }
     }
 
     private fun hideFilterPanel(): Boolean {
-        //if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_HIDDEN)
         if (!binding.searchBottomSheetBehaviour.isVisible)
             return false
-
-        binding.searchBottomSheetBehaviour.isVisible = false
-        //bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        binding.isSorting = false
+        binding.apply {
+            searchSortingBackground.isVisible = false
+            searchBottomSheetBehaviour.isVisible = false
+        }
         return true
     }
 

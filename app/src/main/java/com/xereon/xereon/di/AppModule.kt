@@ -60,21 +60,6 @@ object AppModule {
         retrofit.create(AlgoliaPlacesApi::class.java)
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    @Singleton
-    @Provides
-    fun provideDatabase(
-        app: Application,
-    ) = Room.databaseBuilder(app, XereonDatabase::class.java, "xereon_database")
-            .fallbackToDestructiveMigration()
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideOrderProductDao(db: XereonDatabase) = db.orderProductDao()
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @ApplicationScope

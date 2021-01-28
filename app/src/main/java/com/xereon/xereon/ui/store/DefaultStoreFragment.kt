@@ -1,5 +1,6 @@
 package com.xereon.xereon.ui.store
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log.d
 import android.view.Menu
@@ -31,7 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagingAdapter.ItemClickListener {
+class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
+    ProductsPagingAdapter.ItemClickListener {
     private val viewModel by viewModels<StoreViewModel>()
     private val args by navArgs<DefaultStoreFragmentArgs>()
 
@@ -58,7 +60,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
         (activity as MainActivity).setActionBarTitle(storeName)
 
         val gridLayoutManager = GridLayoutManager(context, 2)
-        gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val viewType = productsAdapter.getItemViewType(position)
                 return if (viewType == VIEW_TYPE_PRODUCT) 1 else 2
@@ -148,7 +150,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
 
     private fun subscribeObserver() {
         viewModel.storeData.observe(viewLifecycleOwner, Observer { event ->
-            when(event) {
+            when (event) {
                 is StoreViewModel.StoreEvent.Success -> {
                     (activity as MainActivity).setActionBarTitle(event.storeData.name)
                     productsAdapter.setStore(event.storeData)
@@ -171,6 +173,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
             viewModel.eventChannel.collect { event ->
                 when (event) {
                     is StoreViewModel.StoreEvent.ShowErrorMessage -> displayError(event.message)
+                    is StoreViewModel.StoreEvent.ShowAddedFavorites -> displayFavorite()
                     else -> Unit
                 }
             }
@@ -187,7 +190,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
     }
 
     override fun onAddToFavoriteClicked() {
-        d(TAG, "fav")
+        viewModel.addStoreToFavorites()
     }
 
     private fun displayError(message: String) {
@@ -195,5 +198,13 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store), ProductsPagin
         val snackBarView: View = snackBar.view
         snackBarView.setBackgroundColor(resources.getColor(R.color.error))
         snackBar.show()
+    }
+
+    private fun displayFavorite() {
+        Snackbar.make(requireView(), "Filiale wurde als Favorit gespeichert", Snackbar.LENGTH_LONG)
+            .setAction("Zu den Favoriten") {
+                findNavController().navigate(R.id.action_Store_to_Favorites)
+            }.setActionTextColor(Color.parseColor("#ADD8E6"))
+            .show()
     }
 }

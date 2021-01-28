@@ -73,6 +73,7 @@ class StoreHorizontalAdapter : RecyclerView.Adapter<StoreHorizontalAdapter.ViewH
             binding.apply {
                 Glide.with(recyclerStoreImage).load(simpleStore.logoImageURL)
                     .into(recyclerStoreImage)
+                recyclerStoreImage.clipToOutline = true
                 recyclerStoreName.text = simpleStore.name
                 recyclerStoreType.text = simpleStore.type
                 @ColorRes val colorId = CategoryUtils.getCategoryColorResourceId(simpleStore.category)

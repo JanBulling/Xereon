@@ -27,20 +27,21 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/explore_top_container"
+                android:id="@+id/explore_title_container"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:background="#cf4a50"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/explore_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="XEREON ist bei\nJUGEND FORSCHT dabei!\nWir gewinnen!"
+                    android:text="XEREON ist bei\nJUGEND FORSCHT dabei!"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
@@ -58,7 +59,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explore_top_container" />
+                app:layout_constraintTop_toBottomOf="@id/explore_title_container" />
 
             <TableLayout
                 android:id="@+id/explore_category_table"
@@ -359,36 +360,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"
+                android:layout_marginBottom="16dp"
                 android:indeterminateTint="@color/primary"
                 app:isVisible="@{isLoading}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
-
-            <TextView
-                android:id="@+id/explore_title_last_ordered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="284dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Zuletzt bestellt"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explore_title_popular" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/explore_recycler_last_ordered"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/explore_title_last_ordered" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

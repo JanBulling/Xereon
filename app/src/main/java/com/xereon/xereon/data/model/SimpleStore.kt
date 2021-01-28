@@ -1,6 +1,7 @@
 package com.xereon.xereon.data.model
 
 import android.os.Parcelable
+import com.xereon.xereon.db.model.FavoriteStore
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -15,4 +16,6 @@ data class SimpleStore(
     val officeImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/store/$id"
 
     override fun toString() = "id: $id, name: $name, type: $type with category: $category"
+
+    fun toFavoriteStore() = FavoriteStore(id, name, city, type, category)
 }

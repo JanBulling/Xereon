@@ -9,6 +9,8 @@ import androidx.paging.cachedIn
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.repository.StoreRepository
+import com.xereon.xereon.db.FavoriteStoreDao
+import com.xereon.xereon.db.model.FavoriteStore
 import com.xereon.xereon.ui.categories.CategoryViewModel
 import com.xereon.xereon.ui.product.ProductViewModel
 import com.xereon.xereon.ui.search.SearchViewModel
@@ -23,6 +25,7 @@ import java.lang.Exception
 
 class StoreViewModel @ViewModelInject constructor(
     private val storeRepository: StoreRepository,
+    private val dao: FavoriteStoreDao,
     @Assisted private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -30,6 +33,7 @@ class StoreViewModel @ViewModelInject constructor(
         data class Success(val storeData: Store) : StoreEvent()
         data class Failure(val errorText: String) : StoreEvent()
         data class ShowErrorMessage(val message: String) : StoreEvent()
+        object ShowAddedFavorites : StoreEvent()
         object Loading : StoreEvent()
     }
 
@@ -103,6 +107,23 @@ class StoreViewModel @ViewModelInject constructor(
     fun searchProduct(textQuery: String) {
         this.queryText = textQuery
         newProductSearch()
+    }
+
+    fun addStoreToFavorites() = viewModelScope.launch {
+        val storeEvent = _storeData.value
+        if (storeEvent is StoreEvent.Success) {
+            val store = storeEvent.storeData
+            val favorite = FavoriteStore(
+                id = store.id,
+                name = store.name,
+                city = store.city,
+                type = store.type,
+                 category = store.category,
+                insertDate = System.currentTimeMillis()
+            )
+            dao.insert(favorite)
+            _eventChannel.send(StoreEvent.ShowAddedFavorites)
+        }
     }
 
     companion object {

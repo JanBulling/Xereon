@@ -22,6 +22,11 @@
         <deepLink
             android:id="@+id/deepLink"
             app:uri="test.com/store/{simpleStoreId}" />
+        <action
+            android:id="@+id/action_Store_to_Favorites"
+            app:destination="@id/favoritesFragment"
+            app:popUpTo="@id/defaultStoreFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/exploreFragment"

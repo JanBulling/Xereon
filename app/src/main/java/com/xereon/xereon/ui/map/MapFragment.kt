@@ -259,21 +259,30 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     }
     override fun onStop() {
         super.onStop()
-        binding.mapView.onStop()
+        try {
+            binding.mapView.onStop()
+        }catch (ignore: Exception) { /* NO-OP */ }
     }
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.isBottomSheetVisible = binding.mapBottomSheetBehaviour.isVisible
         viewModel.saveCameraPosition(googleMap?.cameraPosition)
-        binding.mapView.onDestroy()
+        try {
+            binding.mapView.onDestroy()
+        }catch (ignore: Exception) { /* NO-OP */ }
         _binding = null
     }
     override fun onSaveInstanceState(outState: Bundle) {
-        binding.mapView.onSaveInstanceState(outState)
+        try {
+            binding.mapView.onSaveInstanceState(outState)
+        }catch (ignore: Exception) { /* NO-OP */ }
+
         super.onSaveInstanceState(outState)
     }
     override fun onLowMemory() {
         super.onLowMemory()
-        binding.mapView.onLowMemory()
+        try {
+            binding.mapView.onLowMemory()
+        }catch (ignore: Exception) { /* NO-OP */ }
     }
 }

@@ -2,6 +2,8 @@ package com.xereon.xereon.ui.explore
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -27,6 +29,7 @@ import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
 import com.xereon.xereon.ui.shoppingCart.ShoppingCartViewModel
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
+import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.frg_explore.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -104,7 +107,14 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
         viewModel.exploreData.observe(viewLifecycleOwner, Observer { event ->
             when (event) {
                 is ExploreViewModel.ExploreEvent.Success -> {
-                    binding.isLoading = false
+                    binding.apply {
+                        isLoading = false
+                        exploreTitle.text = event.exploreData.title
+                        val fontColor: Int = Color.parseColor(event.exploreData.fontColor)
+                        val backgroundColor: Int = Color.parseColor(event.exploreData.backgroundColor)
+                        exploreTitle.setTextColor(fontColor)
+                        exploreTitleContainer.setBackgroundColor(backgroundColor)
+                    }
                     newStoresAdapter.submitList(event.exploreData.newStores)
                     recommendationsAdapter.submitList(event.exploreData.recommendations)
                     popularAdapter.submitList(event.exploreData.popular)
