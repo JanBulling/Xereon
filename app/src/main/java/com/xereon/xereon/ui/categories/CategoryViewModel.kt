@@ -2,6 +2,7 @@ package com.xereon.xereon.ui.categories
 
 import android.os.Parcelable
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -20,7 +21,7 @@ class CategoryViewModel @ViewModelInject constructor(
 
     sealed class CategoryEvent {
         class Success(val examplesData: List<SimpleStore>) : CategoryEvent()
-        class Failure(val errorText: String) : CategoryEvent()
+        object Failure : CategoryEvent()
         object Loading : CategoryEvent()
     }
 
@@ -54,10 +55,10 @@ class CategoryViewModel @ViewModelInject constructor(
                 _exampleStores.value = CategoryEvent.Loading
                 when (val response =
                     repository.getExampleStoresForCategory(category = category, zip = postcode)) {
-                    is Resource.Error -> _exampleStores.value =
-                        CategoryEvent.Failure(response.message!!)
-                    is Resource.Success -> _exampleStores.value =
-                        CategoryEvent.Success(response.data!!)
+                    is Resource.Error ->
+                        _exampleStores.value = CategoryEvent.Failure
+                    is Resource.Success ->
+                        _exampleStores.value = CategoryEvent.Success(response.data!!)
                 }
             } catch (e: Exception) {
                 Log.e(Constants.TAG, "Unexpected error in ExploreViewModel: ${e.message}")

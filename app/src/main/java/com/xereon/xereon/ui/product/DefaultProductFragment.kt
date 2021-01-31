@@ -1,9 +1,11 @@
 package com.xereon.xereon.ui.product
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log.e
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -124,7 +126,7 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.eventChannel.collect {event ->
                 when (event) {
-                    is ProductViewModel.ProductEvent.ShowErrorMessage -> displayError(event.message)
+                    is ProductViewModel.ProductEvent.ShowErrorMessage -> displayError(event.messageId)
                     else -> Unit
                 }
             }
@@ -158,10 +160,11 @@ class DefaultProductFragment : Fragment(R.layout.frg_default_product),
         findNavController().navigate(action)
     }
 
-    private fun displayError(message: String) {
-        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT)
+    private fun displayError(@StringRes messageId: Int) {
+        val snackBar = Snackbar.make(requireView(), messageId, Snackbar.LENGTH_SHORT)
         val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            snackBarView.setBackgroundColor(resources.getColor(R.color.error, null))
         snackBar.show()
     }
 }

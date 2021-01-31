@@ -3,7 +3,7 @@ package com.xereon.xereon.data.paging
 import androidx.paging.PagingSource
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.network.XereonAPI
-import com.xereon.xereon.util.Constants.SortTypes
+import com.xereon.xereon.util.Constants.SortType
 
 class StoresPagingSource(
     private val xereonAPI: XereonAPI,
@@ -11,7 +11,7 @@ class StoresPagingSource(
     private val zip: String,
     private val type: String = "",
     private var category: Int? = null,
-    private val sort: SortTypes = SortTypes.SORT_RESPONSE_NEW_FIRST,
+    private val sort: SortType = SortType.RESPONSE_NEW_FIRST,
 ) : PagingSource<Int, SimpleStore>(){
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleStore> {

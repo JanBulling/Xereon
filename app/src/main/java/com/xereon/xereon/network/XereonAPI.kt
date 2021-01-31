@@ -2,6 +2,7 @@ package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.model.*
+import com.xereon.xereon.data.repository.LoginResponse
 import com.xereon.xereon.network.response.IPLocationResponse
 import com.xereon.xereon.network.response.XereonResponse
 import com.xereon.xereon.util.Constants
@@ -27,7 +28,7 @@ interface XereonAPI {
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("firebasetoken") token: String
-    ): XereonResponse
+    ): Response<LoginResponse>
 
     @GET("app-php/users/create-user.php")
     suspend fun register(
@@ -66,7 +67,7 @@ interface XereonAPI {
     suspend fun getProductsFromStore(
         @Query("id") storeId: Int,
         @Query("search") query: String,
-        @Query("order") sort: Int = Constants.SortTypes.SORT_RESPONSE_NEW_FIRST.index,
+        @Query("order") sort: Int = Constants.SortType.RESPONSE_NEW_FIRST.index,
         @Query("page") page: Int,
         @Query("limit") limit: Int
     ): Response<List<SimpleProduct>>
@@ -105,7 +106,7 @@ interface XereonAPI {
         @Query("postalcode") zip: String = Constants.DEFAULT_POSTCODE,
         @Query("category") category: Int? = null,
         @Query("type") type: String = "",
-        @Query("order") sort: Int = Constants.SortTypes.SORT_RESPONSE_NEW_FIRST.index,
+        @Query("order") sort: Int = Constants.SortType.RESPONSE_NEW_FIRST.index,
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20
         ): Response<List<SimpleStore>>

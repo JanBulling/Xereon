@@ -1,20 +1,19 @@
 package com.xereon.xereon.ui.map
 
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.xereon.xereon.BuildConfig
+import com.xereon.xereon.R
 import com.xereon.xereon.data.model.LocationStore
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.repository.PlacesRepository
 import com.xereon.xereon.data.repository.StoreRepository
-import com.xereon.xereon.di.ProvLatLng
-import com.xereon.xereon.di.ProvPostCode
+import com.xereon.xereon.di.ProvideLatLng
 import com.xereon.xereon.network.response.PlacesRequest
 import com.xereon.xereon.network.response.PlacesResponse
-import com.xereon.xereon.ui.product.ProductViewModel
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.DEFAULT_LAT
 import com.xereon.xereon.util.Constants.DEFAULT_LNG
@@ -33,12 +32,12 @@ class MapViewModel @ViewModelInject constructor(
     private val placesRepository: PlacesRepository
 ) : ViewModel() {
 
-    @Inject @ProvLatLng lateinit var latLng: LatLng
+    @Inject @ProvideLatLng lateinit var latLng: LatLng
 
     sealed class MapStoreEvent {
         data class Success(val storeData: Store) : MapStoreEvent()
-        data class Failure(val errorText: String) : MapStoreEvent()
-        data class ShowErrorMessage(val message: String) : MapStoreEvent()
+        object Failure : MapStoreEvent()
+        data class ShowErrorMessage(@StringRes val messageId: Int) : MapStoreEvent()
         object Loading : MapStoreEvent()
     }
 
@@ -106,13 +105,12 @@ class MapViewModel @ViewModelInject constructor(
                     }
                     is Resource.Error -> {
                         _loadedZips.remove(shortedZip)
-                        if (BuildConfig.DEBUG)
-                            _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
+                        _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
                     }
                 }
             } catch (e: Exception) {
                 Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
-                _eventChannel.send(MapStoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+                _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexprected_exception))
             }
         }
     }
@@ -124,14 +122,13 @@ class MapViewModel @ViewModelInject constructor(
                 is Resource.Success ->
                     _selectedStore.value = MapStoreEvent.Success(response.data!!)
                 is Resource.Error -> {
-                    if (BuildConfig.DEBUG)
-                        _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
-                    _selectedStore.value = MapStoreEvent.Failure(response.message!!)
+                    _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
+                    _selectedStore.value = MapStoreEvent.Failure
                 }
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
-            _eventChannel.send(MapStoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+            _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexprected_exception))
         }
     }
 
@@ -144,14 +141,13 @@ class MapViewModel @ViewModelInject constructor(
             when (val response = placesRepository.getPlaces(request)) {
                 is Resource.Success -> _places.value = response.data
                 is Resource.Error -> {
-                    if (BuildConfig.DEBUG)
-                        _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
+                    _eventChannel.send(MapStoreEvent.ShowErrorMessage(response.message!!))
                     _places.value = PlacesResponse(emptyList(), 0, 0, "")
                 }
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
-            _eventChannel.send(MapStoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+            _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexprected_exception))
         }
     }
 

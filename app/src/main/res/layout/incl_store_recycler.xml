@@ -325,12 +325,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/store_peak_chart" />
 
-        <View
+        <com.xereon.xereon.linechart.LineChartView
             android:id="@+id/store_peak_chart"
             android:layout_width="0dp"
             android:layout_height="85dp"
             android:layout_marginTop="8dp"
-            android:background="@color/gray_2"
             app:layout_constraintEnd_toStartOf="@id/store_peak_times_next"
             app:layout_constraintStart_toEndOf="@id/store_peak_times_prev"
             app:layout_constraintTop_toBottomOf="@id/store_peak_times_title"
@@ -431,7 +430,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="Montag"
+            android:text="Samstag"
             android:textColor="@color/black"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"

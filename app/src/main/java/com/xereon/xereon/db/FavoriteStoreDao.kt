@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import com.xereon.xereon.db.model.FavoriteStore
 import com.xereon.xereon.util.Constants
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteStoreDao {
@@ -38,12 +37,12 @@ interface FavoriteStoreDao {
     @Query("DELETE FROM favorite_store_table")
     suspend fun deleteAllFavorites()
 
-    fun getAllOrdersSorted(sortType: Constants.SortTypes): PagingSource<Int, FavoriteStore> =
+    fun getAllOrdersSorted(sortType: Constants.SortType): PagingSource<Int, FavoriteStore> =
         when (sortType) {
-            Constants.SortTypes.SORT_RESPONSE_NEW_FIRST -> getAllOrdersDESC()
-            Constants.SortTypes.SORT_RESPONSE_OLD_FIRST -> getAllOrdersASC()
-            Constants.SortTypes.SORT_RESPONSE_A_Z -> getAllOrdersAZ()
-            Constants.SortTypes.SORT_RESPONSE_Z_A -> getAllOrdersZA()
+            Constants.SortType.RESPONSE_NEW_FIRST -> getAllOrdersDESC()
+            Constants.SortType.RESPONSE_OLD_FIRST -> getAllOrdersASC()
+            Constants.SortType.RESPONSE_A_Z -> getAllOrdersAZ()
+            Constants.SortType.RESPONSE_Z_A -> getAllOrdersZA()
             else ->
                 getAllOrdersASC()
         }

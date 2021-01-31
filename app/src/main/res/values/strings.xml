@@ -13,4 +13,15 @@
         <item>So</item>
     </array>
 
+    <!-- ERROR MESSAGES -->
+    <string name="unexprected_exception">Ein unerwarteter Fehler ist aufgetreten</string>
+    <string name="no_connection_exception">Keine Verbdingung</string>
+    <string name="no_password_enetred_exception">Bitte geben Sie Ihr Passwort ein</string>
+    <string name="no_email_entered_exception">Bitte geben Sie eine gültige E-Mail Adresse ein</string>
+    <string name="no_name_entered_exception">Bitte geben Sie Ihren Namen ein</string>
+    <string name="no_password_too_short_exception">Das Passwort muss mindestens 6 Zeichen lang sein.</string>
+    <string name="login_data_wrong_exception">Die E-Mail Adresse oder das Passwort war nicht korrekt.</string>
+    <string name="email_already_registerd_exception">Diese E-Mail Adresse ist schon registriert.</string>
+
+
 </resources>

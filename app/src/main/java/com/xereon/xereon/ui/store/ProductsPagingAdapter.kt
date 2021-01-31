@@ -1,4 +1,4 @@
-package com.xereon.xereon.adapter.pagingAdapter
+package com.xereon.xereon.ui.store
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.xereon.xereon.adapter.recyclerAdapter.ProductHorizontalAdapter
+import com.google.android.gms.maps.model.LatLng
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.databinding.InclStoreRecyclerBinding
@@ -85,6 +85,7 @@ class ProductsPagingAdapter :
         fun onItemClick(simpleProduct: SimpleProduct)
         fun onSearchClicked()
         fun onAddToFavoriteClicked()
+        fun onNavigationClicked(latitude: LatLng)
     }
 
 
@@ -106,6 +107,7 @@ class ProductsPagingAdapter :
                 openingTimes = OpeningUtils.getOpeningTimes(this@ProductsPagingAdapter.store.openinghours)
                 storeSaveFavorite.setOnClickListener { itemClickListener.onAddToFavoriteClicked() }
                 storeSearch.setOnClickListener { itemClickListener.onSearchClicked() }
+                storeNavigate.setOnClickListener { itemClickListener.onNavigationClicked(this@ProductsPagingAdapter.store.coordinates) }
             }
         }
     }

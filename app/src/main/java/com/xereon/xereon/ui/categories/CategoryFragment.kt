@@ -1,8 +1,10 @@
 package com.xereon.xereon.ui.categories
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,9 +16,8 @@ import com.xereon.xereon.adapter.recyclerAdapter.StoreHorizontalAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.SubCategoriesAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgCategoryBinding
-import com.xereon.xereon.di.ProvPostCode
+import com.xereon.xereon.di.ProvidePostCode
 import com.xereon.xereon.ui._parent.MainActivity
-import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,7 +33,7 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
     private val storesAdapter = StoreHorizontalAdapter()
     private var subCategoriesAdapter = SubCategoriesAdapter()
 
-    @JvmField @Inject @ProvPostCode var postcode: String = Constants.DEFAULT_POSTCODE
+    @JvmField @Inject @ProvidePostCode var postcode: String = Constants.DEFAULT_POSTCODE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgCategoryBinding.bind(view)
@@ -84,7 +85,7 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
                     storesAdapter.submitList(event.examplesData)
                 }
                 is CategoryViewModel.CategoryEvent.Failure -> {
-                    displayError(event.errorText)
+                    displayError(R.string.no_connection_exception)
                 }
                 is CategoryViewModel.CategoryEvent.Loading -> {
 
@@ -94,14 +95,15 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
         })
     }
 
-    private fun displayError(message: String) {
-        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+    private fun displayError(@StringRes messageId: Int) {
+        val snackBar = Snackbar.make(requireView(), messageId, Snackbar.LENGTH_INDEFINITE)
         snackBar.setAction("Retry") {
             viewModel.getExampleStores(args.category.categoryIndex, "")
         }
         snackBar.setActionTextColor(Color.WHITE)
         val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            snackBarView.setBackgroundColor(resources.getColor(R.color.error, null))
         snackBar.show()
     }
 }

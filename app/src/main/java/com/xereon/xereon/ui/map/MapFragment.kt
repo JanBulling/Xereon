@@ -1,10 +1,12 @@
 package com.xereon.xereon.ui.map
 
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -174,7 +176,7 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
             viewModel.eventChannel.collect { event ->
                 when(event) {
                     is MapViewModel.MapStoreEvent.ShowErrorMessage ->
-                        displayError(event.message)
+                        displayError(event.messageId)
                     else -> Unit
                 }
             }
@@ -211,19 +213,17 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
         catch (e: Exception) {
             when(e) {
                 is NullPointerException, is IndexOutOfBoundsException -> {}
-                else -> {
-                    e.printStackTrace()
-                    displayError("Keine Verbindung...")
-                }
+                else -> displayError(R.string.no_connection_exception)
             }
         }
         return ""
     }
 
-    private fun displayError(message: String) {
-        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG)
+    private fun displayError(@StringRes messageId: Int) {
+        val snackBar = Snackbar.make(requireView(), messageId, Snackbar.LENGTH_LONG)
         val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            snackBarView.setBackgroundColor(resources.getColor(R.color.error, null))
         snackBar.show()
     }
 

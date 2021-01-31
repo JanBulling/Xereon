@@ -17,4 +17,7 @@ data class ExploreData(
         return "Has chat messages: $chatNewMessages, newStores: ${newStores.size}-elements, " +
                 "recommended: ${recommendations.size}-elements, popular: ${popular.size}-elements"
     }
+
+    val backgroundColorInt get() = Color.parseColor(backgroundColor)
+    val fontColorInt get() = Color.parseColor(fontColor)
 }

@@ -18,9 +18,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Named
 import javax.inject.Qualifier
 import javax.inject.Singleton
+
+//NOTE: SharedPref might be deprecated in the future
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -33,26 +34,26 @@ object PreferencesAppModule {
 
     @Singleton
     @Provides
-    @ProvUserId
+    @ProvideUserId
     fun provideUserId(sharedPref: SharedPreferences): Int =
         sharedPref.getInt(PREF_USER_ID, Constants.DEFAULT_USER_ID)
 
     @Singleton
     @Provides
-    @ProvPostCode
+    @ProvidePostCode
     fun providePostCode(sharedPref: SharedPreferences): String =
         sharedPref.getString(PREF_LOCATION_POSTCODE, Constants.DEFAULT_POSTCODE)
             ?: Constants.DEFAULT_POSTCODE
 
     @Singleton
     @Provides
-    @ProvCity
+    @ProvideCity
     fun provideCity(sharedPref: SharedPreferences) =
         sharedPref.getString(PREF_LOCATION_CITY, Constants.DEFAULT_CITY) ?: Constants.DEFAULT_CITY
 
     @Singleton
     @Provides
-    @ProvLatLng
+    @ProvideLatLng
     fun provideLatLng(sharedPref: SharedPreferences): LatLng {
         val lat = sharedPref.getFloat(PREF_LOCATION_LAT, Constants.DEFAULT_LAT)
         val lng = sharedPref.getFloat(PREF_LOCATION_LNG, Constants.DEFAULT_LNG)
@@ -61,13 +62,13 @@ object PreferencesAppModule {
 
     @Singleton
     @Provides
-    @ProvApplicationState
+    @ProvideApplicationState
     fun provideApplicationState(sharedPref: SharedPreferences): ApplicationState =
         ApplicationState.fromInt(sharedPref.getInt(PREF_APPLICATION_STATE, 0))
 }
 
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvUserId
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvPostCode
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvCity
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvLatLng
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvApplicationState
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideUserId
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvidePostCode
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideCity
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideLatLng
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideApplicationState

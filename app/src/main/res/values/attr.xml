@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="chart_LineChartViewStyle" format="reference" />
+
+    <declare-styleable name="LineChartView">
+        <attr name="chart_lineColor" format="color|reference" />
+        <attr name="chart_lineWidth" format="dimension|reference" />
+        <attr name="chart_cornerRadius" format="dimension|reference" />
+        <!-- {@deprecated Use fillType instead.} -->
+        <attr name="chart_fill" format="boolean|reference" />
+        <attr name="chart_fillColor" format="color|reference" />
+        <attr name="chart_fillType" format="enum">
+            <!-- must match values in SparkView.FillType -->
+            <enum name="none" value="0" />
+            <enum name="up" value="1" />
+            <enum name="down" value="2" />
+            <enum name="towardZero" value="3" />
+        </attr>
+
+        <attr name="chart_baseLineColor" format="color|reference" />
+        <attr name="chart_baseLineWidth" format="dimension|reference" />
+
+        <attr name="chart_scrubLineColor" format="color|reference" />
+        <attr name="chart_scrubLineWidth" format="dimension|reference" />
+
+        <attr name="chart_scrubEnabled" format="boolean|reference" />
+    </declare-styleable>
+</resources>

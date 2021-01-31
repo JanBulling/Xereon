@@ -184,6 +184,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            app:chipSpacingHorizontal="8dp"
             app:chipSpacingVertical="8dp"
             app:layout_constraintTop_toBottomOf="@id/search_filter_title"
             app:singleSelection="true" />
@@ -208,31 +209,32 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="78dp"
+            android:layout_marginEnd="8dp"
             android:checkedButton="@id/search_sort_new_first"
             app:layout_constraintTop_toBottomOf="@id/search_sorting_title">
 
             <RadioButton
                 android:id="@+id/search_sort_new_first"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
                 android:text="Neue Filialen zuerst" />
 
             <RadioButton
                 android:id="@+id/search_sort_old_first"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
                 android:text="Älteste Filialen zuerst" />
 
             <RadioButton
                 android:id="@+id/search_sort_A_Z"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
                 android:text="A -> Z" />
 
             <RadioButton
                 android:id="@+id/search_sort_Z_A"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
                 android:text="Z -> A" />
 
         </RadioGroup>

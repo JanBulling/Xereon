@@ -76,7 +76,7 @@ class OrderProductAdapter : RecyclerView.Adapter<OrderProductAdapter.ViewHolder>
                     "Menge: <b>${PriceUtils.getCountWithUnit(order.unit, order.count)}</b>"
                 orderProductCount.text = Html.fromHtml(numberProducts)
 
-                val price = String.format(Locale.US  ?: null, "%.2f", order.totalPrice) + "€"
+                val price = String.format(Locale.US ?: null, "%.2f", order.totalPrice) + "€"
                 orderProductTotalPrice.text = price
 
                 val pricePerUnit = "je ${PriceUtils.getCompleteUnitAsString(order.unit)}: " +

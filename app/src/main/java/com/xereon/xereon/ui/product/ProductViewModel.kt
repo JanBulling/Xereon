@@ -1,16 +1,15 @@
 package com.xereon.xereon.ui.product
 
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.xereon.xereon.BuildConfig
+import com.xereon.xereon.R
 import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.data.repository.ProductRepository
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.db.OrderProductDao
 import com.xereon.xereon.db.model.OrderProduct
-import com.xereon.xereon.ui.explore.ExploreViewModel
-import com.xereon.xereon.ui.shoppingCart.ShoppingCartViewModel
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Resource
 import kotlinx.coroutines.channels.Channel
@@ -25,8 +24,8 @@ class ProductViewModel @ViewModelInject constructor(
 
     sealed class ProductEvent {
         data class Success(val productData: Product) : ProductEvent()
-        data class Failure(val errorText: String) : ProductEvent()
-        data class ShowErrorMessage(val message: String) : ProductEvent()
+        object Failure : ProductEvent()
+        data class ShowErrorMessage(@StringRes val messageId: Int) : ProductEvent()
         object Loading : ProductEvent()
     }
 
@@ -44,16 +43,15 @@ class ProductViewModel @ViewModelInject constructor(
                 _productData.value = ProductEvent.Loading
                 when (val response = productRepository.getProduct(productId)) {
                     is Resource.Error -> {
-                        if (BuildConfig.DEBUG)
-                            _eventChannel.send(ProductEvent.ShowErrorMessage(response.message!!))
-                        _productData.value = ProductEvent.Failure(response.message!!)
+                        _eventChannel.send(ProductEvent.ShowErrorMessage(response.message!!))
+                        _productData.value = ProductEvent.Failure
                     }
                     is Resource.Success ->
                         _productData.value = ProductEvent.Success(response.data!!)
                 }
             } catch (e: Exception) {
                 Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
-                _eventChannel.send(ProductEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+                _eventChannel.send(ProductEvent.ShowErrorMessage(R.string.unexprected_exception))
             }
         }
     }
@@ -68,7 +66,7 @@ class ProductViewModel @ViewModelInject constructor(
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
-            _eventChannel.send(ProductEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+            _eventChannel.send(ProductEvent.ShowErrorMessage(R.string.unexprected_exception))
         }
     }
 

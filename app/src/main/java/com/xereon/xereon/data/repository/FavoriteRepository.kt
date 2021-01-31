@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class FavoriteRepository @Inject constructor(private val dao: FavoriteStoreDao) {
 
-    fun getFavorites(sort: Constants.SortTypes) =
+    fun getFavorites(sort: Constants.SortType) =
         Pager(
             config = PagingConfig(
                 initialLoadSize = 10,

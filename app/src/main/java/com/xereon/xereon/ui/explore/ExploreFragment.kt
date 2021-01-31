@@ -1,13 +1,13 @@
 package com.xereon.xereon.ui.explore
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -21,23 +21,18 @@ import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgExploreBinding
-import com.xereon.xereon.di.ProvCity
-import com.xereon.xereon.di.ProvPostCode
-import com.xereon.xereon.di.ProvUserId
+import com.xereon.xereon.di.ProvideCity
+import com.xereon.xereon.di.ProvidePostCode
+import com.xereon.xereon.di.ProvideUserId
 import com.xereon.xereon.ui.categories.CategoryFragmentDirections
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
-import com.xereon.xereon.ui.shoppingCart.ShoppingCartViewModel
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.frg_explore.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
-import javax.inject.Named
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter.ItemClickListener,
     OnTableItemSelect {
@@ -50,9 +45,9 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
     private val recommendationsAdapter = ProductHorizontalAdapter()
     private val popularAdapter = ProductHorizontalAdapter()
 
-    @JvmField @Inject @ProvUserId var userId: Int = Constants.DEFAULT_USER_ID
-    @JvmField @Inject @ProvPostCode var postcode: String = Constants.DEFAULT_POSTCODE
-    @JvmField @Inject @ProvCity var city: String = Constants.DEFAULT_CITY
+    @JvmField @Inject @ProvideUserId var userId: Int = Constants.DEFAULT_USER_ID
+    @JvmField @Inject @ProvidePostCode var postcode: String = Constants.DEFAULT_POSTCODE
+    @JvmField @Inject @ProvideCity var city: String = Constants.DEFAULT_CITY
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgExploreBinding.bind(view)
@@ -133,7 +128,7 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
             viewModel.eventChannel.collect { event ->
                 when (event) {
                     is ExploreViewModel.ExploreEvent.ShowErrorMessage -> {
-                        displayError(message = event.message)
+                        displayError(messageId = event.errorMessageId)
                     }
                     else -> Unit
                 }
@@ -158,14 +153,15 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
         }
     }
 
-    private fun displayError(message: String) {
-        val snackBar = Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+    private fun displayError(@StringRes messageId: Int) {
+        val snackBar = Snackbar.make(requireView(), messageId, Snackbar.LENGTH_LONG)
         snackBar.setAction("Retry") {
             viewModel.getExploreData(userId, postcode)
         }
         snackBar.setActionTextColor(Color.WHITE)
         val snackBarView: View = snackBar.view
-        snackBarView.setBackgroundColor(resources.getColor(R.color.error))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            snackBarView.setBackgroundColor(resources.getColor(R.color.error, null))
         snackBar.show()
     }
 

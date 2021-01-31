@@ -20,24 +20,40 @@ object Constants {
     const val DEFAULT_LNG = 10.1578746044f   //Herbrechtingen: 10.189545     //Nürnberg: 9.9428628
     const val DEFAULT_ZOOM = 13f
 
-    enum class SortTypes(val index: Int) {
-        SORT_RESPONSE_NEW_FIRST(1),//Latest added products / stores first
-        SORT_RESPONSE_OLD_FIRST(2), //the first products / stores added
-        SORT_RESPONSE_A_Z(3),   //name from a to z
-        SORT_RESPONSE_Z_A(4),   //name from z to a
-        SORT_RESPONSE_PRICE_LOW(5), //products with lowest price first
-        SORT_RESPONSE_PRICE_HIGH(6),    //products with highest price first
-        SORT_RESPONSE_ONLY_IN_APP(7)    //only app-exclusive products
+    enum class SortType(val index: Int) {
+        RESPONSE_NEW_FIRST(1),      //Latest added products / stores first
+        RESPONSE_OLD_FIRST(2),      //the first products / stores added
+        RESPONSE_A_Z(3),            //name from a to z
+        RESPONSE_Z_A(4),            //name from z to a
+        RESPONSE_PRICE_LOW(5),      //products with lowest price first
+        RESPONSE_PRICE_HIGH(6),     //products with highest price first
+        RESPONSE_ONLY_IN_APP(7)     //only app-exclusive products
     }
 
     enum class ApplicationState(val index: Int) {
-        STATE_FIRST_USE(0),
-        STATE_TUTORIAL_NOT_COMPLETED(1),
-        STATE_LOGIN_SKIPPED(2),
-        STATE_HAS_VALID_ACCOUNT(3);
+        FIRST_OPENED(0),
+        SKIPPED_AND_NO_LOCATION(1),
+        LOGGED_IN_AND_NO_LOCATION(2),
+        SKIPPED_AND_LOCATION(3),
+        LOGGED_IN_AND_LOCATION(4),
+        VALID_USER_ACCOUNT(5);
 
         companion object {
             fun fromInt(index: Int) = values().first { it.index == index }
+        }
+    }
+
+    enum class LoginResponseCodes(val index: Int) {
+        SUCCESS(0),
+        WRONG_LOGIN_DATA(1),
+        EMAIL_ALREADY_REGISTERED(2),
+        ERROR(3)
+        ;
+
+        companion object {
+            fun fromInt(index: Int) =
+                if (index <= 3) values().first { it.index == index }
+                else ERROR
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.xereon.xereon.data.model
 
+import com.google.android.gms.maps.model.LatLng
+
 data class Store(
     val id: Int,
     val name: String,
@@ -19,6 +21,7 @@ data class Store(
     val logoImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/logo/$id.png"
     val officeImageURL get() = "http://vordertuer.bplaced.net/app-img/stores/store/$id"
     val completeAddress get() = "$address, $city"
+    val coordinates get() = LatLng(latitude.toDouble(), longitude.toDouble())
 
     override fun toString(): String {
         return "Id: $id, Name: $name, Descr: $description, lat: $latitude, " +

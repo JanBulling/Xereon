@@ -2,20 +2,19 @@ package com.xereon.xereon.ui.store
 
 import android.os.Parcelable
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.xereon.xereon.BuildConfig
+import com.xereon.xereon.R
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.repository.StoreRepository
 import com.xereon.xereon.db.FavoriteStoreDao
 import com.xereon.xereon.db.model.FavoriteStore
-import com.xereon.xereon.ui.categories.CategoryViewModel
-import com.xereon.xereon.ui.product.ProductViewModel
-import com.xereon.xereon.ui.search.SearchViewModel
 import com.xereon.xereon.util.*
-import com.xereon.xereon.util.Constants.SortTypes
+import com.xereon.xereon.util.Constants.SortType
 import com.xereon.xereon.util.Constants.TAG
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.channels.Channel
@@ -31,8 +30,8 @@ class StoreViewModel @ViewModelInject constructor(
 
     sealed class StoreEvent {
         data class Success(val storeData: Store) : StoreEvent()
-        data class Failure(val errorText: String) : StoreEvent()
-        data class ShowErrorMessage(val message: String) : StoreEvent()
+        object Failure : StoreEvent()
+        data class ShowErrorMessage(@StringRes val messageId: Int) : StoreEvent()
         object ShowAddedFavorites : StoreEvent()
         object Loading : StoreEvent()
     }
@@ -41,7 +40,7 @@ class StoreViewModel @ViewModelInject constructor(
     data class SearchQuery(
         val storeId: Int = -1,
         val query: String = "",
-        val sorting: SortTypes = SortTypes.SORT_RESPONSE_NEW_FIRST,
+        val sorting: SortType = SortType.RESPONSE_NEW_FIRST,
     ) : Parcelable
 
     private val _search = savedStateHandle.getLiveData<SearchQuery>(STORE_SEARCH_PRODUCT_QUERY)
@@ -58,7 +57,7 @@ class StoreViewModel @ViewModelInject constructor(
 
     var queryText: String = ""
     var storeId: Int = -1
-    var sorting: SortTypes = SortTypes.SORT_RESPONSE_NEW_FIRST
+    var sorting: SortType = SortType.RESPONSE_NEW_FIRST
 
     fun getStore(storeId: Int) {
         if (_storeData.value is StoreEvent.Success)
@@ -70,13 +69,13 @@ class StoreViewModel @ViewModelInject constructor(
                     is Resource.Error -> {
                         if (BuildConfig.DEBUG)
                             _eventChannel.send(StoreEvent.ShowErrorMessage(response.message!!))
-                        _storeData.value = StoreEvent.Failure(response.message!!)
+                        _storeData.value = StoreEvent.Failure
                     }
                     is Resource.Success -> _storeData.value = StoreEvent.Success(response.data!!)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Unexpected error in StoreViewModel: ${e.message}")
-                _eventChannel.send(StoreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+                _eventChannel.send(StoreEvent.ShowErrorMessage(R.string.unexprected_exception))
             }
         }
     }
@@ -99,7 +98,7 @@ class StoreViewModel @ViewModelInject constructor(
         newProductSearch()
     }
 
-    fun sortProduct(sorting: SortTypes) {
+    fun sortProduct(sorting: SortType) {
         this.sorting = sorting
         newProductSearch()
     }

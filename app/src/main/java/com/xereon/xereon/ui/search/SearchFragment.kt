@@ -1,6 +1,5 @@
 package com.xereon.xereon.ui.search
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -15,14 +14,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
 import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
-import com.xereon.xereon.adapter.search.PlacesAdapter
 import com.xereon.xereon.data.model.SimpleStore
-import com.xereon.xereon.data.model.places.Place
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgSearchBinding
 import com.xereon.xereon.ui._parent.MainActivity
@@ -93,11 +89,11 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
 
             searchSortRadioGroup.setOnCheckedChangeListener { _, id ->
                 val searchSorting = when (id) {
-                    R.id.search_sort_new_first -> Constants.SortTypes.SORT_RESPONSE_NEW_FIRST
-                    R.id.search_sort_old_first -> Constants.SortTypes.SORT_RESPONSE_OLD_FIRST
-                    R.id.search_sort_A_Z -> Constants.SortTypes.SORT_RESPONSE_A_Z
-                    R.id.search_sort_Z_A -> Constants.SortTypes.SORT_RESPONSE_Z_A
-                    else -> Constants.SortTypes.SORT_RESPONSE_NEW_FIRST
+                    R.id.search_sort_new_first -> Constants.SortType.RESPONSE_NEW_FIRST
+                    R.id.search_sort_old_first -> Constants.SortType.RESPONSE_OLD_FIRST
+                    R.id.search_sort_A_Z -> Constants.SortType.RESPONSE_A_Z
+                    R.id.search_sort_Z_A -> Constants.SortType.RESPONSE_Z_A
+                    else -> Constants.SortType.RESPONSE_NEW_FIRST
                 }
 
                 viewModel.sorting = searchSorting
@@ -107,6 +103,7 @@ class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
             for (i in 0 until (CategoryUtils.getNumberOfCategories() - 1)) {
                 val chip = Chip(requireContext())
                 chip.text = CategoryUtils.getCategoryName(i)
+                chip.setEnsureMinTouchTargetSize(false)
                 chip.isCheckable = true
 
                 categoriesChipGroup.addView(chip)

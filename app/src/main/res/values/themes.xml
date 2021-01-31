@@ -34,4 +34,19 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="chart_LineChart">
+        <item name="chart_lineColor">@color/primary</item>
+        <item name="chart_lineWidth">2dp</item>
+        <item name="chart_cornerRadius">3dp</item>
+        <item name="chart_fillColor">@color/primary</item>
+        <item name="chart_fill">false</item>
+
+        <item name="chart_baseLineColor">@color/black</item>
+        <item name="chart_baseLineWidth">1dp</item>
+
+        <item name="chart_scrubLineColor">@color/black</item>
+        <item name="chart_scrubLineWidth">2dp</item>
+        <item name="chart_scrubEnabled">false</item>
+    </style>
+
 </resources>

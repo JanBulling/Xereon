@@ -1,13 +1,13 @@
 package com.xereon.xereon.ui.explore
 
 import android.util.Log.e
+import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.xereon.xereon.BuildConfig
+import com.xereon.xereon.R
 import com.xereon.xereon.data.model.ExploreData
 import com.xereon.xereon.data.repository.ExploreRepository
 import com.xereon.xereon.db.OrderProductDao
-import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.TAG
 import com.xereon.xereon.util.Resource
 import kotlinx.coroutines.channels.Channel
@@ -22,9 +22,9 @@ class ExploreViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     sealed class ExploreEvent {
-        class Success(val exploreData: ExploreData) : ExploreEvent()
-        class Failure(val errorText: String) : ExploreEvent()
-        class ShowErrorMessage(val message: String) : ExploreEvent()
+        data class Success(val exploreData: ExploreData) : ExploreEvent()
+        object Failure : ExploreEvent()
+        data class ShowErrorMessage(@StringRes val errorMessageId: Int) : ExploreEvent()
         object Loading : ExploreEvent()
     }
 
@@ -49,16 +49,15 @@ class ExploreViewModel @ViewModelInject constructor(
                 _exploreData.value = ExploreEvent.Loading
                 when (val response = exploreRepository.getExploreData(userID = userId, zip = postcode)) {
                     is Resource.Error -> {
-                        if (BuildConfig.DEBUG)
-                            _eventChannel.send(ExploreEvent.ShowErrorMessage(response.message!!))
-                        _exploreData.value = ExploreEvent.Failure(response.message!!)
+                        _eventChannel.send(ExploreEvent.ShowErrorMessage(response.message!!))
+                        _exploreData.value = ExploreEvent.Failure
                     }
                     is Resource.Success -> _exploreData.value =
                         ExploreEvent.Success(response.data!!)
                 }
             } catch (e: Exception) {
                 e(TAG, "Unexpected error in ExploreViewModel: ${e.message}")
-                _eventChannel.send(ExploreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+                _eventChannel.send(ExploreEvent.ShowErrorMessage(R.string.unexprected_exception))
             }
         }
     }
@@ -70,7 +69,7 @@ class ExploreViewModel @ViewModelInject constructor(
             }
         } catch (e: Exception) {
             e(TAG, "Unexpected error in ExploreViewModel: ${e.message}")
-            _eventChannel.send(ExploreEvent.ShowErrorMessage("Ein unerwarteter Fehler ist aufgetreten"))
+            _eventChannel.send(ExploreEvent.ShowErrorMessage(R.string.unexprected_exception))
             _ordersCount.value = 0
         }
     }

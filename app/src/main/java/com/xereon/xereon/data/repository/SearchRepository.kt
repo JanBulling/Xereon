@@ -14,7 +14,7 @@ class SearchRepository @Inject constructor(
     private val xereonAPI: XereonAPI
 ) {
 
-    fun searchStore(query: String, zip: String, category: Int?, sort: Constants.SortTypes) =
+    fun searchStore(query: String, zip: String, category: Int?, sort: Constants.SortType) =
         Pager(
             config = PagingConfig(
                 initialLoadSize = 10,
