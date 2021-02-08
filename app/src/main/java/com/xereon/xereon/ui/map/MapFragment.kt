@@ -96,10 +96,10 @@ class MapFragment : Fragment(R.layout.frg_map),
             clusterManager?.setOnClusterItemClickListener {
                 binding.mapBottomSheetBehaviour.isVisible = true
                 //bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                if (currentStoreId != id) {
-                    currentStoreId = id
+                if (currentStoreId != it.id) {
+                    currentStoreId = it.id
                     bindStoreData(it.toStore())
-                    viewModel.getStore(id)
+                    viewModel.getStore(it.id)
                 }
 
                 false /* show name of store above marker */
@@ -246,11 +246,16 @@ class MapFragment : Fragment(R.layout.frg_map),
 
             if (store.openinghours.size >= 7) {
                 val dayOfWeek = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)+5)%7
+                val openingTime = if (store.openinghours[dayOfWeek].isBlank())
+                        "geschlossen"
+                    else
+                        store.openinghours[dayOfWeek]
+
                 val openingString = resources.getStringArray(R.array.day_of_week_short)[dayOfWeek] +
-                        ".: " + store.openinghours[dayOfWeek]
+                        ".: $openingTime"
                 mapBottomStoreOpening.text = openingString
             } else
-                mapBottomStoreOpening.text = "Geschlossen"
+                mapBottomStoreOpening.text = "-"
         }
     }
 
