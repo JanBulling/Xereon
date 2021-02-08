@@ -1,27 +1,56 @@
 <resources>
-    <string name="app_name">Xereon</string>
+    <string name="app_name" translatable="false">Xereon</string>
 
-    <string name="total_price_incl_tax"><font color="#252525"><b>Gesamtpreis</b></font> <font color="#969696"><small>incl. MwSt.</small></font></string>
-
-    <array name="day_of_week_short">
-        <item>Mo</item>
-        <item>Di</item>
-        <item>Mi</item>
-        <item>Do</item>
-        <item>Fr</item>
-        <item>Sa</item>
-        <item>So</item>
-    </array>
+    <string name="total_price_incl_tax"><font color="#252525"><b>Total price</b></font> <font color="#969696"><small>incl. Tax.</small></font></string>
 
     <!-- ERROR MESSAGES -->
-    <string name="unexprected_exception">Ein unerwarteter Fehler ist aufgetreten</string>
-    <string name="no_connection_exception">Keine Verbdingung</string>
-    <string name="no_password_enetred_exception">Bitte geben Sie Ihr Passwort ein</string>
-    <string name="no_email_entered_exception">Bitte geben Sie eine gültige E-Mail Adresse ein</string>
-    <string name="no_name_entered_exception">Bitte geben Sie Ihren Namen ein</string>
-    <string name="no_password_too_short_exception">Das Passwort muss mindestens 6 Zeichen lang sein.</string>
-    <string name="login_data_wrong_exception">Die E-Mail Adresse oder das Passwort war nicht korrekt.</string>
-    <string name="email_already_registerd_exception">Diese E-Mail Adresse ist schon registriert.</string>
+    <string name="unexprected_exception">An unexpected error occurred</string>
+    <string name="no_connection_exception">No connection</string>
+    <string name="no_password_enetred_exception">Please enter your password</string>
+    <string name="no_email_entered_exception">Please enter a valid email address</string>
+    <string name="no_name_entered_exception">Please enter your name</string>
+    <string name="no_password_too_short_exception">The password must be at least 6 characters</string>
+    <string name="login_data_wrong_exception">The email address or the password was incorrect</string>
+    <string name="email_already_registerd_exception">This  email address is already registered</string>
+    <string name="no_location_exception">You have to enter your approximate position</string>
 
+    <!-- LOGIN -->
+    <string name="gender_male">Mr.</string>
+    <string name="gender_female">Mrs.</string>
+    <string name="first_steps">First steps</string>
+    <string name="first_steps_description">Log in to Xereon or create a new free account</string>
+    <string name="discover_new_products">Discover regional products\nand support local retail trade</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create account</string>
+    <string name="skip">Skip login process</string>
+    <string name="welcome_to_xereon">Welcome to Xereon!</string>
+    <string name="salutation">Salutation</string>
+    <string name="name">Complete name</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="already_account">Have already an account? Login</string>
+    <string name="welcome_back_to_xereon">Welcome back to Xereon!</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="no_account_yet">No account yet? Register for free</string>
+    <string name="approximate_location">Your appriximate location</string>
+    <string name="approximate_location_description">Xereon needs to know your approximate location, to show stores close to you.</string>
+    <string name="search_location">Search location</string>
+    <string name="location_privacy">You can change your location in the app settings.\nWe do NOT save your location on our servers.</string>
+    <string name="next_step">Next</string>
 
+    <!-- EXPLORE -->
+    <string name="categories">Categories</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_cloth">Mode / Cloth</string>
+    <string name="category_services">Services</string>
+    <string name="category_restaurant">Restaurant</string>
+    <string name="category_entertainment">Enetrtainment</string>
+    <string name="category_hotel">Hotel</string>
+    <string name="category_electronics">Electronics</string>
+    <string name="all_categories">All categories</string>
+    <string name="recommendations">Recommendations for you</string>
+    <string name="recommendations_description">That could interest you</string>
+    <string name="new_stores">New stores in %1$s</string>
+    <string name="new_stores_description">Discover new stores</string>
+    <string name="popular">Popular</string>
 </resources>

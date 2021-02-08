@@ -24,5 +24,5 @@ data class LocationStore(
 
     fun toStore() =
         Store(id, name, "---", latitude, longitude, "--", "--", "--",
-            "--", "--,--,--,--,--,--,--", type, category, true, false)
+            "--", arrayOf("", "", "", "", "", "", ""), type, category, true, false, null)
 }

@@ -1,17 +1,13 @@
 package com.xereon.xereon.adapter.search
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.R
 import com.xereon.xereon.data.model.places.Place
 import com.xereon.xereon.databinding.RecyclerPlacesAutocompleteBinding
-import com.xereon.xereon.db.StoreBasic
 
 class PlacesAdapter() : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
 
@@ -34,7 +30,7 @@ class PlacesAdapter() : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private val diffCallback = object: DiffUtil.ItemCallback<Place>() {
         override fun areItemsTheSame(oldItem: Place, newItem: Place) =
-            oldItem.locationName == newItem.locationName
+            oldItem.name == newItem.name
 
         override fun areContentsTheSame(oldItem: Place, newItem: Place) =
             oldItem.hashCode() == newItem.hashCode()
@@ -70,11 +66,10 @@ class PlacesAdapter() : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
         }
 
         fun bind(place: Place) {
-            val city = if(place.city.isNullOrEmpty()) "" else "${place.city[0]}, "
-            val region = "$city${place.mainAdministrative}"
+            val region = "${place.city}${place.administrative}"
 
             binding.apply {
-                locationSuggestionName.text = place.locationName
+                locationSuggestionName.text = place.name
                 locationSuggestionRegion.text = region
                 locationSuggestionImg.setImageResource(if(place.isCity) R.drawable.ic_city else R.drawable.ic_location)
             }

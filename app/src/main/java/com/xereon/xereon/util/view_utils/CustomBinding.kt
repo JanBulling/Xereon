@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
+import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -15,6 +16,7 @@ import com.xereon.xereon.data.model.Product
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.data.util.OpeningUtils
 import com.xereon.xereon.data.util.PriceUtils
+import java.util.*
 
 @BindingAdapter("isVisible")
 fun setIsVisible(view: View, show: Boolean) {
@@ -82,9 +84,10 @@ fun setCurrentDay(view: TextView, isCurrentDay: Boolean) {
 }
 
 @BindingAdapter("todayOpening")
-fun setOpeningForToday(view: TextView, openingString: String?) {
-    val opening = OpeningUtils.getOpeningTimesToday(view.context, openingString ?: ",,,,,,")
-    view.text = opening
+fun setOpeningForToday(view: TextView, opening: Array<String>?) {
+    val dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
+    val index = (dayOfWeek + 5) % 7
+    view.text = opening?.get(index) ?: "geschlossen"
 }
 
 @BindingAdapter("priceStartingValue")

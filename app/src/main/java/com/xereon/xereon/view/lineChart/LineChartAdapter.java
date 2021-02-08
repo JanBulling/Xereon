@@ -1,4 +1,4 @@
-package com.xereon.xereon.linechart;
+package com.xereon.xereon.view.lineChart;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;

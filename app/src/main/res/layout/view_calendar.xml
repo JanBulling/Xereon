@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="82dp">
+
+    <LinearLayout
+        android:id="@+id/calendar_mon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/calendar_tue"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Mo"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_mon_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_mon_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_tue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/gray_1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/calendar_wed"
+        app:layout_constraintStart_toEndOf="@id/calendar_mon">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Di"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_tue_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="02"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_tue_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_wed"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/calendar_thu"
+        app:layout_constraintStart_toEndOf="@id/calendar_tue">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Mi"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_wed_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="03"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_wed_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_thu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/gray_1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/calendar_fri"
+        app:layout_constraintStart_toEndOf="@id/calendar_wed">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Do"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_thu_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="04"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_thu_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_fri"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/calendar_sat"
+        app:layout_constraintStart_toEndOf="@id/calendar_thu">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Fri"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_fri_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="05"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_fri_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_sat"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/gray_1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/calendar_sun"
+        app:layout_constraintStart_toEndOf="@id/calendar_fri">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Sat"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_sat_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="06"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_sat_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_sun"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/calendar_sat">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Sun"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/calendar_sun_day"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/calendar_day_background_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="07"
+            android:textColor="@color/calendar_day_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/calendar_sun_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto"
+            android:text="Feb"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

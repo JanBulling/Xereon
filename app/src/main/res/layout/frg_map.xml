@@ -1,172 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_5"
+    tools:context=".ui.map.MapFragment">
 
-    <data>
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <variable
-            name="currentStore"
-            type="com.xereon.xereon.data.model.Store" />
-    </data>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/map_places_search"
+        android:layout_width="match_parent"
+        android:layout_height="247dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/map_bottom_sheet_behaviour"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray_5"
-        tools:context=".ui.map.MapFragment">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/map_places_search"
-            android:layout_width="match_parent"
-            android:layout_height="248dp"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/map_bottom_sheet_behaviour"
+        <TextView
+            android:id="@+id/map_bottom_store_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="52dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_bold"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Metzgerei Heußler" />
+
+        <TextView
+            android:id="@+id/map_bottom_store_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="52dp"
+            android:fontFamily="@font/roboto_bold"
+            android:lines="1"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/map_bottom_store_name"
+            tools:text="Metzgerei" />
+
+        <ProgressBar
+            android:id="@+id/map_bottom_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="8dp"
+            android:indeterminateTint="@color/black"
             android:visibility="gone"
-            tools:visibility="visible"
-            android:background="@color/white">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/map_bottom_store_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="52dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto_bold"
-                android:maxLines="2"
-                android:text="@{currentStore.name}"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Metzgerei Heußler" />
+        <View
+            android:id="@+id/barrier"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/gray_5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/map_bottom_store_type" />
 
-            <TextView
-                android:id="@+id/map_bottom_store_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="52dp"
-                android:fontFamily="@font/roboto_bold"
-                android:lines="1"
-                android:text="@{currentStore.type}"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/map_bottom_store_name"
-                app:textCategoryColor="@{currentStore.category}"
-                tools:text="Metzgerei" />
+        <ImageView
+            android:id="@+id/map_bottom_store_logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:src="@drawable/img_map" />
 
-            <ProgressBar
-                android:id="@+id/map_bottom_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="8dp"
-                android:indeterminateTint="@color/black"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/map_bottom_store_address"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:lines="2"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/map_bottom_store_logo"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:text="Lange Starße 8, 89542 Herbrechtingen" />
 
-            <View
-                android:id="@+id/barrier"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:background="@color/gray_5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/map_bottom_store_type" />
+        <TextView
+            android:id="@+id/map_bottom_store_opening"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/map_bottom_store_logo"
+            app:layout_constraintTop_toBottomOf="@id/map_bottom_store_address"
+            tools:text="Do: 12.00 - 18.30" />
 
-            <ImageView
-                android:id="@+id/map_bottom_store_logo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:imageURL="@{currentStore.logoImageURL}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/barrier"
-                tools:src="@drawable/img_map" />
-
-            <TextView
-                android:id="@+id/map_bottom_store_address"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:drawablePadding="8dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:lines="2"
-                android:text="@{currentStore.completeAddress}"
-                android:textColor="@color/text_gray"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_location"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/map_bottom_store_logo"
-                app:layout_constraintTop_toBottomOf="@id/barrier"
-                tools:text="Lange Starße 8, 89542 Herbrechtingen" />
-
-            <TextView
-                android:id="@+id/map_bottom_store_opening"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:drawablePadding="8dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/roboto"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:textColor="@color/text_gray"
-                android:textSize="12sp"
-                app:drawableStartCompat="@drawable/ic_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/map_bottom_store_logo"
-                app:layout_constraintTop_toBottomOf="@id/map_bottom_store_address"
-                app:todayOpening="@{currentStore.openinghours}"
-                tools:text="Do: 12.00 - 18.30" />
-
-            <TextView
-                android:id="@+id/map_bottom_store_more_information"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="4dp"
-                android:drawablePadding="8dp"
-                android:fontFamily="@font/roboto_bold"
-                android:padding="7dp"
-                android:text="Mehr Informationen"
-                android:textColor="@color/primary"
-                android:textSize="14sp"
-                app:drawableEndCompat="@drawable/ic_arrow_right"
-                app:drawableTint="@color/primary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/map_bottom_store_opening" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/map_bottom_store_more_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:padding="7dp"
+            android:text="Mehr Informationen"
+            android:textColor="@color/primary"
+            android:textSize="14sp"
+            app:drawableEndCompat="@drawable/ic_arrow_right"
+            app:drawableTint="@color/primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/map_bottom_store_opening" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

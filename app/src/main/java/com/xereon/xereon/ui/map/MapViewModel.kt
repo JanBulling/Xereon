@@ -21,6 +21,7 @@ import com.xereon.xereon.util.Constants.DEFAULT_ZOOM
 import com.xereon.xereon.util.Constants.MAX_NUMBER_STORES_ON_MAP
 import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.view_utils.notifyObserver
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -31,8 +32,6 @@ class MapViewModel @ViewModelInject constructor(
     private val storeRepository: StoreRepository,
     private val placesRepository: PlacesRepository
 ) : ViewModel() {
-
-    @Inject @ProvideLatLng lateinit var latLng: LatLng
 
     sealed class MapStoreEvent {
         data class Success(val storeData: Store) : MapStoreEvent()
@@ -63,11 +62,7 @@ class MapViewModel @ViewModelInject constructor(
     var isBottomSheetVisible: Boolean = false
 
     /* the camera position  */
-    private var cameraPosition =
-        CameraPosition.fromLatLngZoom(LatLng(DEFAULT_LAT.toDouble(), DEFAULT_LNG.toDouble()), DEFAULT_ZOOM)
-
-    fun getCameraPosition() = cameraPosition
-
+    var cameraPosition: CameraPosition? = null
 
     fun getStores(zip: String, initialCall: Boolean = false) {
         //cause the list is saved in an livedata, it gets not observed on first load

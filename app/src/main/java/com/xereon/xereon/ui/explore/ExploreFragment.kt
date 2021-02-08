@@ -62,8 +62,7 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
         })
 
         binding.apply {
-            val newStoresText = "Neue Geschäfte in $city"
-            exploreTitleNewStores.text = newStoresText
+            exploreTitleNewStores.text = getString(R.string.new_stores, city)
             exploreAllCategories.setOnClickListener {
                 findNavController().navigate(R.id.action_to_AllCategories)
             }
@@ -123,7 +122,7 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
                 else -> Unit
             }
         })
-        //DEBUG ONLY
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.eventChannel.collect { event ->
                 when (event) {

@@ -7,11 +7,8 @@ import kotlinx.android.parcel.Parcelize
 data class IPLocationResponse(
     val city : String,
     val country : String,
-    @SerializedName("lat")
-    val latitude : Float,
-    @SerializedName("lng")
-    val longitude : Float,
-    val zip : String
-) {
-    val location get() = country + " " + city + " (" + zip + ")"
-}
+    @SerializedName("regionName") val region: String,
+    @SerializedName("lat") val latitude : Float,
+    @SerializedName("lon") val longitude : Float,
+    @SerializedName("zip") val postCode : String,
+)

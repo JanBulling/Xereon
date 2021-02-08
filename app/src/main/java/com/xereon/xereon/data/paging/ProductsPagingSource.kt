@@ -17,7 +17,7 @@ class ProductsPagingSource(
 
         return try {
             val response = xereonAPI.getProductsFromStore(
-                storeId = storeId,
+                storeID = storeId,
                 query = query,
                 sort = sort.index,
                 page = currentPage,

@@ -16,14 +16,13 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
-import com.xereon.xereon.ui._parent.MainActivity
+import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgSubCategoryBinding
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.frg_sub_category.*
 
 @AndroidEntryPoint
 class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
@@ -99,7 +98,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
             else if (searchView.query.isNullOrBlank() && !viewModel.searchQuery.isBlank()) {
                 storeAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
-                sub_category_stores.scrollToPosition(0)
+                binding.subCategoryStores.scrollToPosition(0)
                 viewModel.searchStore(CategoryViewModel.SearchQuery(type = args.type, postcode = Constants.DEFAULT_POSTCODE))
                 searchView.clearFocus()
             }
@@ -108,7 +107,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 storeAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
 
-                sub_category_stores.scrollToPosition(0)
+                binding.subCategoryStores.scrollToPosition(0)
                 viewModel.searchStore(CategoryViewModel.SearchQuery(query ?: "", args.type, Constants.DEFAULT_POSTCODE))
                 searchView.clearFocus()
                 return true
@@ -116,5 +115,10 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
 
             override fun onQueryTextChange(query: String?) = true
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

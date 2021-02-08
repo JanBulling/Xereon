@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,41 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <LinearLayout
+    <TextView
         android:id="@+id/search_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Suche nach Filialen"
+        android:textColor="@color/primary"
+        android:textSize="19sp"
+        android:textAlignment="center"
+        android:drawablePadding="12dp"
+        app:drawableTopCompat="@drawable/img_undraw_search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/img_undraw_search" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Suche nach Filialen"
-            android:textColor="@color/primary"
-            android:textSize="19sp" />
-
-        <TextView
-            android:layout_width="310dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/roboto"
-            android:text="Suchen Sie gezielt nach Filialen in Ihrer Umgebung"
-            android:textAlignment="center"
-            android:textColor="@color/text_gray"
-            android:textSize="14sp" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/search_loading"
@@ -151,8 +129,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.5"
-        android:visibility="gone"
         android:background="@color/gray_8"
+        android:visibility="gone"
         tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -208,8 +186,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="78dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="78dp"
             android:checkedButton="@id/search_sort_new_first"
             app:layout_constraintTop_toBottomOf="@id/search_sorting_title">
 

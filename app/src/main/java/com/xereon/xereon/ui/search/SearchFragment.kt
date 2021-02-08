@@ -21,14 +21,15 @@ import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgSearchBinding
-import com.xereon.xereon.ui._parent.MainActivity
-import com.xereon.xereon.ui._parent.OnBackPressedListener
+import com.xereon.xereon.ui.MainActivity
+import com.xereon.xereon.ui.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.frg_search), OnBackPressedListener {
+class SearchFragment : Fragment(R.layout.frg_search),
+    OnBackPressedListener {
     private val viewModel by activityViewModels<SearchViewModel>()
 
     private var _binding: FrgSearchBinding? = null

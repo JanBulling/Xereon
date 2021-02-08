@@ -3,7 +3,6 @@ package com.xereon.xereon.ui.product
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log.e
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
@@ -20,9 +19,7 @@ import com.xereon.xereon.adapter.recyclerAdapter.ProductVerticalAdapter
 import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.databinding.FrgDefaultProductBinding
-import com.xereon.xereon.ui._parent.MainActivity
-import com.xereon.xereon.ui.shoppingCart.ShoppingCartViewModel
-import com.xereon.xereon.util.Constants.TAG
+import com.xereon.xereon.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.frg_default_product.*
 import kotlinx.coroutines.flow.collect

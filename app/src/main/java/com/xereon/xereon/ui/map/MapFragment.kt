@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,28 +17,37 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
 import com.xereon.xereon.data.model.LocationStore
+import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.model.places.Place
+import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgMapBinding
-import com.xereon.xereon.ui._parent.OnBackPressedListener
+import com.xereon.xereon.di.ProvideLatLng
+import com.xereon.xereon.di.ProvidePostCode
+import com.xereon.xereon.ui.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
-import kotlinx.android.synthetic.main.frg_map.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import java.lang.NullPointerException
+import java.time.DayOfWeek
 import java.util.*
+import javax.inject.Inject
 
-class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAdapter.ItemClickListener {
+@AndroidEntryPoint
+class MapFragment : Fragment(R.layout.frg_map),
+    OnBackPressedListener, PlacesAdapter.ItemClickListener {
     private val viewModel by activityViewModels<MapViewModel>()
 
     private var _binding: FrgMapBinding? = null
@@ -45,8 +56,10 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     private var googleMap: GoogleMap? = null
     private var clusterManager: ClusterManager<LocationStore>? = null
 
-    //private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>;
     private var currentStoreId = -1
+
+    @Inject @ProvideLatLng lateinit var latLng: LatLng
+    @JvmField @Inject @ProvidePostCode var postCode: String = Constants.DEFAULT_POSTCODE
 
     private val placesAdapter = PlacesAdapter()
     private lateinit var searchView: SearchView
@@ -56,13 +69,10 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
 
         _binding = FrgMapBinding.bind(view)
 
-        //bottomSheetBehavior = BottomSheetBehavior.from(binding.mapBottomSheetBehaviour)
-        /*bottomSheetBehavior.apply {
-            isHideable = true
-            state = BottomSheetBehavior.STATE_HIDDEN
-        }*/
-
         binding.mapView.onCreate(savedInstanceState)
+
+        if (this::latLng.isInitialized && viewModel.cameraPosition == null)
+            viewModel.cameraPosition = CameraPosition.fromLatLngZoom(latLng, Constants.DEFAULT_ZOOM)
 
         binding.mapView.getMapAsync {
             googleMap = it
@@ -86,10 +96,10 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
             clusterManager?.setOnClusterItemClickListener {
                 binding.mapBottomSheetBehaviour.isVisible = true
                 //bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-                if (currentStoreId != it.id) {
-                    currentStoreId = it.id
-                    binding.currentStore = it.toStore()
-                    viewModel.getStore(it.id)
+                if (currentStoreId != id) {
+                    currentStoreId = id
+                    bindStoreData(it.toStore())
+                    viewModel.getStore(id)
                 }
 
                 false /* show name of store above marker */
@@ -111,9 +121,14 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
                 searchView.clearFocus()
             }
 
-            googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(viewModel.getCameraPosition()))
+            googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(viewModel.cameraPosition
+                ?: CameraPosition.fromLatLngZoom(
+                    LatLng(Constants.DEFAULT_LAT.toDouble(), Constants.DEFAULT_LNG.toDouble()),
+                    Constants.DEFAULT_ZOOM
+                )
+            ))
 
-            viewModel.getStores(Constants.DEFAULT_POSTCODE, initialCall = true)  //get data, if cluster manager is ready
+            viewModel.getStores(postCode, initialCall = true)  //get data, if cluster manager is ready
         }
 
         binding.mapBottomStoreMoreInformation.setOnClickListener {
@@ -189,7 +204,7 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
             when (event) {
                 is MapViewModel.MapStoreEvent.Success -> {
                     binding.mapBottomLoading.isVisible = false
-                    binding.currentStore = event.storeData
+                    bindStoreData(event.storeData)
                 }
                 is MapViewModel.MapStoreEvent.Loading -> binding.mapBottomLoading.isVisible = true
                 is MapViewModel.MapStoreEvent.Failure -> {
@@ -219,6 +234,26 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
         return ""
     }
 
+    private fun bindStoreData(store: Store) {
+        binding.apply {
+            mapBottomStoreName.text = store.name
+            mapBottomStoreAddress.text = store.completeAddress
+            Glide.with(requireContext()).load(store.logoImageURL).into(mapBottomStoreLogo)
+
+            @ColorRes val colorId = CategoryUtils.getCategoryColorResourceId(store.category)
+            mapBottomStoreType.setTextColor( ContextCompat.getColor(requireContext(), colorId) )
+            mapBottomStoreType.text = store.type
+
+            if (store.openinghours.size >= 7) {
+                val dayOfWeek = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)+5)%7
+                val openingString = resources.getStringArray(R.array.day_of_week_short)[dayOfWeek] +
+                        ".: " + store.openinghours[dayOfWeek]
+                mapBottomStoreOpening.text = openingString
+            } else
+                mapBottomStoreOpening.text = "Geschlossen"
+        }
+    }
+
     private fun displayError(@StringRes messageId: Int) {
         val snackBar = Snackbar.make(requireView(), messageId, Snackbar.LENGTH_LONG)
         val snackBarView: View = snackBar.view
@@ -238,7 +273,7 @@ class MapFragment : Fragment(R.layout.frg_map), OnBackPressedListener, PlacesAda
     }
 
     override fun onItemClick(place: Place) {
-        val location = LatLng(place.coordinares.latitude.toDouble(), place.coordinares.longitude.toDouble())
+        val location = LatLng(place.coordinates.latitude.toDouble(), place.coordinates.longitude.toDouble())
         googleMap?.animateCamera(CameraUpdateFactory.newLatLng(location))
         binding.mapPlacesSearch.isVisible = false
         searchView.clearFocus()

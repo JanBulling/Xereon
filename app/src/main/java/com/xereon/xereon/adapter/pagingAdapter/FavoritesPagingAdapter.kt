@@ -43,6 +43,8 @@ class FavoritesPagingAdapter() :
     }
 
 
+    fun getItemAtPosition(positon: Int) = getItem(positon)
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     fun setOnItemClickListener(clickListener: ItemClickListener) { itemClickListener = clickListener }
     interface ItemClickListener { fun onItemClick(favoriteStore: FavoriteStore) }

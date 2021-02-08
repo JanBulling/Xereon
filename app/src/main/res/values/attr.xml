@@ -19,10 +19,14 @@
 
         <attr name="chart_baseLineColor" format="color|reference" />
         <attr name="chart_baseLineWidth" format="dimension|reference" />
+    </declare-styleable>
 
-        <attr name="chart_scrubLineColor" format="color|reference" />
-        <attr name="chart_scrubLineWidth" format="dimension|reference" />
 
-        <attr name="chart_scrubEnabled" format="boolean|reference" />
+    <attr name="chart_BarChartViewStyle" format="reference" />
+
+    <declare-styleable name="BarChartView">
+        <attr name="currentBarColor" format="color|reference" />
+        <attr name="barColor" format="color|reference" />
+        <attr name="showCurrentPopularity" format="boolean|reference" />
     </declare-styleable>
 </resources>

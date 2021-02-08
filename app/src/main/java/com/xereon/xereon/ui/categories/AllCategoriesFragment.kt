@@ -12,7 +12,6 @@ import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.CategoryVerticalAdapter
 import com.xereon.xereon.data.model.Category
 import com.xereon.xereon.data.util.CategoryUtils
-import com.xereon.xereon.ui._parent.MainActivity
 import kotlinx.android.synthetic.main.frg_categories.*
 
 class AllCategoriesFragment : Fragment(R.layout.frg_categories) {

@@ -17,7 +17,7 @@
             type="com.xereon.xereon.ui.explore.OnTableItemSelect" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:id="@+id/explore_scroll_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -41,7 +41,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="XEREON ist bei\nJUGEND FORSCHT dabei!"
+                    android:text="XEREON ist bei\r\nJUGEND FORSCHT dabei!"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
@@ -55,7 +55,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Kategorien"
+                android:text="@string/categories"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,13 +83,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_GROCERIES)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Lebensmittel"
+                        android:text="@string/category_groceries"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_groceries" />
 
@@ -99,13 +98,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_CLOTH)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Mode / Kleidung"
+                        android:text="@string/category_cloth"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_cloth" />
                 </TableRow>
@@ -120,13 +118,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_SERVICES)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Dienstleistungen"
+                        android:text="@string/category_services"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_barber" />
 
@@ -136,13 +133,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_RESTAURANT)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Restaurant"
+                        android:text="@string/category_restaurant"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_restaurant" />
                 </TableRow>
@@ -157,13 +153,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ENTERTAINMENT)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Unterhaltung"
+                        android:text="@string/category_entertainment"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_entertainment" />
 
@@ -173,13 +168,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_HOTEL)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Hotel"
+                        android:text="@string/category_hotel"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_hotel" />
                 </TableRow>
@@ -194,13 +188,12 @@
                         android:layout_height="50dp"
                         android:layout_margin="3dp"
                         android:background="@color/gray_2"
-                        android:clickable="true"
                         android:fontFamily="@font/roboto_medium"
                         android:foreground="?selectableItemBackground"
                         android:gravity="center"
                         android:onClick="@{()->tableCategoryClickListener.onTableSelect(CategoryUtils.Categories.CATEGORY_ELECTRONIC)}"
                         android:paddingHorizontal="8dp"
-                        android:text="Elektrik"
+                        android:text="@string/category_electronics"
                         android:textColor="@color/black"
                         app:drawableStartCompat="@drawable/ic_electronics" />
                 </TableRow>
@@ -216,7 +209,7 @@
                 android:fontFamily="@font/roboto"
                 android:foreground="?selectableItemBackground"
                 android:padding="3dp"
-                android:text="Alle Kategorien"
+                android:text="@string/all_categories"
                 android:textColor="@color/primary"
                 android:textSize="13sp"
                 app:drawableEndCompat="@drawable/ic_arrow_right"
@@ -231,7 +224,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="48dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Vorschläge für Sie"
+                android:text="@string/recommendations"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -242,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/roboto"
-                android:text="Das könnte Sie interessieren"
+                android:text="@string/recommendations_description"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -277,13 +270,15 @@
 
             <TextView
                 android:id="@+id/explore_title_new_stores"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="284dp"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/explore_title_recommendations"
                 tools:text="Neue Geschäfte in Herbrechtingen" />
@@ -293,7 +288,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/roboto"
-                android:text="Entdecken Sie neue Filialen"
+                android:text="@string/new_stores_description"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -333,7 +328,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="240dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Beliebt"
+                android:text="@string/popular"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -370,6 +365,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 </layout>

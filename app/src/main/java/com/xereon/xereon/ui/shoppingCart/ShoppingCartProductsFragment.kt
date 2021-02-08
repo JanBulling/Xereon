@@ -73,6 +73,10 @@ class ShoppingCartProductsFragment : Fragment(R.layout.frg_shopping_cart_product
                 val action = ShoppingCartProductsFragmentDirections.actionToStore(simpleStoreId = storeId)
                 findNavController().navigate(action)
             }
+
+            shoppingCartProductStoreCheckOut.setOnClickListener {
+                findNavController().navigate(R.id.action_ShoppingCart_to_Order)
+            }
         }
 
         viewModel.getAllOrdersFromStore(storeId)

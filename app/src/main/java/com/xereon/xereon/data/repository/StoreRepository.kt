@@ -21,7 +21,7 @@ class StoreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
 
     suspend fun getStore(storeId: Int) : Resource<Store> {
         return try {
-            val response = xereonAPI.getStore(storeId = storeId)
+            val response = xereonAPI.getStore(storeID = storeId)
             val result = response.body()
             if (response.isSuccessful && result != null)
                 Resource.Success(result)

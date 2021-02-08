@@ -1,4 +1,4 @@
-package com.xereon.xereon.linechart;
+package com.xereon.xereon.view.lineChart;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 
@@ -30,7 +29,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class LineChartView extends View implements ScrubGestureDetector.ScrubListener {
+public class LineChartView extends View {
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -74,16 +73,11 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
     @ColorInt
     private int baseLineColor;
     private float baseLineWidth;
-    @ColorInt
-    private int scrubLineColor;
-    private float scrubLineWidth;
-    private boolean scrubEnabled;
 
     // the onDraw data
     private final Path renderPath = new Path();
     private final Path chartPath = new Path();
     private final Path baseLinePath = new Path();
-    private final Path scrubLinePath = new Path();
 
     // adapter
     private @Nullable
@@ -93,9 +87,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
     private Paint chartLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint chartFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint baseLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Paint scrubLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private @Nullable OnScrubListener scrubListener;
-    private @NonNull ScrubGestureDetector scrubGestureDetector;
     private final RectF contentRect = new RectF();
 
     private List<Float> xPoints;
@@ -139,9 +130,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
 
         baseLineColor = a.getColor(R.styleable.LineChartView_chart_baseLineColor, 0);
         baseLineWidth = a.getDimension(R.styleable.LineChartView_chart_baseLineWidth, 0);
-        scrubEnabled = a.getBoolean(R.styleable.LineChartView_chart_scrubEnabled, true);
-        scrubLineColor = a.getColor(R.styleable.LineChartView_chart_scrubLineColor, baseLineColor);
-        scrubLineWidth = a.getDimension(R.styleable.LineChartView_chart_scrubLineWidth, lineWidth);
         a.recycle();
 
         chartLinePaint.setStyle(Paint.Style.STROKE);
@@ -161,16 +149,8 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
         baseLinePaint.setColor(baseLineColor);
         baseLinePaint.setStrokeWidth(baseLineWidth);
 
-        scrubLinePaint.setStyle(Paint.Style.STROKE);
-        scrubLinePaint.setStrokeWidth(scrubLineWidth);
-        scrubLinePaint.setColor(scrubLineColor);
-        scrubLinePaint.setStrokeCap(Paint.Cap.ROUND);
-
         final Handler handler = new Handler();
         final float touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        scrubGestureDetector = new ScrubGestureDetector(this, handler, touchSlop);
-        scrubGestureDetector.setEnabled(scrubEnabled);
-        setOnTouchListener(scrubGestureDetector);
 
         xPoints = new ArrayList<>();
         yPoints = new ArrayList<>();
@@ -292,30 +272,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
         return new Path(chartPath);
     }
 
-    private void setScrubLine(float x) {
-        x = resolveBoundedScrubLine(x);
-        scrubLinePath.reset();
-        scrubLinePath.moveTo(x, getPaddingTop());
-        scrubLinePath.lineTo(x, getHeight() - getPaddingBottom());
-        invalidate();
-    }
-
-    private float resolveBoundedScrubLine(float x) {
-        float scrubLineOffset = scrubLineWidth / 2;
-
-        float leftBound = getPaddingStart() + scrubLineOffset;
-        if (x < leftBound) {
-            return leftBound;
-        }
-
-        float rightBound = getWidth() - getPaddingEnd() - scrubLineOffset;
-        if (x > rightBound) {
-            return rightBound;
-        }
-
-        return x;
-    }
-
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
         super.setPadding(left, top, right, bottom);
@@ -333,7 +289,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
         }
 
         canvas.drawPath(renderPath, chartLinePaint);
-        canvas.drawPath(scrubLinePath, scrubLinePaint);
     }
 
     @ColorInt public int getLineColor() {
@@ -379,16 +334,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
             chartLinePaint.setPathEffect(null);
             chartFillPaint.setPathEffect(null);
         }
-        invalidate();
-    }
-
-    @NonNull
-    public Paint getScrubLinePaint() {
-        return scrubLinePaint;
-    }
-
-    public void setScrubLinePaint(@NonNull Paint scrubLinePaint) {
-        this.scrubLinePaint = scrubLinePaint;
         invalidate();
     }
 
@@ -477,45 +422,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
     public void setBaseLinePaint(@NonNull Paint baseLinePaint) {
         this.baseLinePaint = baseLinePaint;
         invalidate();
-    }
-
-    @ColorInt public int getScrubLineColor() {
-        return scrubLineColor;
-    }
-
-    public void setScrubLineColor(@ColorInt int scrubLineColor) {
-        this.scrubLineColor = scrubLineColor;
-        scrubLinePaint.setColor(scrubLineColor);
-        invalidate();
-    }
-
-    public float getScrubLineWidth() {
-        return scrubLineWidth;
-    }
-
-    public void setScrubLineWidth(float scrubLineWidth) {
-        this.scrubLineWidth = scrubLineWidth;
-        scrubLinePaint.setStrokeWidth(scrubLineWidth);
-        invalidate();
-    }
-
-    public boolean isScrubEnabled() {
-        return scrubEnabled;
-    }
-
-    public void setScrubEnabled(boolean scrubbingEnabled) {
-        this.scrubEnabled = scrubbingEnabled;
-        scrubGestureDetector.setEnabled(scrubbingEnabled);
-        invalidate();
-    }
-
-    @Nullable
-    public OnScrubListener getScrubListener() {
-        return scrubListener;
-    }
-
-    public void setScrubListener(@Nullable OnScrubListener scrubListener) {
-        this.scrubListener = scrubListener;
     }
 
     @Nullable
@@ -635,31 +541,6 @@ public class LineChartView extends View implements ScrubGestureDetector.ScrubLis
         }
 
         return index;
-    }
-
-    @Override
-    public void onScrubbed(float x, float y) {
-        if (adapter == null || adapter.getCount() == 0) return;
-        if (scrubListener != null) {
-            getParent().requestDisallowInterceptTouchEvent(true);
-            int index = getNearestIndex(xPoints, x);
-            if (scrubListener != null) {
-                scrubListener.onScrubbed(adapter.getItem(index));
-            }
-        }
-
-        setScrubLine(x);
-    }
-
-    @Override
-    public void onScrubEnded() {
-        scrubLinePath.reset();
-        if (scrubListener != null) scrubListener.onScrubbed(null);
-        invalidate();
-    }
-
-    public interface OnScrubListener {
-        void onScrubbed(@Nullable Object value);
     }
 
     private final DataSetObserver dataSetObserver = new DataSetObserver() {

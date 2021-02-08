@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_price_incl_tax"><font color="#252525"><b>Gesamtpreis</b></font> <font color="#969696"><small>incl. MwSt.</small></font></string>
+
+    <string name="unexprected_exception">Ein unerwarteter Fehler ist aufgetreten</string>
+    <string name="no_connection_exception">Keine Verbdingung</string>
+    <string name="no_password_enetred_exception">Bitte geben Sie Ihr Passwort ein</string>
+    <string name="no_email_entered_exception">Bitte geben Sie eine gültige E-Mail Adresse ein</string>
+    <string name="no_name_entered_exception">Bitte geben Sie Ihren Namen ein</string>
+    <string name="no_password_too_short_exception">Das Passwort muss mindestens 6 Zeichen lang sein.</string>
+    <string name="login_data_wrong_exception">Die E-Mail Adresse oder das Passwort war nicht korrekt.</string>
+    <string name="email_already_registerd_exception">Diese E-Mail Adresse ist schon registriert.</string>
+    <string name="no_location_exception">Sie müssen eine ungefähre Position angeben.</string>
+
+    <string name="gender_male">Herr</string>
+    <string name="gender_female">Frau</string>
+    <string name="first_steps">Erste Schritte</string>
+    <string name="first_steps_description">Melden Sie sich bei Xereon an oder erstellen Sie einen neuen Account.</string>
+    <string name="discover_new_products">Entdecken Sie regionale Produkte\nund unetrstützen Sie den Einzelhandel</string>
+    <string name="login">Anmelden</string>
+    <string name="create_account">Account erstellen</string>
+    <string name="skip">Ohne Anmelden fortfahren</string>
+    <string name="welcome_to_xereon">Willkommen bei Xereon!</string>
+    <string name="salutation">Anrede</string>
+    <string name="name">Vollständiger Name</string>
+    <string name="email_address">E-Mail Adresse</string>
+    <string name="password">Passwort</string>
+    <string name="already_account">Schon einen Account? Anmelden</string>
+    <string name="welcome_back_to_xereon">Willkommen zurück bei Xereon!</string>
+    <string name="forgot_password">Passwort vergessen?</string>
+    <string name="no_account_yet">Noch keinen Account? Kostenlos registrieren</string>
+    <string name="approximate_location">Ihr ungefährer Standort</string>
+    <string name="approximate_location_description">Xereon benötigt Ihren ungefähren Standort um Läden in Ihrer Umgebung anzeigen zu können.</string>
+    <string name="search_location">Ort suchen</string>
+    <string name="location_privacy">Sie können Ihren ungefähren Standort jederzeit in den Einstellungen der App ändern.\nEs werden keine Standortbezogenen Daten über Sie von uns gespeichert.</string>
+    <string name="next_step">Weiter</string>
+
+    <string name="categories">Kategorien</string>
+    <string name="category_cloth">Mode / Kleidung</string>
+    <string name="category_groceries">Lebensmittel</string>
+    <string name="category_services">Dienstleistungen</string>
+    <string name="category_restaurant">Restaurant</string>
+    <string name="category_entertainment">Unterhaltung</string>
+    <string name="category_hotel">Hotel</string>
+    <string name="category_electronics">Elektronik</string>
+    <string name="all_categories">Alle Kategorien</string>
+    <string name="recommendations">Vorschläge für Sie</string>
+    <string name="recommendations_description">Das könnte Sie interessieren</string>
+    <string name="new_stores">Neue Filialen in %1$s</string>
+    <string name="new_stores_description">Entdecken Sie neue Filialen</string>
+    <string name="popular">Beliebt</string>
+</resources>

@@ -32,11 +32,17 @@ object Constants {
 
     enum class ApplicationState(val index: Int) {
         FIRST_OPENED(0),
-        SKIPPED_AND_NO_LOCATION(1),
-        LOGGED_IN_AND_NO_LOCATION(2),
-        SKIPPED_AND_LOCATION(3),
-        LOGGED_IN_AND_LOCATION(4),
-        VALID_USER_ACCOUNT(5);
+
+        SKIPPED_NO_LOCATION(1),
+
+        LOGGED_IN_NO_LOCATION_NOT_VALID(2),
+        LOGGED_IN_NO_LOCATION_VALID(3),
+
+        SKIPPED_HAS_LOCATION(4),
+
+        LOGGED_IN_HAS_LOCATION_NOT_VALID(5),
+
+        VALID_USER_ACCOUNT(6);
 
         companion object {
             fun fromInt(index: Int) = values().first { it.index == index }
@@ -51,8 +57,8 @@ object Constants {
         ;
 
         companion object {
-            fun fromInt(index: Int) =
-                if (index <= 3) values().first { it.index == index }
+            fun fromInt(index: Int): LoginResponseCodes =
+                if (index < values().size) values().first { it.index == index }
                 else ERROR
         }
     }

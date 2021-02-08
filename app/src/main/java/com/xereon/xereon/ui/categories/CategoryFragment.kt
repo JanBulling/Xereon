@@ -17,7 +17,7 @@ import com.xereon.xereon.adapter.recyclerAdapter.SubCategoriesAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgCategoryBinding
 import com.xereon.xereon.di.ProvidePostCode
-import com.xereon.xereon.ui._parent.MainActivity
+import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

@@ -3,12 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/exploreFragment">
+    app:startDestination="@id/chatFragment">
 
+    <!-- LOGIN -->
+    <fragment
+        android:id="@+id/chooseLoginOrSignUpFragment"
+        android:name="com.xereon.xereon.ui.login.ChooseLoginOrSignUpFragment"
+        android:label="ChooseLoginOrSignUpFragment"
+        tools:layout="@layout/frg_choose_login_or_signup">
+        <action
+            android:id="@+id/action_Choose_to_Login"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_Choose_to_SignUp"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_Choose_to_ChooseLocation"
+            app:destination="@id/chooseLocationFragment"
+            app:popUpTo="@id/chooseLoginOrSignUpFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.xereon.xereon.ui.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/frg_login">
+        <action
+            android:id="@+id/action_Login_to_SignUp"
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_Login_to_ChooseLocation"
+            app:destination="@id/chooseLocationFragment"
+            app:popUpTo="@id/chooseLoginOrSignUpFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.xereon.xereon.ui.login.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/frg_sign_up">
+        <action
+            android:id="@+id/action_SignUp_to_Login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/signUpFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_SignUp_to_ChooseLocation"
+            app:destination="@id/chooseLocationFragment"
+            app:popUpTo="@id/chooseLoginOrSignUpFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chooseLocationFragment"
+        android:name="com.xereon.xereon.ui.login.ChooseLocationFragment"
+        android:label="ChooseLocationFragment"
+        tools:layout="@layout/frg_choose_location">
+        <action
+            android:id="@+id/action_ChooseLocation_to_Explore"
+            app:destination="@id/exploreFragment"
+            app:popUpTo="@id/chooseLocationFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <!-- MAIN CONTENT -->
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="com.xereon.xereon.ui.explore.ExploreFragment"
+        android:label="Entdecken"
+        tools:layout="@layout/frg_explore">
+        <action
+            android:id="@+id/action_to_AllCategories"
+            app:destination="@id/alLCategoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.xereon.xereon.ui.search.SearchFragment"
+        android:label="Suche"
+        tools:layout="@layout/frg_search" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.xereon.xereon.ui.favorites.FavoritesFragment"
+        android:label="Favoriten"
+        tools:layout="@layout/frg_favorites" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.xereon.xereon.ui.map.MapFragment"
+        android:label="Karte"
+        tools:layout="@layout/frg_map" />
+
+    <!-- STORE -->
     <fragment
         android:id="@+id/defaultStoreFragment"
         android:name="com.xereon.xereon.ui.store.DefaultStoreFragment"
-        android:label="Store"
+        android:label="Default_Store"
         tools:layout="@layout/frg_default_store">
         <argument
             android:name="simpleStore"
@@ -28,35 +117,15 @@
             app:popUpTo="@id/defaultStoreFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/exploreFragment"
-        android:name="com.xereon.xereon.ui.explore.ExploreFragment"
-        android:label="Entdecken"
-        tools:layout="@layout/frg_explore" >
-        <action
-            android:id="@+id/action_to_AllCategories"
-            app:destination="@id/alLCategoriesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.xereon.xereon.ui.favorites.FavoritesFragment"
-        android:label="Favoriten"
-        tools:layout="@layout/frg_favorites" />
-    <fragment
-        android:id="@+id/mapFragment"
-        android:name="com.xereon.xereon.ui.map.MapFragment"
-        android:label="Karte"
-        tools:layout="@layout/frg_map" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.xereon.xereon.ui.search.SearchFragment"
-        android:label="Suche"
-        tools:layout="@layout/frg_search" />
-    <action android:id="@+id/action_to_Store" app:destination="@id/defaultStoreFragment" />
+    <action
+        android:id="@+id/action_to_Store"
+        app:destination="@id/defaultStoreFragment" />
+
+    <!-- PRODUCT -->
     <fragment
         android:id="@+id/defaultProductFragment"
         android:name="com.xereon.xereon.ui.product.DefaultProductFragment"
-        android:label="Produkt"
+        android:label="Default_Produkt"
         tools:layout="@layout/frg_default_product">
         <argument
             android:name="simpleProduct"
@@ -71,12 +140,16 @@
             android:id="@+id/deepLink2"
             app:uri="test.com/product/{simpleProductId}" />
     </fragment>
-    <action android:id="@+id/action_to_Product" app:destination="@id/defaultProductFragment" />
+    <action
+        android:id="@+id/action_to_Product"
+        app:destination="@id/defaultProductFragment" />
+
+    <!-- CATEGORY -->
     <fragment
         android:id="@+id/alLCategoriesFragment"
         android:name="com.xereon.xereon.ui.categories.AllCategoriesFragment"
         android:label="Kategorien"
-        tools:layout="@layout/frg_categories"/>
+        tools:layout="@layout/frg_categories" />
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.xereon.xereon.ui.categories.CategoryFragment"
@@ -89,7 +162,9 @@
             android:id="@+id/action_Category_to_SubCategory"
             app:destination="@id/subCategoryFragment" />
     </fragment>
-    <action android:id="@+id/action_to_Category" app:destination="@id/categoryFragment" />
+    <action
+        android:id="@+id/action_to_Category"
+        app:destination="@id/categoryFragment" />
     <fragment
         android:id="@+id/subCategoryFragment"
         android:name="com.xereon.xereon.ui.categories.SubCategoryFragment"
@@ -99,6 +174,8 @@
             android:name="type"
             app:argType="string" />
     </fragment>
+
+    <!-- CART -->
     <fragment
         android:id="@+id/shoppingCartFragment"
         android:name="com.xereon.xereon.ui.shoppingCart.ShoppingCartFragment"
@@ -120,17 +197,44 @@
         tools:layout="@layout/frg_shopping_cart_product">
         <argument
             android:name="storeId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_ShoppingCart_to_Order"
+            app:destination="@id/orderFragment" />
     </fragment>
     <dialog
         android:id="@+id/deleteAllOrdersDialogFragment"
         android:name="com.xereon.xereon.ui.shoppingCart.DeleteAllOrdersDialogFragment"
-        android:label="DeleteAllOrdersDialogFragment" >
+        android:label="DeleteAllOrdersDialogFragment">
+        <argument
+            android:name="storeId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </dialog>
+    <action
+        android:id="@+id/action_to_DeleteAllDialog"
+        app:destination="@id/deleteAllOrdersDialogFragment" />
+
+    <!-- ORDERING -->
+    <fragment
+        android:id="@+id/orderFragment"
+        android:name="com.xereon.xereon.ui.ordering.OrderFragment"
+        android:label="Betsellen"
+        tools:layout="@layout/frg_order" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.xereon.xereon.ui.chat.ChatFragment"
+        android:label="ChatFragment" >
         <argument
             android:name="storeId"
             app:argType="integer"
             android:defaultValue="-1" />
-    </dialog>
-    <action android:id="@+id/action_to_DeleteAllDialog" app:destination="@id/deleteAllOrdersDialogFragment" />
+        <argument
+            android:name="storeName"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
+    <action android:id="@+id/action_to_Chat" app:destination="@id/chatFragment" />
+
 </navigation>

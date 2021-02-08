@@ -30,7 +30,7 @@ class ProductsPagingAdapter :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_STORE) {
             val binding = InclStoreRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            ViewHolderStore(binding)
+            StoreViewHolder(binding)
         } else {
             val binding = RecyclerProductVerticalBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             ViewHolderProduct(binding)
@@ -39,7 +39,7 @@ class ProductsPagingAdapter :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == VIEW_TYPE_STORE)
-            (holder as ViewHolderStore).bind()
+            (holder as StoreViewHolder).bind(store, itemClickListener)
         else if (getItemViewType(position) == VIEW_TYPE_PRODUCT) {
             val currentItem = getItem(position - OFFSET)
 
@@ -83,9 +83,9 @@ class ProductsPagingAdapter :
     fun setOnItemClickListener(clickListener: ItemClickListener) { itemClickListener = clickListener }
     interface ItemClickListener{
         fun onItemClick(simpleProduct: SimpleProduct)
-        fun onSearchClicked()
         fun onAddToFavoriteClicked()
         fun onNavigationClicked(latitude: LatLng)
+        fun onChatClicked()
     }
 
 
@@ -97,21 +97,6 @@ class ProductsPagingAdapter :
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    inner class ViewHolderStore(private val binding: InclStoreRecyclerBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind() {
-            binding.apply {
-                store = this@ProductsPagingAdapter.store
-                currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
-                openingTimes = OpeningUtils.getOpeningTimes(this@ProductsPagingAdapter.store.openinghours)
-                storeSaveFavorite.setOnClickListener { itemClickListener.onAddToFavoriteClicked() }
-                storeSearch.setOnClickListener { itemClickListener.onSearchClicked() }
-                storeNavigate.setOnClickListener { itemClickListener.onNavigationClicked(this@ProductsPagingAdapter.store.coordinates) }
-            }
-        }
-    }
-
     inner class ViewHolderProduct(private val binding: RecyclerProductVerticalBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

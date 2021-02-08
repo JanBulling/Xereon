@@ -16,7 +16,6 @@ interface XereonAPI {
     companion object {
         const val ACCESS_KEY = BuildConfig.XEREON_ACCESS_KEY
         const val BASE_URL = "http://vordertuer.bplaced.net/"
-        const val IP_LOCATION_BASE_URL = ""
     }
 
 
@@ -33,16 +32,13 @@ interface XereonAPI {
     @GET("app-php/users/create-user.php")
     suspend fun register(
         @Query("name") name: String,
-        @Query("email") emailAddress: String,
+        @Query("email") email: String,
         @Query("password") password: String,
         @Query("firebasetoken") token: String
-    ): XereonResponse
+    ): Response<LoginResponse>
 
     @GET("app-php/users/reset-password.php")
     suspend fun resetPassword(@Query("email") emailAddress: String): XereonResponse
-
-    @GET("json")
-    suspend fun getLocationWithIP(): IPLocationResponse
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,13 +55,13 @@ interface XereonAPI {
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/stores/store-information.php")
     suspend fun getStore(
-        @Query("id") storeId: Int
+        @Query("id") storeID: Int
     ): Response<Store>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/products/products.php")
     suspend fun getProductsFromStore(
-        @Query("id") storeId: Int,
+        @Query("id") storeID: Int,
         @Query("search") query: String,
         @Query("order") sort: Int = Constants.SortType.RESPONSE_NEW_FIRST.index,
         @Query("page") page: Int,
@@ -110,4 +106,24 @@ interface XereonAPI {
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20
         ): Response<List<SimpleStore>>
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////   CHAT   ///////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/messages/get-messages.php")
+    suspend fun getChatMessages(
+        @Query("user") userID: Int,
+        @Query("store") storeID: Int,
+        @Query("page") page: Int = 1,
+        @Query("limit") limit: Int = 20
+    ): Response<List<ChatMessage>>
+
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/messages/send-message.php")
+    suspend fun sendMessage(
+        @Query("sender") userID: Int,
+        @Query("receiver") storeID: Int,
+        @Query("message") message: String = ""
+    ): Response<XereonResponse>
 }

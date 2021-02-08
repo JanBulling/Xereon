@@ -1,4 +1,4 @@
-package com.xereon.xereon.ui._parent
+package com.xereon.xereon.ui
 
 interface MainActivityCallback {
 

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log.d
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -25,12 +24,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.ProductsLoadStateAdapter
 import com.xereon.xereon.data.model.SimpleProduct
+import com.xereon.xereon.data.model.places.GooglePlacesData
 import com.xereon.xereon.databinding.FrgDefaultStoreBinding
-import com.xereon.xereon.ui._parent.MainActivity
+import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
 import com.xereon.xereon.ui.store.ProductsPagingAdapter.Companion.VIEW_TYPE_PRODUCT
 import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -156,8 +155,26 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
         viewModel.storeData.observe(viewLifecycleOwner, Observer { event ->
             when (event) {
                 is StoreViewModel.StoreEvent.Success -> {
-                    (activity as MainActivity).setActionBarTitle(event.storeData.name)
-                    productsAdapter.setStore(event.storeData)
+                    val store = event.storeData
+                    (activity as MainActivity).setActionBarTitle(store.name)
+                    storeName = store.name
+                    storeID = store.id
+
+                    store.placesData = GooglePlacesData(
+                        rating = 4.1f,
+                        numberRating = 379,
+                        currentPopularity = 55,
+                        popularTimes = listOf(
+                            arrayOf(0,0,0,0,0,0, 20, 32, 45, 65, 70, 60, 50, 50, 65, 80, 82, 62, 40, 15,  5, 0,0,0),
+                            arrayOf(0,0,0,0,0,0, 15, 28, 40, 60, 65, 65, 62, 68, 72, 75, 68, 40, 30, 15,  8, 0,0,0),
+                            arrayOf(0,0,0,0,0,0, 15, 28, 40, 55, 62, 62, 65, 72, 78, 82, 65, 55, 30, 18,  8, 0,0,0),
+                            arrayOf(0,0,0,0,0,0, 12, 24, 55, 72, 85, 77, 72, 68, 72, 77, 72, 55, 30, 12,  8, 0,0,0),
+                            arrayOf(0,0,0,0,0,0, 20, 35, 52, 62, 68, 65, 62, 65, 72, 78, 75, 58, 45, 19, 11, 0,0,0),
+                            arrayOf(0,0,0,0,0,0, 15, 32, 57, 80, 95, 98, 95, 90, 93, 98, 95, 78, 52, 26, 12, 0,0,0),
+                            arrayOf(0,0,0,0,0,0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0,0,0)
+                        )
+                    )
+                    productsAdapter.setStore(store)
                     binding.isSuccessful = true
                     binding.isLoading = false
                 }
@@ -189,10 +206,6 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
         findNavController().navigate(action)
     }
 
-    override fun onSearchClicked() {
-        d(TAG, "search")
-    }
-
     override fun onAddToFavoriteClicked() {
         viewModel.addStoreToFavorites()
     }
@@ -204,6 +217,11 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
             startActivity(intent)
         else
             Snackbar.make(requireView(), "Navigieren ist auf diesem Gerät nicht möglich", Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun onChatClicked() {
+        val action = DefaultStoreFragmentDirections.actionToChat(storeId = storeID, storeName = storeName)
+        findNavController().navigate(action)
     }
 
     private fun displayError(@StringRes messageId: Int) {
