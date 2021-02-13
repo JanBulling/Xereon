@@ -32,8 +32,8 @@ import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.model.places.Place
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgMapBinding
-import com.xereon.xereon.di.ProvideLatLng
-import com.xereon.xereon.di.ProvidePostCode
+import com.xereon.xereon.di.InjectLatLng
+import com.xereon.xereon.di.InjectPostCode
 import com.xereon.xereon.ui.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
@@ -41,7 +41,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import java.lang.NullPointerException
-import java.time.DayOfWeek
 import java.util.*
 import javax.inject.Inject
 
@@ -58,8 +57,8 @@ class MapFragment : Fragment(R.layout.frg_map),
 
     private var currentStoreId = -1
 
-    @Inject @ProvideLatLng lateinit var latLng: LatLng
-    @JvmField @Inject @ProvidePostCode var postCode: String = Constants.DEFAULT_POSTCODE
+    @Inject @InjectLatLng lateinit var latLng: LatLng
+    @JvmField @Inject @InjectPostCode var postCode: String = Constants.DEFAULT_POSTCODE
 
     private val placesAdapter = PlacesAdapter()
     private lateinit var searchView: SearchView

@@ -28,14 +28,14 @@ class PlacesRepository @Inject constructor(
             if (response.isSuccessful && result != null)
                 Resource.Success(result)
             else
-                Resource.Error(R.string.unexprected_exception)
+                Resource.Error(R.string.unexpected_exception)
 
         } catch (e: Exception) {
             Log.e(TAG, "Error in Repository: ${e.stackTraceToString()}")
             when (e) {
                 is HttpException -> Resource.Error(R.string.no_connection_exception)
                 is IOException -> Resource.Error(R.string.no_connection_exception)
-                else -> Resource.Error(R.string.unexprected_exception)
+                else -> Resource.Error(R.string.unexpected_exception)
             }
         }
     }
@@ -47,13 +47,13 @@ class PlacesRepository @Inject constructor(
             if (response.isSuccessful && result != null)
                 Resource.Success(result)
             else
-                Resource.Error(R.string.unexprected_exception)
+                Resource.Error(R.string.unexpected_exception)
         } catch (e: Exception) {
             Log.e(TAG, "Error in Repository: ${e.stackTraceToString()}")
             when (e) {
                 is HttpException -> Resource.Error(R.string.no_connection_exception)
                 is IOException -> Resource.Error(R.string.no_connection_exception)
-                else -> Resource.Error(R.string.unexprected_exception)
+                else -> Resource.Error(R.string.unexpected_exception)
             }
         }
     }

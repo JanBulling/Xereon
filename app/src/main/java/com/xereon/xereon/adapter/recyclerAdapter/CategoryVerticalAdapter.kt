@@ -1,5 +1,6 @@
 package com.xereon.xereon.adapter.recyclerAdapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filterable
@@ -10,6 +11,7 @@ import com.xereon.xereon.data.model.Category
 import com.xereon.xereon.databinding.RecyclerCategoryVerticalBinding
 import android.widget.Filter
 import java.util.*
+import kotlin.ConcurrentModificationException
 
 /* filterable list adapter  */
 class CategoryVerticalAdapter : RecyclerView.Adapter<CategoryVerticalAdapter.ViewHolder>(), Filterable {

@@ -44,7 +44,7 @@ class ExploreViewModel @ViewModelInject constructor(
     fun getExploreData(userId: Int, postcode: String) {
         if (_exploreData.value is ExploreEvent.Success)
             return
-        viewModelScope.launch {
+       /* viewModelScope.launch {
             try {
                 _exploreData.value = ExploreEvent.Loading
                 when (val response = exploreRepository.getExploreData(userID = userId, zip = postcode)) {
@@ -57,9 +57,9 @@ class ExploreViewModel @ViewModelInject constructor(
                 }
             } catch (e: Exception) {
                 e(TAG, "Unexpected error in ExploreViewModel: ${e.message}")
-                _eventChannel.send(ExploreEvent.ShowErrorMessage(R.string.unexprected_exception))
+                _eventChannel.send(ExploreEvent.ShowErrorMessage(R.string.unexpected_exception))
             }
-        }
+        }*/
     }
 
     private fun getOrdersCount() = viewModelScope.launch {
@@ -69,7 +69,7 @@ class ExploreViewModel @ViewModelInject constructor(
             }
         } catch (e: Exception) {
             e(TAG, "Unexpected error in ExploreViewModel: ${e.message}")
-            _eventChannel.send(ExploreEvent.ShowErrorMessage(R.string.unexprected_exception))
+            _eventChannel.send(ExploreEvent.ShowErrorMessage(R.string.unexpected_exception))
             _ordersCount.value = 0
         }
     }

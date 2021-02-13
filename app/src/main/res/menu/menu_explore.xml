@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_chat"
+        android:title="Chat"
+        android:icon="@drawable/ic_chat"
+        app:showAsAction="ifRoom"
+        app:actionLayout="@layout/shopping_chat_batch" />
+
+    <item
+        android:id="@+id/menu_item_shopping_cart"
+        android:title="Warenkorb"
+        android:icon="@drawable/ic_shopping_cart"
+        app:showAsAction="always"
+        app:actionLayout="@layout/shopping_cart_batch" />
+
+</menu>

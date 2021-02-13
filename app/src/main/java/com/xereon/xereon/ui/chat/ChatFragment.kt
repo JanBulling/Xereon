@@ -1,11 +1,10 @@
 package com.xereon.xereon.ui.chat
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.os.Handler
-import android.provider.SyncStateContract
 import android.util.Log
-import android.util.Log.d
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,10 +17,9 @@ import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.ChatLoadStateAdapter
 import com.xereon.xereon.adapter.pagingAdapter.ChatAdapter
 import com.xereon.xereon.databinding.FrgChatBinding
-import com.xereon.xereon.di.ProvideUserId
-import com.xereon.xereon.ui.MainActivity
+import com.xereon.xereon.di.InjectApplicationState
+import com.xereon.xereon.di.InjectUserId
 import com.xereon.xereon.ui.MainActivityCallback
-import com.xereon.xereon.ui.product.DefaultProductFragmentArgs
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +36,8 @@ class ChatFragment : Fragment(R.layout.frg_chat) {
     private var initialLoad: Boolean = true
     private val chatAdapter = ChatAdapter()
 
-    @JvmField @Inject @ProvideUserId var userId: Int = Constants.DEFAULT_USER_ID
+    @JvmField @Inject @InjectUserId var userId: Int = Constants.DEFAULT_USER_ID
+    @Inject @InjectApplicationState lateinit var applicationState: Constants.ApplicationState
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgChatBinding.bind(view)
@@ -89,6 +88,14 @@ class ChatFragment : Fragment(R.layout.frg_chat) {
 
         subscribeToObserver()
 
+        Log.d(TAG, "ApplicationState: $applicationState")
+        if (applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
+            applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
+            applicationState == Constants.ApplicationState.FIRST_OPENED) {
+
+            showNotLoggedInDialog()
+        }
+
         viewModel.getChatMessages(userId, args.storeId)
     }
 
@@ -111,6 +118,23 @@ class ChatFragment : Fragment(R.layout.frg_chat) {
                 }
             }
         })
+    }
+
+    private fun showNotLoggedInDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Nicht angemeldet")
+            .setMessage("Sie müssen bei Xereon angemeldet sein, um Filialen über die integrierte " +
+                    "Chat-Funktion der App kontaktieren zu können.")
+            .setNegativeButton("Abbrechen") { _, _ ->
+                requireActivity().onBackPressed()
+            }
+            .setNeutralButton("Anmelden") { _, _ ->
+                requireActivity().onBackPressed()
+                Toast.makeText(requireContext(), "Amelden wird durchgeführt", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .setCancelable(false)
+            .show()
     }
 
     override fun onDestroyView() {

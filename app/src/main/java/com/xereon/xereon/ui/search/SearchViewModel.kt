@@ -6,7 +6,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.xereon.xereon.data.repository.SearchRepository
-import com.xereon.xereon.di.ProvidePostCode
+import com.xereon.xereon.di.InjectPostCode
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.SortType
 import kotlinx.android.parcel.Parcelize
@@ -17,7 +17,7 @@ class SearchViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    @JvmField @Inject @ProvidePostCode var postcode: String = Constants.DEFAULT_POSTCODE
+    @JvmField @Inject @InjectPostCode var postcode: String = Constants.DEFAULT_POSTCODE
 
     @Parcelize
     data class SearchQuery(

@@ -9,22 +9,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.xereon.xereon.R
-import com.xereon.xereon.di.ProvideApplicationState
-import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_main_.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainActivityCallback {
     private lateinit var navController: NavController
 
-    @Inject @ProvideApplicationState lateinit var applicationState: Constants.ApplicationState
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme_Material)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main_)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -36,26 +30,8 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         )
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment
-        val inflater = navHostFragment.navController.navInflater
-        val graph = inflater.inflate(R.navigation.nav_graph)
-
-        when(applicationState) {
-            Constants.ApplicationState.FIRST_OPENED ->
-                graph.startDestination = R.id.chooseLoginOrSignUpFragment
-
-            Constants.ApplicationState.LOGGED_IN_NO_LOCATION_VALID,
-            Constants.ApplicationState.LOGGED_IN_NO_LOCATION_NOT_VALID,
-            Constants.ApplicationState.SKIPPED_NO_LOCATION ->
-                graph.startDestination = R.id.chooseLocationFragment
-
-            Constants.ApplicationState.SKIPPED_HAS_LOCATION,
-            Constants.ApplicationState.LOGGED_IN_HAS_LOCATION_NOT_VALID,
-            Constants.ApplicationState.VALID_USER_ACCOUNT ->
-                graph.startDestination = R.id.exploreFragment
-        }
 
         navController = navHostFragment.navController
-        navController.setGraph(graph, intent.extras)
 
         setSupportActionBar(top_navigation)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -68,22 +44,14 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
                 R.id.exploreFragment, R.id.favoritesFragment, R.id.mapFragment -> {
                     bottom_navigation.visibility = View.VISIBLE
                     top_navigation_search_input.visibility = View.GONE
-                    top_navigation.visibility = View.VISIBLE
                 }
                 R.id.searchFragment -> {
                     bottom_navigation.visibility = View.VISIBLE
                     top_navigation_search_input.visibility = View.VISIBLE
-                    top_navigation.visibility = View.VISIBLE
-                }
-                R.id.loginFragment, R.id.signUpFragment, R.id.chooseLoginOrSignUpFragment,
-                R.id.chooseLocationFragment -> {
-                    bottom_navigation.visibility = View.GONE
-                    top_navigation.visibility = View.GONE
                 }
                 else -> {
                     bottom_navigation.visibility = View.GONE
                     top_navigation_search_input.visibility = View.GONE
-                    top_navigation.visibility = View.VISIBLE
                 }
             }
         }

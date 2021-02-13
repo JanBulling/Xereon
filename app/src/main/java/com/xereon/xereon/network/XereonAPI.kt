@@ -1,10 +1,11 @@
 package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
+import com.xereon.xereon.data.explore.ExploreData
 import com.xereon.xereon.data.model.*
-import com.xereon.xereon.data.repository.LoginResponse
-import com.xereon.xereon.network.response.IPLocationResponse
+import com.xereon.xereon.data.repository.LoginRepository
 import com.xereon.xereon.network.response.XereonResponse
+import com.xereon.xereon.update.UpdateChecker
 import com.xereon.xereon.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -27,7 +28,7 @@ interface XereonAPI {
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("firebasetoken") token: String
-    ): Response<LoginResponse>
+    ): Response<LoginRepository.LoginResponse>
 
     @GET("app-php/users/create-user.php")
     suspend fun register(
@@ -35,11 +36,14 @@ interface XereonAPI {
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("firebasetoken") token: String
-    ): Response<LoginResponse>
+    ): Response<LoginRepository.LoginResponse>
 
     @GET("app-php/users/reset-password.php")
-    suspend fun resetPassword(@Query("email") emailAddress: String): XereonResponse
+    suspend fun resetPassword(@Query("email") emailAddress: String): Response<LoginRepository.LoginResponse>
 
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/home/app-config.php")
+    suspend fun getMinVersion() : Response<UpdateChecker.Response>
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////   HOME / PRODUCTS / STORES   //////////////////////////////////////////////////
@@ -48,8 +52,7 @@ interface XereonAPI {
     @GET("app-php/home/home.php")
     suspend fun getExploreData(
         @Query("id") userID: Int,
-        @Query("postalcode") postalCode: String,
-        @Query("version") version: Int
+        @Query("postalcode") postalCode: String
     ): Response<ExploreData>
 
     @Headers("Authorization: $ACCESS_KEY")
@@ -110,6 +113,12 @@ interface XereonAPI {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////   CHAT   ///////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    @Headers("Authorization: $ACCESS_KEY")
+    @GET("app-php/messages/get-chats.php")
+    suspend fun getAllChats(
+        @Query("user") userID: Int,
+    ): Response<List<Chat>>
+
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/messages/get-messages.php")
     suspend fun getChatMessages(

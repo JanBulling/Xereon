@@ -16,7 +16,7 @@ import com.xereon.xereon.adapter.recyclerAdapter.StoreHorizontalAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.SubCategoriesAdapter
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.databinding.FrgCategoryBinding
-import com.xereon.xereon.di.ProvidePostCode
+import com.xereon.xereon.di.InjectPostCode
 import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ class CategoryFragment : Fragment(R.layout.frg_category) {
     private val storesAdapter = StoreHorizontalAdapter()
     private var subCategoriesAdapter = SubCategoriesAdapter()
 
-    @JvmField @Inject @ProvidePostCode var postcode: String = Constants.DEFAULT_POSTCODE
+    @JvmField @Inject @InjectPostCode var postcode: String = Constants.DEFAULT_POSTCODE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgCategoryBinding.bind(view)

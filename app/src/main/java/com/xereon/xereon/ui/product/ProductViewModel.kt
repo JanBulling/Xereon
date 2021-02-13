@@ -51,7 +51,7 @@ class ProductViewModel @ViewModelInject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
-                _eventChannel.send(ProductEvent.ShowErrorMessage(R.string.unexprected_exception))
+                _eventChannel.send(ProductEvent.ShowErrorMessage(R.string.unexpected_exception))
             }
         }
     }
@@ -66,7 +66,7 @@ class ProductViewModel @ViewModelInject constructor(
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in ProductViewModel: ${e.message}")
-            _eventChannel.send(ProductEvent.ShowErrorMessage(R.string.unexprected_exception))
+            _eventChannel.send(ProductEvent.ShowErrorMessage(R.string.unexpected_exception))
         }
     }
 

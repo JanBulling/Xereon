@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -21,15 +22,14 @@ import com.xereon.xereon.data.model.SimpleProduct
 import com.xereon.xereon.data.model.SimpleStore
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgExploreBinding
-import com.xereon.xereon.di.ProvideCity
-import com.xereon.xereon.di.ProvidePostCode
-import com.xereon.xereon.di.ProvideUserId
+import com.xereon.xereon.di.InjectCity
+import com.xereon.xereon.di.InjectPostCode
+import com.xereon.xereon.di.InjectUserId
 import com.xereon.xereon.ui.categories.CategoryFragmentDirections
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -45,9 +45,11 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
     private val recommendationsAdapter = ProductHorizontalAdapter()
     private val popularAdapter = ProductHorizontalAdapter()
 
-    @JvmField @Inject @ProvideUserId var userId: Int = Constants.DEFAULT_USER_ID
-    @JvmField @Inject @ProvidePostCode var postcode: String = Constants.DEFAULT_POSTCODE
-    @JvmField @Inject @ProvideCity var city: String = Constants.DEFAULT_CITY
+    private lateinit var batch: View
+
+    @JvmField @Inject @InjectUserId var userId: Int = Constants.DEFAULT_USER_ID
+    @JvmField @Inject @InjectPostCode var postcode: String = Constants.DEFAULT_POSTCODE
+    @JvmField @Inject @InjectCity var city: String = Constants.DEFAULT_CITY
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgExploreBinding.bind(view)
@@ -79,7 +81,7 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_explore_fragment, menu)
+        inflater.inflate(R.menu.menu_explore, menu)
 
         val actionView = menu.findItem(R.id.menu_item_shopping_cart).actionView
         val textView = actionView.findViewById<TextView>(R.id.cart_badge)
@@ -94,6 +96,12 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
 
         actionView.setOnClickListener {
             findNavController().navigate(R.id.action_to_ShoppingCart)
+        }
+
+        val actionViewChat = menu.findItem(R.id.menu_item_chat).actionView
+        batch = actionViewChat.findViewById<View>(R.id.chat_batch)
+        actionViewChat.setOnClickListener {
+            findNavController().navigate(R.id.action_Explore_to_ChatOverview)
         }
     }
 
@@ -112,6 +120,8 @@ class ExploreFragment : Fragment(R.layout.frg_explore), ProductHorizontalAdapter
                     newStoresAdapter.submitList(event.exploreData.newStores)
                     recommendationsAdapter.submitList(event.exploreData.recommendations)
                     popularAdapter.submitList(event.exploreData.popular)
+
+                    batch.isVisible = event.exploreData.chatNewMessages
                 }
                 is ExploreViewModel.ExploreEvent.Failure -> {
                     binding.isLoading = false

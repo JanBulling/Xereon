@@ -31,16 +31,16 @@ class LoginRepository @Inject constructor(private val xereonAPI: XereonAPI) {
                     LoginResponseCodes.SUCCESS -> Resource.Success(result)
                     LoginResponseCodes.WRONG_LOGIN_DATA -> Resource.Error(R.string.login_data_wrong_exception)
                     LoginResponseCodes.EMAIL_ALREADY_REGISTERED -> Resource.Error(R.string.email_already_registerd_exception)
-                    LoginResponseCodes.ERROR -> Resource.Error(R.string.unexprected_exception)
+                    LoginResponseCodes.ERROR -> Resource.Error(R.string.unexpected_exception)
                 }
             } else
-                Resource.Error(R.string.unexprected_exception)
+                Resource.Error(R.string.unexpected_exception)
 
         } catch (e: Exception) {
             Log.e(TAG, "Error in Repository: ${e.stackTraceToString()}")
             when (e) {
                 is HttpException, is IOException -> Resource.Error(R.string.no_connection_exception)
-                else -> Resource.Error(R.string.unexprected_exception)
+                else -> Resource.Error(R.string.unexpected_exception)
             }
         }
     }
@@ -60,24 +60,47 @@ class LoginRepository @Inject constructor(private val xereonAPI: XereonAPI) {
                     LoginResponseCodes.SUCCESS -> Resource.Success(result)
                     LoginResponseCodes.WRONG_LOGIN_DATA -> Resource.Error(R.string.login_data_wrong_exception)
                     LoginResponseCodes.EMAIL_ALREADY_REGISTERED -> Resource.Error(R.string.email_already_registerd_exception)
-                    LoginResponseCodes.ERROR -> Resource.Error(R.string.unexprected_exception)
+                    LoginResponseCodes.ERROR -> Resource.Error(R.string.unexpected_exception)
                 }
             } else
-                Resource.Error(R.string.unexprected_exception)
+                Resource.Error(R.string.unexpected_exception)
 
         } catch (e: Exception) {
             Log.e(TAG, "Error in Repository: ${e.stackTraceToString()}")
             when (e) {
                 is HttpException, is IOException -> Resource.Error(R.string.no_connection_exception)
-                else -> Resource.Error(R.string.unexprected_exception)
+                else -> Resource.Error(R.string.unexpected_exception)
             }
         }
     }
 
-}
+    suspend fun resetPassword(email: String): Resource<LoginResponse> {
+        return try {
+            val response = xereonAPI.resetPassword(email)
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                Log.d(TAG, "Code: ${result.responseCode}")
+                when (LoginResponseCodes.fromInt(result.responseCode)) {
+                    LoginResponseCodes.SUCCESS -> Resource.Success(result)
+                    LoginResponseCodes.WRONG_LOGIN_DATA -> Resource.Error(R.string.login_data_wrong_exception)
+                    LoginResponseCodes.EMAIL_ALREADY_REGISTERED -> Resource.Error(R.string.email_already_registerd_exception)
+                    LoginResponseCodes.ERROR -> Resource.Error(R.string.unexpected_exception)
+                }
+            } else
+                Resource.Error(R.string.unexpected_exception)
 
-data class LoginResponse(
-    @SerializedName("code") val responseCode: Int = LoginResponseCodes.ERROR.index,
-    val uid: Int = Constants.DEFAULT_USER_ID,
-    val isVerified: Boolean = false,
-)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in Repository: ${e.stackTraceToString()}")
+            when (e) {
+                is HttpException, is IOException -> Resource.Error(R.string.no_connection_exception)
+                else -> Resource.Error(R.string.unexpected_exception)
+            }
+        }
+    }
+
+    data class LoginResponse(
+        @SerializedName("code") val responseCode: Int = LoginResponseCodes.ERROR.index,
+        @SerializedName("uid") val userID: Int = Constants.DEFAULT_USER_ID,
+        @SerializedName("verfied") val isVerified: Boolean = false,
+    )
+}

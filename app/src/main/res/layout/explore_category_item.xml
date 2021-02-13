@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/category_text"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/gray_2"
+    android:fontFamily="@font/roboto_medium"
+    android:foreground="?selectableItemBackground"
+    android:gravity="center"
+    android:padding="4dp"
+    android:textColor="@color/black"
+    tools:drawableStartCompat="@drawable/ic_entertainment"
+    tools:text="@string/category_entertainment" />

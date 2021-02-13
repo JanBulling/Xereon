@@ -75,7 +75,7 @@ class StoreViewModel @ViewModelInject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Unexpected error in StoreViewModel: ${e.message}")
-                _eventChannel.send(StoreEvent.ShowErrorMessage(R.string.unexprected_exception))
+                _eventChannel.send(StoreEvent.ShowErrorMessage(R.string.unexpected_exception))
             }
         }
     }

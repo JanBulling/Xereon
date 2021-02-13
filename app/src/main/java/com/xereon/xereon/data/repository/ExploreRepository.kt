@@ -15,23 +15,23 @@ import javax.inject.Singleton
 @Singleton
 class ExploreRepository @Inject constructor(private val xereonAPI: XereonAPI) {
 
-    suspend fun getExploreData(userID: Int, zip: String): Resource<ExploreData> {
+    /*suspend fun getExploreData(userID: Int, zip: String): Resource<ExploreData> {
         return try {
             val response = xereonAPI.getExploreData(userID = userID, postalCode = zip, version = 1)
             val result = response.body()
             if (response.isSuccessful && result != null)
                 Resource.Success(result)
             else
-                Resource.Error(R.string.unexprected_exception)
+                Resource.Error(R.string.unexpected_exception)
 
         } catch (e: Exception) {
             Log.e(TAG, "Error in Repository: ${e.stackTraceToString()}")
             when (e) {
                 is HttpException -> Resource.Error(R.string.no_connection_exception)
                 is IOException -> Resource.Error(R.string.no_connection_exception)
-                else -> Resource.Error(R.string.unexprected_exception)
+                else -> Resource.Error(R.string.unexpected_exception)
             }
         }
-    }
+    }*/
 
 }

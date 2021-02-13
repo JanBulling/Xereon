@@ -19,27 +19,30 @@ import javax.inject.Singleton
 object NetworkModule {
     @Singleton
     @Provides
-    @XereonAnnotation
+    @InjectXereonAPI
     fun provideRetrofit() : Retrofit {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
-        val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor(logging)
+
+        val configClient = OkHttpClient.Builder().apply {
+            addInterceptor(logging)
+        }.build()
+
         return Retrofit.Builder()
             .baseUrl(XereonAPI.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient.build())
+            .client(configClient)
             .build()
     }
     @Singleton
     @Provides
-    fun provideXereonAPI(@XereonAnnotation retrofit: Retrofit): XereonAPI =
+    fun provideXereonAPI(@InjectXereonAPI retrofit: Retrofit): XereonAPI =
         retrofit.create(XereonAPI::class.java)
 
 
     @Singleton
     @Provides
-    @AlgoliaAnnotation
+    @InjectAlgoliaAPI
     fun providePlacesRetrofit() : Retrofit {
         return Retrofit.Builder()
             .baseUrl(AlgoliaPlacesApi.BASE_URL)
@@ -48,7 +51,7 @@ object NetworkModule {
     }
     @Singleton
     @Provides
-    fun provideAlgoliaAPI(@AlgoliaAnnotation retrofit: Retrofit): AlgoliaPlacesApi =
+    fun provideAlgoliaAPI(@InjectAlgoliaAPI retrofit: Retrofit): AlgoliaPlacesApi =
         retrofit.create(AlgoliaPlacesApi::class.java)
 
 
@@ -69,7 +72,7 @@ object NetworkModule {
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class AlgoliaAnnotation
+annotation class InjectAlgoliaAPI
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -77,5 +80,5 @@ annotation class IPLocationAnnotation
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class XereonAnnotation
+annotation class InjectXereonAPI
 

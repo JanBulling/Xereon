@@ -34,41 +34,43 @@ object PreferencesAppModule {
 
     @Singleton
     @Provides
-    @ProvideUserId
+    @InjectUserId
     fun provideUserId(sharedPref: SharedPreferences): Int =
         sharedPref.getInt(PREF_USER_ID, Constants.DEFAULT_USER_ID)
 
     @Singleton
     @Provides
-    @ProvidePostCode
+    @InjectPostCode
     fun providePostCode(sharedPref: SharedPreferences): String =
         sharedPref.getString(PREF_LOCATION_POSTCODE, Constants.DEFAULT_POSTCODE)
             ?: Constants.DEFAULT_POSTCODE
 
     @Singleton
     @Provides
-    @ProvideCity
+    @InjectCity
     fun provideCity(sharedPref: SharedPreferences) =
-        sharedPref.getString(PREF_LOCATION_CITY, Constants.DEFAULT_CITY) ?: Constants.DEFAULT_CITY
+        sharedPref.getString(PREF_LOCATION_CITY, Constants.DEFAULT_CITY)
+            ?: Constants.DEFAULT_CITY
 
     @Singleton
     @Provides
-    @ProvideLatLng
+    @InjectLatLng
     fun provideLatLng(sharedPref: SharedPreferences): LatLng {
         val lat = sharedPref.getFloat(PREF_LOCATION_LAT, Constants.DEFAULT_LAT)
         val lng = sharedPref.getFloat(PREF_LOCATION_LNG, Constants.DEFAULT_LNG)
         return LatLng(lat.toDouble(), lng.toDouble())
     }
 
-    @Singleton
     @Provides
-    @ProvideApplicationState
+    @InjectApplicationState
     fun provideApplicationState(sharedPref: SharedPreferences): ApplicationState =
-        ApplicationState.fromInt(sharedPref.getInt(PREF_APPLICATION_STATE, 0))
+        ApplicationState.fromInt(
+            sharedPref.getInt(PREF_APPLICATION_STATE, ApplicationState.FIRST_OPENED.index)
+        )
 }
 
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideUserId
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvidePostCode
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideCity
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideLatLng
-@Qualifier @Retention(AnnotationRetention.BINARY) annotation class ProvideApplicationState
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class InjectUserId
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class InjectPostCode
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class InjectCity
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class InjectLatLng
+@Qualifier @Retention(AnnotationRetention.BINARY) annotation class InjectApplicationState

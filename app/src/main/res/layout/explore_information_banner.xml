@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:id="@+id/banner_text"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_gravity="center"
+    android:padding="16dp"
+    android:gravity="center"
+    android:fontFamily="@font/roboto_bold"
+    tools:text="XEREON ist bei\r\nJUGEND FORSCHT dabei!"
+    android:textAlignment="center"
+    android:textColor="@color/white"
+    android:textSize="24sp"
+    tools:background="#cf4a50"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" />

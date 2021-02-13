@@ -5,28 +5,21 @@ import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
 import com.xereon.xereon.R
 import com.xereon.xereon.data.model.LocationStore
 import com.xereon.xereon.data.model.Store
 import com.xereon.xereon.data.repository.PlacesRepository
 import com.xereon.xereon.data.repository.StoreRepository
-import com.xereon.xereon.di.ProvideLatLng
 import com.xereon.xereon.network.response.PlacesRequest
 import com.xereon.xereon.network.response.PlacesResponse
 import com.xereon.xereon.util.Constants
-import com.xereon.xereon.util.Constants.DEFAULT_LAT
-import com.xereon.xereon.util.Constants.DEFAULT_LNG
-import com.xereon.xereon.util.Constants.DEFAULT_ZOOM
 import com.xereon.xereon.util.Constants.MAX_NUMBER_STORES_ON_MAP
 import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.view_utils.notifyObserver
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import javax.inject.Inject
 
 class MapViewModel @ViewModelInject constructor(
     private val storeRepository: StoreRepository,
@@ -105,7 +98,7 @@ class MapViewModel @ViewModelInject constructor(
                 }
             } catch (e: Exception) {
                 Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
-                _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexprected_exception))
+                _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexpected_exception))
             }
         }
     }
@@ -123,7 +116,7 @@ class MapViewModel @ViewModelInject constructor(
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
-            _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexprected_exception))
+            _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexpected_exception))
         }
     }
 
@@ -142,7 +135,7 @@ class MapViewModel @ViewModelInject constructor(
             }
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Unexpected error in MapViewModel: ${e.message}")
-            _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexprected_exception))
+            _eventChannel.send(MapStoreEvent.ShowErrorMessage(R.string.unexpected_exception))
         }
     }
 

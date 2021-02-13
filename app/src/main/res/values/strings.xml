@@ -4,7 +4,7 @@
     <string name="total_price_incl_tax"><font color="#252525"><b>Total price</b></font> <font color="#969696"><small>incl. Tax.</small></font></string>
 
     <!-- ERROR MESSAGES -->
-    <string name="unexprected_exception">An unexpected error occurred</string>
+    <string name="unexpected_exception">An unexpected error occurred</string>
     <string name="no_connection_exception">No connection</string>
     <string name="no_password_enetred_exception">Please enter your password</string>
     <string name="no_email_entered_exception">Please enter a valid email address</string>
@@ -13,6 +13,24 @@
     <string name="login_data_wrong_exception">The email address or the password was incorrect</string>
     <string name="email_already_registerd_exception">This  email address is already registered</string>
     <string name="no_location_exception">You have to enter your approximate position</string>
+    <string name="could_not_perform_search_exception">Could not perform search</string>
+    <string name="no_connection_possible_exception">No connection possible</string>
+    <string name="retry">Retry</string>
+    <string name="no_stores_found_exception">No stores found</string>
+    <string name="no_store_found_exception">No store found</string>
+    <string name="no_stores_found_explanation">No stores were found with the specified parameters.</string>
+    <string name="no_store_found_explanation">Check your connection. This store may also have been removed by the operator.</string>
+    <string name="product_not_found_exception">Product not found</string>
+    <string name="product_not_found_explanation">Check your connection. This product may also have been removed by the operator.</string>
+
+    <!-- GENERAL -->
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 
     <!-- LOGIN -->
     <string name="gender_male">Mr.</string>
@@ -39,18 +57,53 @@
     <string name="next_step">Next</string>
 
     <!-- EXPLORE -->
-    <string name="categories">Categories</string>
-    <string name="category_groceries">Groceries</string>
-    <string name="category_cloth">Mode / Cloth</string>
-    <string name="category_services">Services</string>
-    <string name="category_restaurant">Restaurant</string>
-    <string name="category_entertainment">Enetrtainment</string>
-    <string name="category_hotel">Hotel</string>
-    <string name="category_electronics">Electronics</string>
-    <string name="all_categories">All categories</string>
     <string name="recommendations">Recommendations for you</string>
     <string name="recommendations_description">That could interest you</string>
     <string name="new_stores">New stores in %1$s</string>
     <string name="new_stores_description">Discover new stores</string>
     <string name="popular">Popular</string>
+    <string name="popular_description">Popular products from your region</string>
+    <string name="close_stores">Stores next to you</string>
+    <string name="only_in_app">Only in the app</string>
+    <string name="description">Description</string>
+    <string name="add_to_shopping_cart">Add to cart</string>
+
+    <!-- Categories -->
+    <string name="all_categories">All categories</string>
+    <string name="categories">Categories</string>
+    <string name="category_living">Building &amp; Living</string>
+    <string name="category_living_description">Alles von Möbelgeschäften und Baumärkten bis zu Tierbedarf und Blumen als nette Geschenke gibt\'s hier alles!</string>
+    <string name="category_services">Services</string>
+    <string name="category_services_description">Alles vom Friseur bis zur Nagelmaniküre!</string>
+    <string name="category_electronics">Electronics</string>
+    <string name="category_electronics_description">Alles von den neusten Handys bis zu Küchen-Ausstattung!</string>
+    <string name="category_craft">Craft</string>
+    <string name="category_craft_description">Wollt ihr fleißige Handwerker sehn? Alles von Heizungsinstalateuren bis zum Schreiner ist für jeden was dabei!</string>
+    <string name="category_hotel">Hotel</string>
+    <string name="category_hotel_description">Alles von B\\amp;B\'s bis zu 5-Sterne-Hotels in Singapur!</string>
+    <string name="category_cosmetics">Cosmetics</string>
+    <string name="category_cosmetics_description">Einmal wieder hübsch machen gefällig? Mithilfe von Nagelstudios und Drogerien ist das ganz einfach!</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_groceries_description">Alles von Supermärkten bis zum Bäcker und zur Käserei!</string>
+    <string name="category_media_toys">Media &amp; Toys</string>
+    <string name="category_media_toys_description">Ihre Kinder können Stundenlang nach den neusetn Spielzeugen suchen und Sie können sich einen schönen Film aussuchen!</string>
+    <string name="category_medicine">Medicine</string>
+    <string name="category_medicine_description">Aua! Was war das? Leiber schnell zu einem Arzt oder einer nahegelegenen Apotheke!</string>
+    <string name="category_restaurant">Restaurant</string>
+    <string name="category_restaurant_description">Alles von McDonalds bis zu noblen 5-Sterne-Restaurants!</string>
+    <string name="category_cloth">Mode / Cloth</string>
+    <string name="category_cloth_description">Alles von Schmuck bis zu Schuhen und Alltagskleidung!</string>
+    <string name="category_entertainment">Enetrtainment</string>
+    <string name="category_entertainment_description">Alles von Kinos bis zu Kunstmuseen!</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_sports_description">Fürs neue Jahr auch mehr Sport vorgenommen? Hier finden Sie alles, was sie führ Ihre Träume benötigen!</string>
+    <string name="category_others">Others</string>
+    <string name="category_others_description">Alles was sonst nirgendwo wirklich dazupasst</string>
+    <string name="categories_description">Xereon divides all stores into \'categories\' so you can find them better!</string>
+    <string name="category_proposal">A category is missing? - Tell us your suggestion at entwicklung@xereon.de!</string>
+
+    <string name="more_products_from">More products from</string>
+    <string name="more_from_store">More from this store</string>
+    <string name="alternatives">Suitable alternatives</string>
+    <string name="search">Search</string>
 </resources>

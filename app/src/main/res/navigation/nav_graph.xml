@@ -3,69 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/chatFragment">
+    app:startDestination="@id/exploreFragment">
 
     <!-- LOGIN -->
-    <fragment
-        android:id="@+id/chooseLoginOrSignUpFragment"
-        android:name="com.xereon.xereon.ui.login.ChooseLoginOrSignUpFragment"
-        android:label="ChooseLoginOrSignUpFragment"
-        tools:layout="@layout/frg_choose_login_or_signup">
-        <action
-            android:id="@+id/action_Choose_to_Login"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_Choose_to_SignUp"
-            app:destination="@id/signUpFragment" />
-        <action
-            android:id="@+id/action_Choose_to_ChooseLocation"
-            app:destination="@id/chooseLocationFragment"
-            app:popUpTo="@id/chooseLoginOrSignUpFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.xereon.xereon.ui.login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/frg_login">
-        <action
-            android:id="@+id/action_Login_to_SignUp"
-            app:destination="@id/signUpFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_Login_to_ChooseLocation"
-            app:destination="@id/chooseLocationFragment"
-            app:popUpTo="@id/chooseLoginOrSignUpFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="com.xereon.xereon.ui.login.SignUpFragment"
-        android:label="SignUpFragment"
-        tools:layout="@layout/frg_sign_up">
-        <action
-            android:id="@+id/action_SignUp_to_Login"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/signUpFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_SignUp_to_ChooseLocation"
-            app:destination="@id/chooseLocationFragment"
-            app:popUpTo="@id/chooseLoginOrSignUpFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
-    <fragment
-        android:id="@+id/chooseLocationFragment"
-        android:name="com.xereon.xereon.ui.login.ChooseLocationFragment"
-        android:label="ChooseLocationFragment"
-        tools:layout="@layout/frg_choose_location">
-        <action
-            android:id="@+id/action_ChooseLocation_to_Explore"
-            app:destination="@id/exploreFragment"
-            app:popUpTo="@id/chooseLocationFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
 
     <!-- MAIN CONTENT -->
     <fragment
@@ -76,6 +16,9 @@
         <action
             android:id="@+id/action_to_AllCategories"
             app:destination="@id/alLCategoriesFragment" />
+        <action
+            android:id="@+id/action_Explore_to_ChatOverview"
+            app:destination="@id/chatOverViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -222,19 +165,30 @@
         android:name="com.xereon.xereon.ui.ordering.OrderFragment"
         android:label="Betsellen"
         tools:layout="@layout/frg_order" />
+
+    <!-- CHAT -->
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.xereon.xereon.ui.chat.ChatFragment"
-        android:label="ChatFragment" >
+        android:label="Chat"
+        tools:layout="@layout/frg_chat">
         <argument
             android:name="storeId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:defaultValue="-1"
+            app:argType="integer" />
         <argument
             android:name="storeName"
-            app:argType="string"
-            android:defaultValue=" " />
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
     <action android:id="@+id/action_to_Chat" app:destination="@id/chatFragment" />
+    <fragment
+        android:id="@+id/chatOverViewFragment"
+        android:name="com.xereon.xereon.ui.chat.ChatOverviewFragment"
+        android:label="Alle Chats">
+        <action
+            android:id="@+id/action_ChatOverview_to_Chat"
+            app:destination="@id/chatFragment" />
+    </fragment>
 
 </navigation>
