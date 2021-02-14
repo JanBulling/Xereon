@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
@@ -31,17 +33,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val navController = navHostFragment.navController
 
-        bottomNavigation.setupWithNavController(navController)
-        bottomNavigation.setOnNavigationItemReselectedListener { /*NO-OP*/ }
+        bottomNavigationView.setupWithNavController(navController)
+        bottomNavigationView.setOnNavigationItemReselectedListener { /*NO-OP*/ }
 
         navController.addOnDestinationChangedListener {_, destination, _ ->
             when(destination.id) {
-                R.id.exploreFragment, R.id.searchFragment ->
-                    bottomNavigation.isVisible = true
-                else -> bottomNavigation.isVisible = false
+                R.id.exploreFragment, R.id.searchFragment, R.id.favoritesFragment, R.id.mapFragment ->
+                    bottomNavigationView.isVisible = true
+                else -> bottomNavigationView.isVisible = false
             }
         }
     }
@@ -54,6 +56,11 @@ class MainActivity : AppCompatActivity() {
             resultCode,
             data
         )
+    }
+
+    fun setBottomNavBarVisibility(visible: Boolean) {
+        if (::bottomNavigationView.isInitialized)
+            bottomNavigationView.isVisible = visible
     }
 
     fun goBack() {

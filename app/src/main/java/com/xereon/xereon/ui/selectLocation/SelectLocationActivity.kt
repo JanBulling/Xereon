@@ -3,13 +3,12 @@ package com.xereon.xereon.ui.selectLocation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.places.Place
-import com.xereon.xereon.network.response.IPLocationResponse
+import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.location.IPLocation
 import com.xereon.xereon.storage.LocalData
 import com.xereon.xereon.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +45,7 @@ class SelectLocationActivity : AppCompatActivity() {
         )
     }
 
-    fun completeSelectLocation(data: IPLocationResponse) {
+    fun completeSelectLocation(data: IPLocation) {
         localData.setLocationData(data)
         completeSelectLocation()
     }

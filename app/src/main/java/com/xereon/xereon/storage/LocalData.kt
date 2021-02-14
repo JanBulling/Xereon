@@ -3,9 +3,9 @@ package com.xereon.xereon.storage
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.android.gms.maps.model.LatLng
-import com.xereon.xereon.data.model.places.Place
+import com.xereon.xereon.data.location.Place
 import com.xereon.xereon.data.repository.LoginRepository
-import com.xereon.xereon.network.response.IPLocationResponse
+import com.xereon.xereon.data.location.IPLocation
 import com.xereon.xereon.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,7 +46,7 @@ class LocalData @Inject constructor(
     fun setUserID(value: Int) = preferences.edit(true) { putInt(PREF_USER_ID, value) }
     fun getUserID() : Int = preferences.getInt(PREF_USER_ID, Constants.DEFAULT_USER_ID)
 
-    fun setLocationData(data: IPLocationResponse) {
+    fun setLocationData(data: IPLocation) {
         preferences.edit(true) {
             putFloat(PREF_USER_LAT, data.latitude)
             putFloat(PREF_USER_LNG, data.longitude)
@@ -58,7 +58,7 @@ class LocalData @Inject constructor(
     fun setLocationData(data: Place) {
         preferences.edit(true) {
             putFloat(PREF_USER_LAT, data.coordinates.latitude)
-            putFloat(PREF_USER_LNG, data.coordinates.latitude)
+            putFloat(PREF_USER_LNG, data.coordinates.longitude)
             putString(PREF_USER_POSTCODE, data.postCode)
             putString(PREF_USER_CITY, data.name)
         }

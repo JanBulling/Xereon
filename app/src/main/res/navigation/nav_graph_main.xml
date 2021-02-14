@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_exploreFragment_to_allCategoriesFragment"
             app:destination="@id/allCategoriesFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
     </fragment>
     <fragment
         android:id="@+id/allCategoriesFragment"
@@ -24,4 +27,24 @@
         android:name="com.xereon.xereon.ui.main.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.xereon.xereon.ui.main.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.xereon.xereon.ui.main.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="com.xereon.xereon.ui.stores.StoreFragment"
+        android:label="fragment_store"
+        tools:layout="@layout/fragment_store" >
+        <argument
+            android:name="storeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 </navigation>

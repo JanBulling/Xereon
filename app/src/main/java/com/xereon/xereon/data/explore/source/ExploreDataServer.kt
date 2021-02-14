@@ -10,7 +10,9 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ExploreDataServer @Inject constructor(
     private val api: XereonAPI
 ) {

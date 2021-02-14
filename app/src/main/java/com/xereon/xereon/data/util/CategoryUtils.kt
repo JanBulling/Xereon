@@ -67,7 +67,7 @@ object CategoryUtils {
             "Alles von Möbelgeschäften und Baumärkten bis zu Tierbedarf und Blumen als nette Geschenke gibt's hier alles!",
             arrayOf("Haushalt", "Möbel", "Bürobedarf", "Bettwaren", "Garten", "Tiere", "Blumen", "Baumarkt", "Baustoffe", "Recycling")
         ),
-        Category(2, "Dienstleistungen", R.color.type_azure, R.drawable.ic_barber, -1,
+        Category(2, "Dienstleistungen", R.color.type_azure, R.drawable.ic_services, -1,
             "Alles vom Friseur bis zur Nagelmaniküre!",
             arrayOf("Friseur", "Taxi", "Reisebüro", "Fahrschule", "Bank", "Post", "Haushaltshilfe", "Versicherung", "Waschanlage")
         ),

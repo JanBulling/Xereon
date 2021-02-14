@@ -4,7 +4,7 @@ import android.util.Log
 import com.xereon.xereon.R
 import com.xereon.xereon.network.AlgoliaPlacesApi
 import com.xereon.xereon.network.IPLocationAPI
-import com.xereon.xereon.network.response.IPLocationResponse
+import com.xereon.xereon.data.location.IPLocation
 import com.xereon.xereon.network.response.PlacesRequest
 import com.xereon.xereon.network.response.PlacesResponse
 import com.xereon.xereon.util.Constants.TAG
@@ -40,7 +40,7 @@ class PlacesRepository @Inject constructor(
         }
     }
 
-    suspend fun getApproximatePosition() : Resource<IPLocationResponse> {
+    suspend fun getApproximatePosition() : Resource<IPLocation> {
         return try {
             val response = ipLocationAPI.getLocationWithIP()
             val result = response.body()

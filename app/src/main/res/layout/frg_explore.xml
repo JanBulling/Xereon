@@ -125,7 +125,7 @@
                         android:paddingHorizontal="8dp"
                         android:text="@string/category_services"
                         android:textColor="@color/black"
-                        app:drawableStartCompat="@drawable/ic_barber" />
+                        app:drawableStartCompat="@drawable/ic_services" />
 
                     <TextView
                         android:id="@+id/explore_category_restaurant"

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/opening_hours_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Öffnungszeiten"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_large"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/opening_hours_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Aktuell geschlossen"
+        android:textColor="@color/primary"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/opening_hours_title"
+        app:layout_constraintBottom_toBottomOf="@id/opening_hours_title" />
+
+    <LinearLayout
+        android:id="@+id/opening_hours_day"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toStartOf="@id/opening_hours_times"
+        android:layout_marginTop="@dimen/spacing_small"
+        app:layout_constraintTop_toBottomOf="@id/opening_hours_title">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/monday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@color/gray_1"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/tuesday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/wednesday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@color/gray_1"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/thursday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/friday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@color/gray_1"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/saturday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="@dimen/spacing_tiny"
+            android:text="@string/sunday"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/opening_hours_times"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/opening_hours_day"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        android:layout_marginTop="@dimen/spacing_small"
+        app:layout_constraintTop_toBottomOf="@id/opening_hours_title">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@color/gray_1"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@color/gray_1"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:background="@color/gray_1"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="@dimen/spacing_small"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/font_normal" />
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/spacing_small" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

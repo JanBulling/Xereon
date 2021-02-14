@@ -1,10 +1,8 @@
-package com.xereon.xereon.network.response
+package com.xereon.xereon.data.location
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-data class IPLocationResponse(
+data class IPLocation(
     val city : String,
     val country : String,
     @SerializedName("regionName") val region: String,

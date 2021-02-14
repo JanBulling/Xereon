@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/peaktimes_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Stoßzeiten"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_large"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/primary"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="AKTUELL"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_title" />
+
+    <TextView
+        android:id="@+id/peaktimes_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="So viele Besucher wie gewöhnlich"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_title" />
+
+    <ImageView
+        android:id="@+id/peaktimes_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_arrow_left"
+        app:layout_constraintBottom_toBottomOf="@id/peaktimes_chart"
+        app:layout_constraintEnd_toStartOf="@id/peaktimes_chart"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="@id/peaktimes_chart" />
+
+    <com.xereon.xereon.view.barChart.BarChartView
+        android:id="@+id/peaktimes_chart"
+        android:layout_width="0dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        app:barColor="@color/primary"
+        app:currentBarColor="#99E84C3D"
+        app:layout_constraintEnd_toStartOf="@id/peaktimes_next"
+        app:layout_constraintStart_toEndOf="@id/peaktimes_previous"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_information"
+        app:layout_constraintWidth_max="300dp" />
+
+    <ImageView
+        android:id="@+id/peaktimes_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintBottom_toBottomOf="@id/peaktimes_chart"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/peaktimes_chart"
+        app:layout_constraintTop_toTopOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktime0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:text="6:00"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintEnd_toStartOf="@+id/peaktime1"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/peaktimes_chart"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktime1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:text="9:00"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintEnd_toStartOf="@+id/peaktime2"
+        app:layout_constraintStart_toEndOf="@+id/peaktime0"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:text="12:00"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintEnd_toStartOf="@+id/peaktime3"
+        app:layout_constraintStart_toEndOf="@+id/peaktime1"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktime3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:text="15:00"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintEnd_toStartOf="@+id/peaktime4"
+        app:layout_constraintStart_toEndOf="@+id/peaktime2"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktime4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:text="18:00"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintEnd_toStartOf="@+id/peaktime5"
+        app:layout_constraintStart_toEndOf="@+id/peaktime3"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktime5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:layout_marginEnd="10dp"
+        android:text="21:00"
+        android:textSize="@dimen/font_tiny"
+        app:layout_constraintEnd_toEndOf="@id/peaktimes_chart"
+        app:layout_constraintStart_toEndOf="@id/peaktime4"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart" />
+
+    <TextView
+        android:id="@+id/peaktimes_current_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_normal"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/peaktimes_chart"
+        tools:text="Samstag" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/spacing_small" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

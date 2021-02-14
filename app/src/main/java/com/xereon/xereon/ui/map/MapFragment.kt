@@ -29,7 +29,7 @@ import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
 import com.xereon.xereon.data.model.LocationStore
 import com.xereon.xereon.data.model.Store
-import com.xereon.xereon.data.model.places.Place
+import com.xereon.xereon.data.location.Place
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgMapBinding
 import com.xereon.xereon.di.InjectLatLng
@@ -37,6 +37,7 @@ import com.xereon.xereon.di.InjectPostCode
 import com.xereon.xereon.ui.OnBackPressedListener
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
+import com.xereon.xereon.util.map.ClusterRenderer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
@@ -77,11 +78,12 @@ class MapFragment : Fragment(R.layout.frg_map),
             googleMap = it
 
             clusterManager = ClusterManager(requireContext(), googleMap)
-            clusterManager?.renderer = ClusterRenderer(
-                requireContext(),
-                googleMap,
-                clusterManager
-            )
+            clusterManager?.renderer =
+                ClusterRenderer(
+                    requireContext(),
+                    googleMap,
+                    clusterManager
+                )
 
             googleMap?.setOnCameraIdleListener {
                 clusterManager?.onCameraIdle()

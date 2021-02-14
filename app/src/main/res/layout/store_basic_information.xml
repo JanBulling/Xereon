@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/store_office_image"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:background="@color/gray_2"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/store_type"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_bold"
+        android:lines="1"
+        android:paddingStart="@dimen/spacing_small"
+        android:paddingEnd="120dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/store_office_image"
+        tools:background="@color/type_red"
+        tools:text="Elektronik" />
+
+    <TextView
+        android:id="@+id/store_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_bold"
+        android:maxLines="3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_larger"
+        app:layout_constraintEnd_toStartOf="@id/store_logo_image"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_type"
+        tools:text="Elektroland Heilbronn GmBH &amp; Co. KG." />
+
+    <RatingBar
+        android:id="@+id/store_rating_bar"
+        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:numStars="5"
+        android:rating="4.5"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_name" />
+
+    <TextView
+        android:id="@+id/store_rating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginStart="@dimen/spacing_tiny"
+        android:text="4.5    (144)"
+        android:textColor="@color/text_gray"
+        app:layout_constraintStart_toEndOf="@id/store_rating_bar"
+        app:layout_constraintTop_toBottomOf="@id/store_name" />
+
+    <ImageView
+        android:id="@+id/store_logo_image"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:background="@drawable/bg_round"
+        app:layout_constraintBottom_toTopOf="@id/store_address"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/store_type"
+        tools:src="@drawable/img_undraw_void" />
+
+    <TextView
+        android:id="@+id/store_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/font_small"
+        app:drawableStartCompat="@drawable/ic_location"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_rating_bar"
+        tools:text="Lange Starße 8, 89542 Herbrechtingen" />
+
+    <TextView
+        android:id="@+id/store_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/font_small"
+        app:drawableStartCompat="@drawable/ic_phone"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_address"
+        tools:text="+49 171 894641" />
+
+    <TextView
+        android:id="@+id/store_website"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/font_small"
+        app:drawableStartCompat="@drawable/ic_globe"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_phone_number"
+        tools:text="metzgereiheussler.de" />
+
+    <ImageView
+        android:id="@+id/store_save_as_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/primary"
+        android:padding="8dp"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintEnd_toStartOf="@id/store_navigate"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_website"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/store_navigate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/primary"
+        android:padding="8dp"
+        android:src="@drawable/ic_navigation"
+        app:layout_constraintEnd_toStartOf="@id/store_start_chat"
+        app:layout_constraintStart_toEndOf="@id/store_save_as_favorite"
+        app:layout_constraintTop_toBottomOf="@id/store_website"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/store_start_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/primary"
+        android:padding="8dp"
+        android:src="@drawable/ic_chat"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/store_navigate"
+        app:layout_constraintTop_toBottomOf="@id/store_website"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/store_description_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:fontFamily="@font/roboto_bold"
+        android:maxLines="3"
+        android:text="Beschreibung"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_large"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_save_as_favorite" />
+
+    <TextView
+        android:id="@+id/store_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_mega_tiny"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:maxLines="12"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/font_normal"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/store_description_title"
+        tools:text="-----" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/spacing_small" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ class CategoryProvider @Inject constructor(
 
         Category(
             CATEGORY_SERVICES, context.getString(R.string.category_services), R.color.type_azure,
-            R.drawable.ic_barber, -1, R.string.category_services_description,
+            R.drawable.ic_services, -1, R.string.category_services_description,
             arrayOf("Friseur", "Taxi", "Reisebüro", "Fahrschule", "Bank", "Post", "Haushaltshilfe", "Versicherung", "Waschanlage")),
 
         Category(
@@ -87,7 +87,7 @@ class CategoryProvider @Inject constructor(
         PopularCategory(
             CATEGORY_SERVICES,
             R.string.category_services,
-            R.drawable.ic_barber,
+            R.drawable.ic_services,
             onClick
         ),
         PopularCategory(

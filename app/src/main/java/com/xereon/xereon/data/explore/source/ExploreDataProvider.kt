@@ -8,6 +8,7 @@ import com.xereon.xereon.di.InjectPostCode
 import com.xereon.xereon.di.InjectUserId
 import com.xereon.xereon.storage.LocalData
 import com.xereon.xereon.util.Resource
+import com.xereon.xereon.util.cache.Parser
 import com.xereon.xereon.util.device.ForegroundState
 import com.xereon.xereon.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
@@ -20,8 +21,8 @@ class ExploreDataProvider @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     private val server: ExploreDataServer,
     private val cache: ExploreCache,
-    private val parser: ExploreParser,
-    foregroundState: ForegroundState,
+    private val parser: Parser,
+    //foregroundState: ForegroundState,
     private val  localData: LocalData,
 ) {
 
@@ -36,7 +37,7 @@ class ExploreDataProvider @Inject constructor(
         try {
             fromCache() ?: fromServer(localData.getUserID(), localData.getPostCode())
         } catch (e: Exception) {
-            Log.e(TAG, e.message + "Failed to get data from server.")
+            Log.e(TAG, e.message + "Failed to get data.")
             Resource.Error<ExploreData>(R.string.unexpected_exception)
         }
     }
@@ -72,7 +73,7 @@ class ExploreDataProvider @Inject constructor(
 
     private fun fromCache() : Resource<ExploreData>? = try {
         Log.d(TAG,"fromCache()")
-        cache.load()?.let { parser.parse(it)?.let { Resource.Success(it) }}
+        cache.load()?.let { parser.parse(it, ExploreData::class.java)?.let { Resource.Success(it) }}
     } catch (e: Exception) {
         Log.w(TAG, "Failed to parse cached data.")
         null
@@ -81,7 +82,7 @@ class ExploreDataProvider @Inject constructor(
     private suspend fun fromServer(userId: Int, postCode: String): Resource<ExploreData> {
         Log.d(TAG,"fromServer()")
         return server.getExploreData(userId, postCode).also {
-            if (it is Resource.Success) parser.parse(it.data!!)?.let { cache.save( it ) }
+            if (it is Resource.Success) parser.parse(it.data!!, ExploreData::class.java)?.let { cache.save( it ) }
         }
     }
 

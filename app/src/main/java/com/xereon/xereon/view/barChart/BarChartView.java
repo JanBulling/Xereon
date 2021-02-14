@@ -115,7 +115,7 @@ public class BarChartView extends View {
         for (int i = START_HOUR; i < START_HOUR + NUMBER_BARS; i++) {
             final float x = scaleHelper.getX(i);
             final float width = scaleHelper.getBarWidth();
-            final float y = scaleHelper.getY(adapter.getPopularity(i) + 3);
+            final float y = scaleHelper.getY(adapter.getPopularity(i) + 2);
 
             // Rects to render graphic
             RectF rect = new RectF(x, y, x + width, getHeight());
@@ -250,7 +250,7 @@ public class BarChartView extends View {
             this.height = contentRect.height();
 
             this.xScale = width / NUMBER_BARS;
-            this.yScale = height / 103;
+            this.yScale = height / 102;
         }
 
         public float getX(float rawX) {

@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
-import com.xereon.xereon.data.model.places.Place
+import com.xereon.xereon.data.location.Place
 import com.xereon.xereon.databinding.FragmentSelectLocationBinding
-import com.xereon.xereon.network.response.IPLocationResponse
+import com.xereon.xereon.data.location.IPLocation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -86,7 +86,7 @@ class SelectLocationFragment : Fragment(R.layout.fragment_select_location) {
                     when (val data = viewModel.selectedPlaceData) {
                         is Place ->
                             (requireActivity() as SelectLocationActivity).completeSelectLocation(data)
-                        is IPLocationResponse ->
+                        is IPLocation ->
                             (requireActivity() as SelectLocationActivity).completeSelectLocation(data)
                         else ->
                             showError(R.string.no_location_exception)
@@ -105,7 +105,7 @@ class SelectLocationFragment : Fragment(R.layout.fragment_select_location) {
         }
     }
 
-    private fun bindPlacesData(place: IPLocationResponse) {
+    private fun bindPlacesData(place: IPLocation) {
         binding.apply {
             selectLocationCity.text = place.city
             selectLocationRegion.text = place.region

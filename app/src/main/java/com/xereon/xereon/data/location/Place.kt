@@ -1,5 +1,6 @@
-package com.xereon.xereon.data.model.places
+package com.xereon.xereon.data.location
 
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
 data class Place (
@@ -19,6 +20,8 @@ data class Place (
     val administrative get() = if (administrativeList.isNullOrEmpty()) "" else administrativeList[0]
     val county get() = if (countyList.isNullOrEmpty()) "" else countyList[0]
     val city get() = if (cityList.isNullOrEmpty()) "" else "${cityList[0]}, "
+
+    val latLng get() = LatLng(coordinates.latitude.toDouble(), coordinates.longitude.toDouble())
 
     override fun toString() =
         "$name ($postCode) in $country, $administrative, $county"

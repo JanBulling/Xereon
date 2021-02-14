@@ -58,7 +58,7 @@ class ExploreFragmentViewModel @ViewModelInject constructor(
                 /* Horizontal row of new stores in the area */
                 add(HorizontalStores.Item(data = exploreData.data.newStores,
                     onStoreClickAction = {
-                        Log.d(TAG, "clicked on \"${it.name}\"")
+                        routeToScreen.postValue(ExploreFragmentDirections.actionExploreFragmentToStoreFragment(it.id))
                     },
                     title = R.string.new_stores,
                     city = localData.getCity(),

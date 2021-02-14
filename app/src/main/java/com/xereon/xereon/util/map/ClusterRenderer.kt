@@ -1,4 +1,4 @@
-package com.xereon.xereon.ui.map
+package com.xereon.xereon.util.map
 
 import android.content.Context
 import android.graphics.Color
@@ -18,11 +18,12 @@ import com.xereon.xereon.data.util.CategoryUtils
 class ClusterRenderer(
     context: Context?,
     map: GoogleMap?,
-    clusterManager: ClusterManager<LocationStore>?
+    clusterManager: ClusterManager<LocationStore>?,
+    clusterSize: Int = 5
 ) : DefaultClusterRenderer<LocationStore>(context, map, clusterManager) {
 
     init{
-        minClusterSize = 5
+        minClusterSize = clusterSize
     }
 
     override fun getClusterText(bucket: Int): String {

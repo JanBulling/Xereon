@@ -19,6 +19,7 @@ object Constants {
     const val DEFAULT_LAT = 48.6761321216f   //Herbrechtingen: 48.627866     //Nürnberg: 50.5943186
     const val DEFAULT_LNG = 10.1578746044f   //Herbrechtingen: 10.189545     //Nürnberg: 9.9428628
     const val DEFAULT_ZOOM = 13f
+    const val MIN_ZOOM = 10f
 
     enum class SortType(val index: Int) {
         RESPONSE_NEW_FIRST(1),      //Latest added products / stores first
