@@ -3,7 +3,7 @@ package com.xereon.xereon.data.maps.source
 import android.util.Log
 import com.xereon.xereon.data.maps.MapsData
 import com.xereon.xereon.data.store.source.StoreDataServer
-import com.xereon.xereon.di.ApplicationScope
+import com.xereon.xereon.util.di.ApplicationScope
 import com.xereon.xereon.storage.LocalData
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.cache.Parser

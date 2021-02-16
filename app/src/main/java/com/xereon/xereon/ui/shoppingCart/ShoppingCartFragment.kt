@@ -30,8 +30,8 @@ class ShoppingCartFragment : Fragment(R.layout.frg_shopping_cart) {
 
         orderAdapter.setOnItemClickListener(object: OrderStoreAdapter.ItemClickListener{
             override fun onItemClick(store: StoreBasic) {
-                val action = ShoppingCartFragmentDirections.actionToShoppingCartProduct(store.id)
-                findNavController().navigate(action)
+                //val action = ShoppingCartFragmentDirections.actionToShoppingCartProduct(store.id)
+                //findNavController().navigate(action)
             }
         })
 

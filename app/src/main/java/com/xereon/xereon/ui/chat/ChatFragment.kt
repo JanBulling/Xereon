@@ -9,26 +9,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.R
-import com.xereon.xereon.adapter.loadStateAdapter.ChatLoadStateAdapter
 import com.xereon.xereon.adapter.pagingAdapter.ChatAdapter
 import com.xereon.xereon.databinding.FrgChatBinding
-import com.xereon.xereon.di.InjectApplicationState
-import com.xereon.xereon.di.InjectUserId
-import com.xereon.xereon.ui.MainActivityCallback
-import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Constants.TAG
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChatFragment : Fragment(R.layout.frg_chat) {
     private val viewModel: ChatViewModel by viewModels()
-    private val args by navArgs<ChatFragmentArgs>()
+    //private val args by navArgs<ChatFragmentArgs>()
 
     private var _binding: FrgChatBinding? = null
     private val binding get() = _binding!!
@@ -36,13 +29,13 @@ class ChatFragment : Fragment(R.layout.frg_chat) {
     private var initialLoad: Boolean = true
     private val chatAdapter = ChatAdapter()
 
-    @JvmField @Inject @InjectUserId var userId: Int = Constants.DEFAULT_USER_ID
-    @Inject @InjectApplicationState lateinit var applicationState: Constants.ApplicationState
+    //@JvmField @Inject @InjectUserId var userId: Int = Constants.DEFAULT_USER_ID
+    //@Inject @InjectApplicationState lateinit var applicationState: Constants.ApplicationState
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgChatBinding.bind(view)
 
-        (requireActivity() as MainActivityCallback).setActionBarTitle(args.storeName)
+        //(requireActivity() as MainActivityCallback).setActionBarTitle(args.storeName)
 
         chatAdapter.addLoadStateListener { loadStates ->
             binding.apply {
@@ -66,16 +59,16 @@ class ChatFragment : Fragment(R.layout.frg_chat) {
             chatRecycler.apply {
                 setHasFixedSize(true)
                 itemAnimator = null
-                adapter = chatAdapter.withLoadStateHeader(header = ChatLoadStateAdapter{
+                adapter = chatAdapter/*.withLoadStateHeader(header = ChatLoadStateAdapter{
                     chatAdapter.retry()
-                })
+                })*/
                 layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, true)
             }
 
             chatSend.setOnClickListener {
                 val text = chatInput.editText?.text.toString()
                 if (text.isNotBlank()) {
-                    viewModel.sendMessage(text, userId, args.storeId)
+                    viewModel.sendMessage(text, 1, 1)//userId, args.storeId)
                     chatInput.editText?.setText("")
                 }
             }
@@ -88,15 +81,15 @@ class ChatFragment : Fragment(R.layout.frg_chat) {
 
         subscribeToObserver()
 
-        Log.d(TAG, "ApplicationState: $applicationState")
-        if (applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
-            applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
-            applicationState == Constants.ApplicationState.FIRST_OPENED) {
+        //Log.d(TAG, "ApplicationState: $applicationState")
+        //if (applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
+        //    applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
+        //    applicationState == Constants.ApplicationState.FIRST_OPENED) {
 
-            showNotLoggedInDialog()
-        }
+        //    showNotLoggedInDialog()
+        //}
 
-        viewModel.getChatMessages(userId, args.storeId)
+        viewModel.getChatMessages(1, 1)//userId, args.storeId)
     }
 
     private fun subscribeToObserver() {

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,8 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
-import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
-import com.xereon.xereon.adapter.pagingAdapter.FavoritesPagingAdapter
 import com.xereon.xereon.databinding.FrgFavoritesBinding
 import com.xereon.xereon.db.model.FavoriteStore
 import com.xereon.xereon.util.Constants
@@ -33,16 +30,16 @@ class FavoritesFragment : Fragment(R.layout.frg_favorites) {
     private var _binding: FrgFavoritesBinding? = null
     private val binding get() = _binding!!
 
-    private val favoritesAdapter = FavoritesPagingAdapter()
+    //private val favoritesAdapter = FavoritesPagingAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         _binding = FrgFavoritesBinding.bind(view)
 
-        favoritesAdapter.setOnItemClickListener(object : FavoritesPagingAdapter.ItemClickListener {
+        /*favoritesAdapter.setOnItemClickListener(object : FavoritesPagingAdapter.ItemClickListener {
             override fun onItemClick(favoriteStore: FavoriteStore) {
-                val action =
-                    FavoritesFragmentDirections.actionToStore(favoriteStore.toSimpleStore())
-                findNavController().navigate(action)
+                //val action =
+                    //FavoritesFragmentDirections.actionToStore(favoriteStore.toSimpleStore())
+                //findNavController().navigate(action)
             }
         })
         favoritesAdapter.addLoadStateListener { loadStates ->
@@ -51,15 +48,15 @@ class FavoritesFragment : Fragment(R.layout.frg_favorites) {
                     loadStates.append.endOfPaginationReached &&
                     favoritesAdapter.itemCount < 1
 
-        }
+        }*/
         binding.apply {
             favoriteRecycler.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
                 itemAnimator = null
-                adapter = favoritesAdapter.withLoadStateFooter(
+                /*adapter = favoritesAdapter.withLoadStateFooter(
                     footer = StoresLoadStateAdapter { favoritesAdapter.retry() }
-                )
+                )*/
             }
 
             ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
@@ -67,8 +64,8 @@ class FavoritesFragment : Fragment(R.layout.frg_favorites) {
                         = false
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val favorite = favoritesAdapter.getItemAtPosition(viewHolder.bindingAdapterPosition) ?: FavoriteStore()
-                    viewModel.deleteFavorite(favorite)
+                    //val favorite = favoritesAdapter.getItemAtPosition(viewHolder.bindingAdapterPosition) ?: FavoriteStore()
+                    //viewModel.deleteFavorite(favorite)
                 }
             }).attachToRecyclerView(favoriteRecycler)
         }
@@ -80,7 +77,7 @@ class FavoritesFragment : Fragment(R.layout.frg_favorites) {
 
     private fun subscribeToObserver() {
         viewModel.favorites.observe(viewLifecycleOwner, Observer {
-            favoritesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            //favoritesAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         })
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.eventChannel.collect {event ->
@@ -103,7 +100,7 @@ class FavoritesFragment : Fragment(R.layout.frg_favorites) {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        favoritesAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
+        //favoritesAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
         binding.favoriteRecycler.scrollToPosition(0)
         return when (item.itemId) {
             R.id.menu_item_sort_new_first -> {

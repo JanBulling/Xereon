@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xereon.xereon.R
 import com.xereon.xereon.data.category.Categories
 import com.xereon.xereon.databinding.FragmentSearchBinding
+import com.xereon.xereon.ui.base.StorePagingAdapter
 import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.lists.decorations.TopBottomPaddingDecorator
@@ -28,7 +29,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val searchAdapter = SearchPagingAdapter()
+    private val searchAdapter = StorePagingAdapter()
 
     private lateinit var searchView: SearchView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>

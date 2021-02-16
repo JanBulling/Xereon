@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import com.xereon.xereon.di.ProcessLifecycle
+import com.xereon.xereon.util.di.ProcessLifecycle
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton

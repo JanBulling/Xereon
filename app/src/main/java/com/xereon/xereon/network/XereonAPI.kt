@@ -2,10 +2,10 @@ package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.explore.ExploreData
+import com.xereon.xereon.data.login.LoginResponse
 import com.xereon.xereon.data.model.*
 import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.data.products.SimpleProduct
-import com.xereon.xereon.data.repository.LoginRepository
 import com.xereon.xereon.data.store.LocationStore
 import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.data.store.Store
@@ -33,7 +33,7 @@ interface XereonAPI {
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("firebasetoken") token: String
-    ): Response<LoginRepository.LoginResponse>
+    ): Response<LoginResponse>
 
     @GET("app-php/users/create-user.php")
     suspend fun register(
@@ -41,10 +41,10 @@ interface XereonAPI {
         @Query("email") email: String,
         @Query("password") password: String,
         @Query("firebasetoken") token: String
-    ): Response<LoginRepository.LoginResponse>
+    ): Response<LoginResponse>
 
     @GET("app-php/users/reset-password.php")
-    suspend fun resetPassword(@Query("email") emailAddress: String): Response<LoginRepository.LoginResponse>
+    suspend fun resetPassword(@Query("email") emailAddress: String): Response<LoginResponse>
 
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/home/app-config.php")

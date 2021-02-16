@@ -18,13 +18,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.maps.android.clustering.ClusterManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
-import com.xereon.xereon.data.category.source.CategoryConverter
+import com.xereon.xereon.data.category.util.CategoryConverter
 import com.xereon.xereon.data.maps.MapsData
 import com.xereon.xereon.data.maps.Place
-import com.xereon.xereon.data.model.Category
 import com.xereon.xereon.data.store.LocationStore
 import com.xereon.xereon.data.store.Store
-import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FragmentMapBinding
 import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.util.map.ClusterRenderer

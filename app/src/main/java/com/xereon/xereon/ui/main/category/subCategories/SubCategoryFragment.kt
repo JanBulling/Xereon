@@ -12,6 +12,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
 import com.xereon.xereon.databinding.FragmentSubCategoryBinding
+import com.xereon.xereon.ui.base.StorePagingAdapter
 import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.util.lists.decorations.TopBottomPaddingDecorator
 import com.xereon.xereon.util.ui.doNavigate
@@ -26,7 +27,7 @@ class SubCategoryFragment : Fragment(R.layout.fragment_sub_category) {
     private var _binding : FragmentSubCategoryBinding? = null
     private val binding get() = _binding!!
 
-    private val storeAdapter = SubCategoryStoreAdapter()
+    private val storeAdapter = StorePagingAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

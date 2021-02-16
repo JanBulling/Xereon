@@ -3,13 +3,10 @@ package com.xereon.xereon.data.explore.source
 import android.util.Log
 import com.xereon.xereon.R
 import com.xereon.xereon.data.explore.ExploreData
-import com.xereon.xereon.di.ApplicationScope
-import com.xereon.xereon.di.InjectPostCode
-import com.xereon.xereon.di.InjectUserId
+import com.xereon.xereon.util.di.ApplicationScope
 import com.xereon.xereon.storage.LocalData
 import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.cache.Parser
-import com.xereon.xereon.util.device.ForegroundState
 import com.xereon.xereon.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*

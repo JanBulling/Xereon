@@ -1,22 +1,12 @@
 package com.xereon.xereon.ui.stores.items
 
 import android.graphics.Typeface
-import android.text.Layout
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
-import android.text.style.AlignmentSpan
 import android.view.ViewGroup
-import android.widget.CalendarView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.xereon.xereon.R
 import com.xereon.xereon.databinding.StoreOpeningHoursBinding
 import com.xereon.xereon.ui.stores.StoreAdapter
-import com.xereon.xereon.util.view_utils.setTextCategoryColor
-import kotlinx.coroutines.currentCoroutineContext
 import java.text.SimpleDateFormat
-import java.time.LocalTime
 import java.util.*
 
 class StoreOpeningHour(parent: ViewGroup) :

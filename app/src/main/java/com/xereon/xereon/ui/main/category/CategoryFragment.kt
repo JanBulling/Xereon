@@ -9,9 +9,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
-import com.xereon.xereon.data.category.Category
-import com.xereon.xereon.data.category.source.CategoryConverter
-import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FragmentCategoryBinding
 import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.util.lists.decorations.TopBottomPaddingDecorator

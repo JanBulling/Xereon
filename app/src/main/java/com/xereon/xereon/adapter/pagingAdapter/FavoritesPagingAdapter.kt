@@ -8,11 +8,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.xereon.xereon.data.util.CategoryUtils
-import com.xereon.xereon.databinding.RecyclerStoreVerticalBinding
 import com.xereon.xereon.db.model.FavoriteStore
 
-class FavoritesPagingAdapter() :
+/*class FavoritesPagingAdapter() :
     PagingDataAdapter<FavoriteStore, FavoritesPagingAdapter.ViewHolder>(COMPARATOR) {
 
     private lateinit var itemClickListener: ItemClickListener
@@ -92,4 +90,4 @@ class FavoritesPagingAdapter() :
         const val VIEW_TYPE_STORE = 0
         const val VIEW_TYPE_LOADING = 1
     }
-}
+}*/

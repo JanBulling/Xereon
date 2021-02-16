@@ -15,8 +15,6 @@ import com.xereon.xereon.adapter.pagingAdapter.ChatAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.ChatsAdapter
 import com.xereon.xereon.data.model.Chat
 import com.xereon.xereon.databinding.FrgChatOverviewBinding
-import com.xereon.xereon.di.InjectApplicationState
-import com.xereon.xereon.di.InjectUserId
 import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,8 +28,8 @@ class ChatOverviewFragment : Fragment(R.layout.frg_chat_overview) {
 
     private val chatsAdapter = ChatsAdapter()
 
-    @JvmField @Inject @InjectUserId var userId: Int = Constants.DEFAULT_USER_ID
-    @Inject @InjectApplicationState lateinit var applicationState: Constants.ApplicationState
+    //@JvmField @Inject @InjectUserId var userId: Int = Constants.DEFAULT_USER_ID
+    //@Inject @InjectApplicationState lateinit var applicationState: Constants.ApplicationState
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,8 +37,8 @@ class ChatOverviewFragment : Fragment(R.layout.frg_chat_overview) {
 
         chatsAdapter.setOnItemClickListener(object: ChatsAdapter.ItemClickListener{
             override fun onItemClick(chat: Chat) {
-                val action = ChatOverviewFragmentDirections.actionChatOverviewToChat(chat.storeID ?: -1, chat.storeName ?: "Store")
-                findNavController().navigate(action)
+                //val action = ChatOverviewFragmentDirections.actionChatOverviewToChat(chat.storeID ?: -1, chat.storeName ?: "Store")
+                //findNavController().navigate(action)
             }
     })
 
@@ -53,15 +51,15 @@ class ChatOverviewFragment : Fragment(R.layout.frg_chat_overview) {
 
         subscribeToObserver()
 
-        viewModel.getAllChats(userId)
+        viewModel.getAllChats(1)//userId)
 
-        if (applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
+        /*if (applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
             applicationState == Constants.ApplicationState.SKIPPED_HAS_LOCATION ||
             applicationState == Constants.ApplicationState.FIRST_OPENED ||
             userId == Constants.DEFAULT_USER_ID) {
 
             showNotLoggedInDialog()
-        }
+        }*/
     }
 
     private fun subscribeToObserver() {

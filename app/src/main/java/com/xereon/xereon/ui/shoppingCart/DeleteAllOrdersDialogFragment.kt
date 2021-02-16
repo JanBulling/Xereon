@@ -13,13 +13,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class DeleteAllOrdersDialogFragment : DialogFragment() {
 
     private val viewModel by viewModels<DeleteAllOrdersViewModel>()
-    private val args by navArgs<DeleteAllOrdersDialogFragmentArgs>()
+    //private val args by navArgs<DeleteAllOrdersDialogFragmentArgs>()
 
     private var storeId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        storeId = args.storeId
+        //storeId = args.storeId
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =

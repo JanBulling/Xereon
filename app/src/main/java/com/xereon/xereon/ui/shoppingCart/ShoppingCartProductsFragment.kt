@@ -31,7 +31,7 @@ import java.util.*
 @AndroidEntryPoint
 class ShoppingCartProductsFragment : Fragment(R.layout.frg_shopping_cart_product), OrderProductAdapter.ItemClickListener {
     private val viewModel by viewModels<ShoppingCartViewModel>()
-    private val args by navArgs<ShoppingCartProductsFragmentArgs>()
+    //private val args by navArgs<ShoppingCartProductsFragmentArgs>()
 
     private var _binding: FrgShoppingCartProductBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +42,7 @@ class ShoppingCartProductsFragment : Fragment(R.layout.frg_shopping_cart_product
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        storeId = args.storeId
+        //storeId = args.storeId
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,12 +70,12 @@ class ShoppingCartProductsFragment : Fragment(R.layout.frg_shopping_cart_product
             }).attachToRecyclerView(shoppingCartProductRecycler)
 
             shoppingCartProductStoreContinueShopping.setOnClickListener {
-                val action = ShoppingCartProductsFragmentDirections.actionToStore(simpleStoreId = storeId)
-                findNavController().navigate(action)
+                //val action = ShoppingCartProductsFragmentDirections.actionToStore(simpleStoreId = storeId)
+                //findNavController().navigate(action)
             }
 
             shoppingCartProductStoreCheckOut.setOnClickListener {
-                findNavController().navigate(R.id.action_ShoppingCart_to_Order)
+                //findNavController().navigate(R.id.action_ShoppingCart_to_Order)
             }
         }
 
@@ -127,16 +127,16 @@ class ShoppingCartProductsFragment : Fragment(R.layout.frg_shopping_cart_product
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.menu_item_delete_all -> {
-                val action = ShoppingCartProductsFragmentDirections.actionToDeleteAllDialog(storeId)
-                findNavController().navigate(action)
+                //val action = ShoppingCartProductsFragmentDirections.actionToDeleteAllDialog(storeId)
+                //findNavController().navigate(action)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
     override fun onItemClick(order: OrderProduct) {
-        val action = ShoppingCartProductsFragmentDirections.actionToProduct(simpleProductId = order.id)
-        findNavController().navigate(action)
+        //val action = ShoppingCartProductsFragmentDirections.actionToProduct(simpleProductId = order.id)
+        //findNavController().navigate(action)
     }
 
     override fun onItemCountIncreased(order: OrderProduct) {

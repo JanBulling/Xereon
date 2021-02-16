@@ -11,7 +11,6 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xereon.xereon.R
-import com.xereon.xereon.adapter.loadStateAdapter.ProductsLoadStateAdapter
 import com.xereon.xereon.databinding.FragmentStoreProductsBinding
 import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.ui.stores.StoreEvents

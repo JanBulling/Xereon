@@ -1,7 +1,7 @@
 package com.xereon.xereon.ui.onboarding
 
 import androidx.annotation.StringRes
-import com.xereon.xereon.data.repository.LoginRepository
+import com.xereon.xereon.data.login.LoginResponse
 
 sealed class OnboardingEvents {
     object NavigateToRegister : OnboardingEvents()
@@ -17,6 +17,6 @@ sealed class OnboardingEvents {
     object NavigateToPrivacy : OnboardingEvents()
 
     data class Error(@StringRes val message: Int) : OnboardingEvents()
-    data class Success(val data: LoginRepository.LoginResponse) : OnboardingEvents()
+    data class Success(val data: LoginResponse) : OnboardingEvents()
     object Loading : OnboardingEvents()
 }

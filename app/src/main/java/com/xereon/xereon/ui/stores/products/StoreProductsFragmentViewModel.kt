@@ -4,9 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import com.xereon.xereon.data.repository.StoreRepository
 import com.xereon.xereon.data.store.source.StoreDataProvider
 import com.xereon.xereon.ui.stores.StoreEvents
 import com.xereon.xereon.util.Constants

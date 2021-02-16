@@ -9,8 +9,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
+import com.xereon.xereon.data.category.util.CategoryConverter
 import com.xereon.xereon.data.store.LocationStore
-import com.xereon.xereon.data.util.CategoryUtils
 
 class ClusterRenderer(
     context: Context?,
@@ -37,7 +37,7 @@ class ClusterRenderer(
 
 
     override fun onBeforeClusterItemRendered(item: LocationStore, markerOptions: MarkerOptions) {
-        val marker: BitmapDescriptor = BitmapDescriptorFactory.defaultMarker( CategoryUtils.getCategoryHue(item.category) );
+        val marker: BitmapDescriptor = BitmapDescriptorFactory.defaultMarker( CategoryConverter.getCategoryHue(item.category) );
         markerOptions.icon(marker)
     }
 }

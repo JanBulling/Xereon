@@ -6,7 +6,6 @@ import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.databinding.ProductAddToCartBinding
 import com.xereon.xereon.ui.products.ProductAdapter
-import kotlinx.android.synthetic.main.frg_default_product.*
 
 class ProductAddToCart(parent: ViewGroup) :
     ProductAdapter.ProductItemVH<ProductAddToCart.Item, ProductAddToCartBinding>(

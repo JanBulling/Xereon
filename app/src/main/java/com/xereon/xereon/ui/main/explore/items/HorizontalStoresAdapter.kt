@@ -1,6 +1,5 @@
 package com.xereon.xereon.ui.main.explore.items
 
-import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.xereon.xereon.data.category.source.CategoryConverter
+import com.xereon.xereon.data.category.util.CategoryConverter
 import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.databinding.HorizontalStoreItemBinding
 

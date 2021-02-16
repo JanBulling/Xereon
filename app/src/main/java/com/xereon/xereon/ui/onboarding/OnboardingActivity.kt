@@ -3,17 +3,14 @@ package com.xereon.xereon.ui.onboarding
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
 import com.xereon.xereon.R
-import com.xereon.xereon.data.repository.LoginRepository
+import com.xereon.xereon.data.login.LoginResponse
 import com.xereon.xereon.storage.LocalData
-import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.ui.selectLocation.SelectLocationActivity
-import com.xereon.xereon.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,7 +45,7 @@ class OnboardingActivity() : AppCompatActivity(), LifecycleObserver {
         )
     }
 
-    fun completeOnboarding(loginResponse: LoginRepository.LoginResponse? = null) {
+    fun completeOnboarding(loginResponse: LoginResponse? = null) {
         localData.setOnborded(true)
         if (loginResponse != null)
             localData.setLoginData(loginResponse)

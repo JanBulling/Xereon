@@ -4,7 +4,7 @@ import android.text.Html
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.xereon.xereon.R
-import com.xereon.xereon.data.category.source.CategoryConverter
+import com.xereon.xereon.data.category.util.CategoryConverter
 import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.databinding.StoreBasicInformationBinding
 import com.xereon.xereon.ui.stores.StoreAdapter

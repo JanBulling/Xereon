@@ -2,14 +2,14 @@ package com.xereon.xereon.ui.onboarding
 
 import androidx.hilt.lifecycle.ViewModelInject
 import com.xereon.xereon.R
-import com.xereon.xereon.data.repository.LoginRepository
+import com.xereon.xereon.data.login.source.LoginProvider
 import com.xereon.xereon.util.InputValidator
 import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.ui.SingleLiveEvent
 import com.xereon.xereon.util.viewmodel.XereonViewModel
 
 class OnboardingLoginFragmentViewModel @ViewModelInject constructor(
-    private val loginRepository: LoginRepository,
+    private val loginProvider: LoginProvider,
 ) : XereonViewModel() {
 
     val loginEvent: SingleLiveEvent<OnboardingEvents> = SingleLiveEvent()
@@ -35,7 +35,7 @@ class OnboardingLoginFragmentViewModel @ViewModelInject constructor(
                     loginEvent.postValue(OnboardingEvents.Error(R.string.no_password_enetred_exception))
                 else {
                     loginEvent.postValue(OnboardingEvents.Loading)
-                    when (val response = loginRepository.login(email, password, "aa-bb-cc")) {
+                    when (val response = loginProvider.login(email, password, "aa-bb-cc")) {
                         is Resource.Success ->
                             loginEvent.postValue(OnboardingEvents.Success(response.data!!))
                         is Resource.Error -> {

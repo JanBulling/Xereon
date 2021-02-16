@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.android.gms.maps.model.LatLng
 import com.xereon.xereon.data.maps.Place
-import com.xereon.xereon.data.repository.LoginRepository
 import com.xereon.xereon.data.maps.IPLocation
+import com.xereon.xereon.data.login.LoginResponse
 import com.xereon.xereon.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,7 +33,7 @@ class LocalData @Inject constructor(
     fun isLocationSet(): Boolean = preferences.getBoolean(PREF_LOCATION, false)
     fun setLocationSet(value: Boolean) = preferences.edit(true) { putBoolean(PREF_LOCATION, value) }
 
-    fun setLoginData(loginData: LoginRepository.LoginResponse) {
+    fun setLoginData(loginData: LoginResponse) {
         preferences.edit(true) {
             putBoolean(PREF_VALID_ACCOUNT, loginData.isVerified)
             putInt(PREF_VALID_ACCOUNT, loginData.userID)
