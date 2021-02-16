@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/gray_1"
+    android:foreground="?selectableItemBackground"
+    android:layout_height="86dp">
+
+    <ImageView
+        android:id="@+id/store_image"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="@dimen/spacing_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_groceries" />
+
+    <TextView
+        android:id="@+id/store_name"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_medium"
+        android:lines="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/store_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Netto Marken-Discount" />
+
+    <TextView
+        android:id="@+id/store_type"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_bold"
+        android:lines="1"
+        android:textSize="@dimen/font_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/store_image"
+        app:layout_constraintTop_toBottomOf="@id/store_name"
+        tools:text="Supermarkt" />
+
+    <TextView
+        android:id="@+id/store_city"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:layout_marginBottom="@dimen/spacing_mega_tiny"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto"
+        android:maxLines="1"
+        android:textAlignment="textEnd"
+        android:textColor="@color/gray_5"
+        android:textSize="@dimen/font_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/store_image"
+        tools:text="Heidenheim an der Brenz" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_mega_tiny"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

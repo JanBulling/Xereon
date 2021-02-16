@@ -1,6 +1,6 @@
 package com.xereon.xereon.network
 
-import com.xereon.xereon.data.location.IPLocation
+import com.xereon.xereon.data.maps.IPLocation
 import retrofit2.Response
 import retrofit2.http.GET
 

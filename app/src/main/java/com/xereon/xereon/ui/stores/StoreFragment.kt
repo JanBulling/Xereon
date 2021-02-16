@@ -1,5 +1,7 @@
 package com.xereon.xereon.ui.stores
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -19,6 +21,7 @@ import com.xereon.xereon.databinding.FragmentStoreBinding
 import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.ui.main.explore.ExploreAdapter
 import com.xereon.xereon.ui.main.explore.ExploreFragmentViewModel
+import com.xereon.xereon.util.DialogHelper
 import com.xereon.xereon.util.lists.decorations.TopBottomPaddingDecorator
 import com.xereon.xereon.util.lists.diffutil.update
 import com.xereon.xereon.util.ui.doNavigate
@@ -53,24 +56,101 @@ class StoreFragment : Fragment(R.layout.fragment_store) {
             setHasFixedSize(true)
         }
 
+        binding.notFoundBtn.setOnClickListener {
+            viewModel.getStoreData(args.storeId)
+            binding.loading.isVisible = true
+        }
+
         viewModel.storeItems.observeLiveData(this) {
-            binding.loading.isVisible = false
-            storeAdapter.update(it)
+            if (it.isNotEmpty()) {
+                storeAdapter.update(it)
+                binding.apply {
+                    notFoundBtn.isVisible = false
+                    notFoundImg.isVisible = false
+                    notFoundText.isVisible = false
+                    loading.isVisible = false
+                }
+            }
         }
 
         viewModel.events.observeLiveData(this) {
             when (it) {
                 is StoreEvents.NavigateBack -> (requireActivity() as MainActivity).goBack()
+                is StoreEvents.OpenNavigation -> {
+                    val lat = it.latLng.latitude
+                    val lng = it.latLng.longitude
+                    //val uri = Uri.parse("google.navigation:q=$lat,$lng")
+                    val uri = Uri.parse("geo:$lat,$lng?q=$lat,$lng&z=13")
+                    val geoIntent =
+                        Intent(Intent.ACTION_VIEW, uri).setPackage("com.google.android.apps.maps")
+                    startActivity(geoIntent)
+                }
+                is StoreEvents.NavigateChat -> {
+                    //doNavigate(StoreFragmentDirections.actionStoreFragmentToChatFragment)
+                }
+                is StoreEvents.NavigateToProducts -> {
+                    doNavigate(
+                        StoreFragmentDirections.actionStoreFragmentToStoreProductsFragment(
+                            it.storeId, it.storeName
+                        )
+                    )
+                }
+                is StoreEvents.NavigateToProduct -> {
+                    doNavigate(
+                        StoreFragmentDirections.actionStoreFragmentToProductFragment(
+                            it.productId, it.productName
+                        )
+                    )
+                }
+                is StoreEvents.StoreReported -> {
+                    Snackbar.make(requireView(), "Filiale gemelden", Snackbar.LENGTH_LONG).show()
+                }
             }
         }
-        viewModel.exceptions.observeLiveData(this) { showError(it) }
+        viewModel.exceptions.observeLiveData(this) {
+            binding.apply {
+                notFoundBtn.isVisible = true
+                notFoundImg.isVisible = true
+                notFoundText.isVisible = true
+                loading.isVisible = false
+            }
+            showError(it)
+        }
         viewModel.storeName.observeLiveData(this) { binding.toolbar.title = it }
         viewModel.getStoreData(args.storeId)
 
-        setupToolbar()
+        setupMenu()
     }
 
-    private fun setupToolbar() {
+    private fun setupMenu() {
+        binding.toolbar.apply {
+            inflateMenu(R.menu.menu_store)
+
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_item_report_store -> {
+                        showReportDialog()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            title = args.storeName
+        }
+    }
+
+    private fun showReportDialog() {
+        val dialog = DialogHelper.DialogInstance(
+            context = requireContext(),
+            title = "Filiale melden?",
+            message = "Melden Sie diese Filiale, wenn diese Ihrer Meinung nach gegen die Nutzungsbedinungen verstößt.",
+            positiveButton = "Melden",
+            positiveButtonFunction = {
+                viewModel.reportStore(args.storeId)
+            },
+            negativeButton = "Abbrechen"
+        )
+        DialogHelper.showDialog(dialog)
     }
 
     override fun onResume() {

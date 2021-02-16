@@ -7,7 +7,7 @@
         <import type="com.xereon.xereon.data.util.PriceUtils"/>
         <variable
             name="product"
-            type="com.xereon.xereon.data.model.Product" />
+            type="com.xereon.xereon.data.products.Product" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

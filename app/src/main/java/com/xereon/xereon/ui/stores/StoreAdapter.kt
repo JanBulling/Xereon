@@ -3,10 +3,7 @@ package com.xereon.xereon.ui.stores
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
-import com.xereon.xereon.ui.stores.items.StoreBasicInformation
-import com.xereon.xereon.ui.stores.items.StoreItem
-import com.xereon.xereon.ui.stores.items.StoreOpeningHour
-import com.xereon.xereon.ui.stores.items.StorePeakTimes
+import com.xereon.xereon.ui.stores.items.*
 import com.xereon.xereon.util.lists.BindableVH
 import com.xereon.xereon.util.lists.diffutil.AsyncDiffUtilAdapter
 import com.xereon.xereon.util.lists.diffutil.AsyncDiffer
@@ -27,6 +24,7 @@ class StoreAdapter : ModularAdapter<StoreAdapter.StoreItemVH<StoreItem, ViewBind
             TypedVHCreatorMod({ data[it] is StoreBasicInformation.Item }) { StoreBasicInformation(it) },
             TypedVHCreatorMod({ data[it] is StoreOpeningHour.Item }) { StoreOpeningHour(it) },
             TypedVHCreatorMod({ data[it] is StorePeakTimes.Item }) { StorePeakTimes(it) },
+            TypedVHCreatorMod({ data[it] is StoreProductsRedirect.Item }) { StoreProductsRedirect(it) },
         ))
     }
 

@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.SimpleProduct
 
 /* Array and not list focused */
 class SubCategoriesAdapter : RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder>() {

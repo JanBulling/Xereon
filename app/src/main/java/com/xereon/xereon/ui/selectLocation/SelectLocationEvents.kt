@@ -1,7 +1,7 @@
 package com.xereon.xereon.ui.selectLocation
 
-import com.xereon.xereon.data.location.Place
-import com.xereon.xereon.data.location.IPLocation
+import com.xereon.xereon.data.maps.Place
+import com.xereon.xereon.data.maps.IPLocation
 
 sealed class SelectLocationEvents {
     object NavigateToMainActivity : SelectLocationEvents()

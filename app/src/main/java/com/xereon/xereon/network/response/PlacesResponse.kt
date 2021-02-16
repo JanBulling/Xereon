@@ -1,7 +1,7 @@
 package com.xereon.xereon.network.response
 
 import com.google.gson.annotations.SerializedName
-import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.maps.Place
 
 data class PlacesResponse(
     @SerializedName("hits") val hits: List<Place>,

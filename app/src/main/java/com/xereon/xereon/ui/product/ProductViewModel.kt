@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.Product
+import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.data.repository.ProductRepository
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.db.OrderProductDao

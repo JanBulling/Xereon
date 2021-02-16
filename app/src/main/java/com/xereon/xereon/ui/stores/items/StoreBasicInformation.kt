@@ -1,13 +1,11 @@
 package com.xereon.xereon.ui.stores.items
 
-import android.os.Build
 import android.text.Html
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.xereon.xereon.R
 import com.xereon.xereon.data.category.source.CategoryConverter
-import com.xereon.xereon.data.model.Category
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.databinding.StoreBasicInformationBinding
 import com.xereon.xereon.ui.stores.StoreAdapter
 
@@ -35,17 +33,17 @@ class StoreBasicInformation(parent: ViewGroup) :
             storeWebsite.text = website
             storeDescription.text = description
 
-            storeStartChat.setOnClickListener { item.onEnterChatClicked.invoke(this) }
-            storeSaveAsFavorite.setOnClickListener { item.onSaveAsFavoriteClicked.invoke(this) }
-            storeNavigate.setOnClickListener { item.onNavigateClicked.invoke(this) }
+            storeStartChat.setOnClickListener { item.onEnterChatClicked.invoke() }
+            storeSaveAsFavorite.setOnClickListener { item.onSaveAsFavoriteClicked.invoke() }
+            storeNavigate.setOnClickListener { item.onNavigateClicked.invoke() }
         }
     }
 
     data class Item(
         val data: Store,
-        val onNavigateClicked: (Store) -> Unit,
-        val onSaveAsFavoriteClicked: (Store) -> Unit,
-        val onEnterChatClicked: (Store) -> Unit
+        val onNavigateClicked: () -> Unit,
+        val onSaveAsFavoriteClicked: () -> Unit,
+        val onEnterChatClicked: () -> Unit
     ) : StoreItem {
         override val stableId: Long = Item::class.java.name.hashCode().toLong()
 

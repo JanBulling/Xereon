@@ -4,18 +4,13 @@ import android.text.Html
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.navigation.NavDirections
-import com.xereon.xereon.data.explore.source.ExploreDataProvider
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.data.model.places.GooglePlacesData
+import com.xereon.xereon.data.store.StoreIdentificationData
 import com.xereon.xereon.data.store.source.StoreDataProvider
-import com.xereon.xereon.ui.main.explore.items.ExploreItem
-import com.xereon.xereon.ui.store.PeakTimesAdapter
-import com.xereon.xereon.ui.stores.items.StoreBasicInformation
-import com.xereon.xereon.ui.stores.items.StoreItem
-import com.xereon.xereon.ui.stores.items.StoreOpeningHour
-import com.xereon.xereon.ui.stores.items.StorePeakTimes
+import com.xereon.xereon.ui.stores.items.*
 import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.ui.SingleLiveEvent
 import com.xereon.xereon.util.viewmodel.XereonViewModel
@@ -28,7 +23,7 @@ class StoreFragmentViewModel @ViewModelInject constructor(
 
     val events: SingleLiveEvent<StoreEvents> = SingleLiveEvent()
     val exceptions: SingleLiveEvent<Int> = SingleLiveEvent()
-    val storeName: SingleLiveEvent<String> = SingleLiveEvent()
+    val storeName: MutableLiveData<String> = MutableLiveData()
 
     private val _storeData: MutableStateFlow<Store?> = MutableStateFlow(null)
 
@@ -40,9 +35,9 @@ class StoreFragmentViewModel @ViewModelInject constructor(
 
         mutableListOf<StoreItem>().apply {
             add(StoreBasicInformation.Item(it,
-                { events.postValue(StoreEvents.OpenNavigation) },
+                { events.postValue(StoreEvents.OpenNavigation(it.latLng)) },
                 { Log.d(TAG, "clicked on favorite") },
-                { events.postValue(StoreEvents.NavigateChat) }))
+                { events.postValue(StoreEvents.NavigateChat(StoreIdentificationData(it.id, it.name))) }))
 
             add(StoreOpeningHour.Item(it.openinghours))
 
@@ -58,6 +53,13 @@ class StoreFragmentViewModel @ViewModelInject constructor(
                     arrayOf(0,0,0,0,0,0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0,0,0)
                 )
             )))
+
+            add(StoreProductsRedirect.Item(it.exampleProducts,
+                {
+                    events.postValue(StoreEvents.NavigateToProducts(it.id, it.name))
+                }, {
+                    events.postValue(StoreEvents.NavigateToProduct(it.id, it.name))
+                }))
         }
     }.asLiveData()
 
@@ -71,6 +73,10 @@ class StoreFragmentViewModel @ViewModelInject constructor(
             }
 
         }
+    }
+
+    fun reportStore(storeId: Int) {
+        events.postValue(StoreEvents.StoreReported)
     }
 
     fun onBackClick() { events.postValue(StoreEvents.NavigateBack) }

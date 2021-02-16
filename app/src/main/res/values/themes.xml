@@ -87,16 +87,12 @@
 
     <!-- Dialogs -->
     <style name="dialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/dialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/dialogButtonStyle</item>
     </style>
 
-    <style name="dialogPositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="dialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/primary</item>
-    </style>
-
-    <style name="dialogNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/black</item>
     </style>
 
 

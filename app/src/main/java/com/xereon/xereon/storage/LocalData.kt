@@ -3,9 +3,9 @@ package com.xereon.xereon.storage
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.android.gms.maps.model.LatLng
-import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.maps.Place
 import com.xereon.xereon.data.repository.LoginRepository
-import com.xereon.xereon.data.location.IPLocation
+import com.xereon.xereon.data.maps.IPLocation
 import com.xereon.xereon.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton

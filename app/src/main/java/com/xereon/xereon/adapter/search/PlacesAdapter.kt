@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.R
-import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.maps.Place
 import com.xereon.xereon.databinding.RecyclerPlacesAutocompleteBinding
 
 class PlacesAdapter() : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {

@@ -6,8 +6,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.LocationStore
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.store.LocationStore
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.data.repository.PlacesRepository
 import com.xereon.xereon.data.repository.StoreRepository
 import com.xereon.xereon.network.response.PlacesRequest

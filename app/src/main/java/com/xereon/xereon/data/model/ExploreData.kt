@@ -1,6 +1,8 @@
 package com.xereon.xereon.data.model
 
 import android.graphics.Color
+import com.xereon.xereon.data.products.SimpleProduct
+import com.xereon.xereon.data.store.SimpleStore
 
 data class ExploreData(
     val chatNewMessages : Boolean = false,

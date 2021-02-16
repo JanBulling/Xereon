@@ -16,27 +16,49 @@
         <action
             android:id="@+id/action_exploreFragment_to_storeFragment"
             app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+        <action
+            android:id="@+id/action_exploreFragment_to_categoryFragment2"
+            app:destination="@id/categoryFragment2" />
     </fragment>
     <fragment
         android:id="@+id/allCategoriesFragment"
-        android:name="com.xereon.xereon.ui.main.category.AllCategoriesFragment"
+        android:name="com.xereon.xereon.ui.main.category.allCategories.AllCategoriesFragment"
         android:label="fragment_all_categories"
-        tools:layout="@layout/fragment_all_categories" />
+        tools:layout="@layout/fragment_all_categories" >
+        <action
+            android:id="@+id/action_allCategoriesFragment_to_categoryFragment2"
+            app:destination="@id/categoryFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.xereon.xereon.ui.main.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.xereon.xereon.ui.main.favorites.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.xereon.xereon.ui.main.map.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/storeFragment"
         android:name="com.xereon.xereon.ui.stores.StoreFragment"
@@ -46,5 +68,72 @@
             android:name="storeId"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_storeFragment_to_storeProductsFragment"
+            app:destination="@id/storeProductsFragment" />
+        <action
+            android:id="@+id/action_storeFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+        <argument
+            android:name="storeName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/storeProductsFragment"
+        android:name="com.xereon.xereon.ui.stores.products.StoreProductsFragment"
+        android:label="fragment_store_products"
+        tools:layout="@layout/fragment_store_products" >
+        <argument
+            android:name="storeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="storeName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_storeProductsFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.xereon.xereon.ui.products.ProductFragment"
+        android:label="fragment_product"
+        tools:layout="@layout/fragment_product" >
+        <argument
+            android:name="productId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="productName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment2"
+        android:name="com.xereon.xereon.ui.main.category.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" >
+        <argument
+            android:name="categoryId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_categoryFragment2_to_subCategoryFragment2"
+            app:destination="@id/subCategoryFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/subCategoryFragment2"
+        android:name="com.xereon.xereon.ui.main.category.subCategories.SubCategoryFragment"
+        android:label="fragment_sub_category"
+        tools:layout="@layout/fragment_sub_category" >
+        <argument
+            android:name="subCategory"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_subCategoryFragment2_to_storeFragment"
+            app:destination="@id/storeFragment" />
     </fragment>
 </navigation>

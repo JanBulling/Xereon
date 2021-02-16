@@ -27,9 +27,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
-import com.xereon.xereon.data.model.LocationStore
-import com.xereon.xereon.data.model.Store
-import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.store.LocationStore
+import com.xereon.xereon.data.store.Store
+import com.xereon.xereon.data.maps.Place
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgMapBinding
 import com.xereon.xereon.di.InjectLatLng
@@ -158,7 +158,7 @@ class MapFragment : Fragment(R.layout.frg_map),
 
         inflater.inflate(R.menu.menu_search, menu)
 
-        val searchItem = menu.findItem(R.id.menu_item_search)
+        val searchItem = menu.findItem(R.id.menu_item_search_product)
         searchView = searchItem.actionView as SearchView
 
         searchView.queryHint = "Ort suchen"

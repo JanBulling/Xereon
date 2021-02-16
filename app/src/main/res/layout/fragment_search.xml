@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.search.SearchFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:iconifiedByDefault="false"
-                app:queryHint="Filialen suchen"/>
+                app:queryHint="Filialen suchen" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -33,6 +33,223 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/could_not_perform_search_exception"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/font_large"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/img_undraw_blank_canvas" />
+
+    <TextView
+        android:id="@+id/no_products"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Keine Filialen gefunden"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/font_large"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/img_undraw_empty" />
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/spacing_tiny"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Suche nach Filialen"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/font_large"
+        app:drawableTopCompat="@drawable/img_undraw_search" />
+
+    <View
+        android:id="@+id/sorting_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@color/gray_8"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sort_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="10dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <TextView
+            android:id="@+id/filter_results_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="Nach Kategorien filtern"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_large"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filter_results_select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            app:chipSpacingHorizontal="8dp"
+            app:chipSpacingVertical="8dp"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintTop_toBottomOf="@id/filter_results_title"
+            app:singleSelection="true" >
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_groceries"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_groceries"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_cloth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_cloth"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_services"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_hotel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_hotel"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_restaurant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_restaurant"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_entertainment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_entertainment"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filter_electronics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:ensureMinTouchTargetSize="false"
+                android:text="@string/category_electronics"/>
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:id="@+id/sort_results_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="Ergebnisse sortieren"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_large"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/filter_results_select" />
+
+        <RadioGroup
+            android:id="@+id/sort_results_options"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginBottom="78dp"
+            android:checkedButton="@id/sort_results_new"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintTop_toBottomOf="@id/sort_results_title">
+
+            <RadioButton
+                android:id="@+id/sort_results_new"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Neue Filialen zuerst" />
+
+            <RadioButton
+                android:id="@+id/sort_results_old"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Älteste Filialen zuerst" />
+
+            <RadioButton
+                android:id="@+id/sort_results_A_Z"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="A -> Z" />
+
+            <RadioButton
+                android:id="@+id/sort_results_Z_A"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="Z -> A" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/apply_filters"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:text="Filter anwenden"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_filter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline_end"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/sort_results_options" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/spacing_small" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

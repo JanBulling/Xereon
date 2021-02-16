@@ -21,7 +21,6 @@ class TopBottomPaddingDecorator(
 
         if (itemPosition == 0)
             outRect.bottom = resources.getDimensionPixelSize(bottomPadding)
-
         else {
             parent.adapter?.let {
                 if (itemPosition != it.itemCount - 1)

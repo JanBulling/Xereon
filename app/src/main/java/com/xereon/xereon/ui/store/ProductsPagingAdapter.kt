@@ -10,14 +10,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.model.LatLng
-import com.xereon.xereon.data.model.SimpleProduct
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.products.SimpleProduct
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.databinding.InclStoreRecyclerBinding
 import com.xereon.xereon.databinding.RecyclerProductVerticalBinding
 import com.xereon.xereon.adapter.util.CustomPagingDataAdapter
-import com.xereon.xereon.data.util.OpeningUtils
 import com.xereon.xereon.data.util.PriceUtils
-import java.util.*
 
 class ProductsPagingAdapter :
     CustomPagingDataAdapter<SimpleProduct, RecyclerView.ViewHolder>(COMPARATOR, offset = OFFSET) {

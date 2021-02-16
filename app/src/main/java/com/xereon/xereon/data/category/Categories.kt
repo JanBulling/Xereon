@@ -14,5 +14,5 @@ enum class Categories(val id: Int, val index: Int) {
     CATEGORY_RESTAURANT(3, 10),
     CATEGORY_SPORTS(11, 11),
     CATEGORY_ENTERTAINMENT(6, 12),
-    CATEGORY_OTHERS(20, 13),
+    CATEGORY_OTHERS(13, 13),
 }

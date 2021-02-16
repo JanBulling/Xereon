@@ -1,8 +1,8 @@
 package com.xereon.xereon.ui.main.explore
 
 import com.xereon.xereon.data.category.Categories
-import com.xereon.xereon.data.model.SimpleProduct
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.products.SimpleProduct
+import com.xereon.xereon.data.store.SimpleStore
 
 sealed class ExploreEvents {
     object NavigateToAllCategories : ExploreEvents()

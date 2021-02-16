@@ -23,8 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.ProductsLoadStateAdapter
-import com.xereon.xereon.data.model.SimpleProduct
-import com.xereon.xereon.data.model.places.GooglePlacesData
+import com.xereon.xereon.data.products.SimpleProduct
 import com.xereon.xereon.databinding.FrgDefaultStoreBinding
 import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.ui.product.DefaultProductFragmentDirections
@@ -101,9 +100,9 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        inflater.inflate(R.menu.menu_store, menu)
+        inflater.inflate(R.menu.menu_store_products, menu)
 
-        val searchItem = menu.findItem(R.id.menu_item_search)
+        val searchItem = menu.findItem(R.id.menu_item_search_product)
         val searchView = searchItem.actionView as SearchView
 
         searchView.queryHint = "Produkte suchen"
@@ -132,13 +131,13 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_item_new_first -> sortProducts(Constants.SortType.RESPONSE_NEW_FIRST)
-            R.id.menu_item_old_first -> sortProducts(Constants.SortType.RESPONSE_OLD_FIRST)
-            R.id.menu_item_order_price_low -> sortProducts(Constants.SortType.RESPONSE_PRICE_LOW)
-            R.id.menu_item_order_price_high -> sortProducts(Constants.SortType.RESPONSE_PRICE_HIGH)
-            R.id.menu_item_order_app_offer -> sortProducts(Constants.SortType.RESPONSE_ONLY_IN_APP)
-            R.id.menu_item_order_a_z -> sortProducts(Constants.SortType.RESPONSE_A_Z)
-            R.id.menu_item_order_z_a -> sortProducts(Constants.SortType.RESPONSE_Z_A)
+            R.id.menu_item_sort_new_first -> sortProducts(Constants.SortType.RESPONSE_NEW_FIRST)
+            R.id.menu_item_sort_old_first -> sortProducts(Constants.SortType.RESPONSE_OLD_FIRST)
+            R.id.menu_item_sort_price_low -> sortProducts(Constants.SortType.RESPONSE_PRICE_LOW)
+            R.id.menu_item_sort_price_high -> sortProducts(Constants.SortType.RESPONSE_PRICE_HIGH)
+            R.id.menu_item_sort_app_offer -> sortProducts(Constants.SortType.RESPONSE_ONLY_IN_APP)
+            R.id.menu_item_sort_a_z -> sortProducts(Constants.SortType.RESPONSE_A_Z)
+            R.id.menu_item_sort_z_a -> sortProducts(Constants.SortType.RESPONSE_Z_A)
             else ->
                 super.onOptionsItemSelected(item)
         }
@@ -160,7 +159,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
                     storeName = store.name
                     storeID = store.id
 
-                    store.placesData = GooglePlacesData(
+                    /*store.placesData = GooglePlacesData(
                         rating = 4.1f,
                         numberRating = 379,
                         currentPopularity = 55,
@@ -173,7 +172,7 @@ class DefaultStoreFragment : Fragment(R.layout.frg_default_store),
                             arrayOf(0,0,0,0,0,0, 15, 32, 57, 80, 95, 98, 95, 90, 93, 98, 95, 78, 52, 26, 12, 0,0,0),
                             arrayOf(0,0,0,0,0,0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0,0,0)
                         )
-                    )
+                    )*/
                     productsAdapter.setStore(store)
                     binding.isSuccessful = true
                     binding.isLoading = false

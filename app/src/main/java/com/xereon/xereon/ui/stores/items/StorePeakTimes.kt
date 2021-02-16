@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.xereon.xereon.R
 import com.xereon.xereon.data.model.places.GooglePlacesData
 import com.xereon.xereon.databinding.StorePeakTimesBinding
-import com.xereon.xereon.ui.store.PeakTimesAdapter
+import com.xereon.xereon.ui.stores.items.PeakTimesAdapter
 import com.xereon.xereon.ui.stores.StoreAdapter
 import java.util.*
 

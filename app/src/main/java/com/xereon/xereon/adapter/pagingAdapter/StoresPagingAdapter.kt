@@ -8,7 +8,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.RecyclerStoreVerticalBinding
 

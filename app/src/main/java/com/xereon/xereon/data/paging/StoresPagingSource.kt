@@ -1,7 +1,7 @@
 package com.xereon.xereon.data.paging
 
 import androidx.paging.PagingSource
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.util.Constants.SortType
 

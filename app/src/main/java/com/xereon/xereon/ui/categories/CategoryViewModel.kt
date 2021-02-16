@@ -2,12 +2,11 @@ package com.xereon.xereon.ui.categories
 
 import android.os.Parcelable
 import android.util.Log
-import androidx.annotation.StringRes
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.data.repository.CategoryRepository
 import com.xereon.xereon.util.*
 import kotlinx.android.parcel.Parcelize

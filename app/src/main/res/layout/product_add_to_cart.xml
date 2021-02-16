@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <NumberPicker
+        android:id="@+id/product_number_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="@dimen/spacing_small"
+        app:layout_constraintEnd_toStartOf="@id/product_unit"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/product_unit"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/product_number_picker"
+        app:layout_constraintEnd_toStartOf="@id/product_order_price"
+        app:layout_constraintStart_toEndOf="@id/product_number_picker"
+        app:layout_constraintTop_toTopOf="@id/product_number_picker"
+        tools:text="Stück" />
+
+    <TextView
+        android:id="@+id/product_order_price"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/product_number_picker"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toEndOf="@id/product_unit"
+        app:layout_constraintTop_toTopOf="@id/product_number_picker"
+        tools:text="16.05€" />
+
+    <Button
+        android:id="@+id/product_add_to_cart"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/add_to_shopping_cart"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:textAllCaps="false"
+        android:textSize="@dimen/font_button"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/product_number_picker" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/spacing_small" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/spacing_small" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

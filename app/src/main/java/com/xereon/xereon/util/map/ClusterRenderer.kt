@@ -3,16 +3,13 @@ package com.xereon.xereon.util.map
 import android.content.Context
 import android.graphics.Color
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
-import com.google.maps.android.clustering.ClusterItem
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
-import com.xereon.xereon.data.model.LocationStore
+import com.xereon.xereon.data.store.LocationStore
 import com.xereon.xereon.data.util.CategoryUtils
 
 class ClusterRenderer(

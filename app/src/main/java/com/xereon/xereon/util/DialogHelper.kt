@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.xereon.xereon.R
@@ -76,8 +77,8 @@ object DialogHelper {
             val builder = AlertDialog.Builder(it)
             builder.apply {
                 setTitle(dialogInstance.title)
-                /*setView(message)*/
-                setMessage(dialogInstance.message)
+                setView(message)
+                //setMessage(dialogInstance.message)
                 setCancelable(dialogInstance.cancelable ?: true)
                 setPositiveButton(
                     dialogInstance.positiveButton

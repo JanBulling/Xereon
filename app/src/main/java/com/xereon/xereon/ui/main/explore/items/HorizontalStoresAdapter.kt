@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.xereon.xereon.data.category.source.CategoryConverter
-import com.xereon.xereon.data.model.SimpleProduct
-import com.xereon.xereon.data.model.SimpleStore
-import com.xereon.xereon.data.util.PriceUtils
-import com.xereon.xereon.databinding.HorizontalProductItemBinding
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.databinding.HorizontalStoreItemBinding
 
 class HorizontalStoresAdapter : RecyclerView.Adapter<HorizontalStoresAdapter.VH>() {
@@ -56,10 +53,7 @@ class HorizontalStoresAdapter : RecyclerView.Adapter<HorizontalStoresAdapter.VH>
             binding.apply {
                 storeImage.clipToOutline = true
                 Glide.with(storeImage.context).load(store.logoImageURL).into(storeImage)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                    storeName.text = Html.fromHtml(store.name, Html.FROM_HTML_MODE_LEGACY)
-                else
-                    storeName.text = store.name
+                storeName.text = Html.fromHtml(store.name)
 
                 storeType.text = store.type
                 storeType.setTextColor(root.context.getColor(

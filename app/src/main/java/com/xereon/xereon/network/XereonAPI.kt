@@ -3,7 +3,12 @@ package com.xereon.xereon.network
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.data.explore.ExploreData
 import com.xereon.xereon.data.model.*
+import com.xereon.xereon.data.products.Product
+import com.xereon.xereon.data.products.SimpleProduct
 import com.xereon.xereon.data.repository.LoginRepository
+import com.xereon.xereon.data.store.LocationStore
+import com.xereon.xereon.data.store.SimpleStore
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.network.response.XereonResponse
 import com.xereon.xereon.update.UpdateChecker
 import com.xereon.xereon.util.Constants
@@ -101,10 +106,10 @@ interface XereonAPI {
     @Headers("Authorization: $ACCESS_KEY")
     @GET("app-php/debug/home/main-search.php")
     suspend fun searchStore(
-        @Query("name") query: String = "",
+        @Query("name") query: String? = null,
         @Query("postalcode") zip: String = Constants.DEFAULT_POSTCODE,
         @Query("category") category: Int? = null,
-        @Query("type") type: String = "",
+        @Query("type") type: String? = null,
         @Query("order") sort: Int = Constants.SortType.RESPONSE_NEW_FIRST.index,
         @Query("page") page: Int = 1,
         @Query("limit") limit: Int = 20

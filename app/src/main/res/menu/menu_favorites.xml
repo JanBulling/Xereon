@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_item_new_first"
+        android:id="@+id/menu_item_sort_new_first"
         android:title="Zuletzt hinzugefügt"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_item_old_first"
+        android:id="@+id/menu_item_sort_old_first"
         android:title="Zuerts hinzugefügt"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_item_order_a_z"
+        android:id="@+id/menu_item_sort_a_z"
         android:title="A -> Z"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_item_order_z_a"
+        android:id="@+id/menu_item_sort_z_a"
         android:title="Z -> A"
         app:showAsAction="never" />
 

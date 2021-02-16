@@ -77,7 +77,7 @@ object PriceUtils {
     fun calculateTotalPriceAsString(price: Float, unit: Int, count: Int) : String {
         val newPrice = calculateTotalPrice(price, unit, count)
 
-        return String.format(Locale.US ?: null, "%.2f", newPrice) + "€"
+        return String.format(Locale.US ?: null, "%.2f", newPrice) + " €"
     }
 
     fun calculateTotalPrice(price: Float?, unit: Int, count: Int) : Float {

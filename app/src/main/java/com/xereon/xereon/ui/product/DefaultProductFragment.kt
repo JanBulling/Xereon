@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.ProductHorizontalAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.ProductVerticalAdapter
-import com.xereon.xereon.data.model.SimpleProduct
+import com.xereon.xereon.data.products.SimpleProduct
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.databinding.FrgDefaultProductBinding
 import com.xereon.xereon.ui.MainActivity

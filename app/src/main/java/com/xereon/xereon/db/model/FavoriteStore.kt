@@ -2,7 +2,7 @@ package com.xereon.xereon.db.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 
 @Entity(tableName = "favorite_store_table")
 data class FavoriteStore(
@@ -18,5 +18,6 @@ data class FavoriteStore(
 
     override fun toString() = "id: $id, name: $name, type: $type with category: $category"
 
-    fun toSimpleStore() = SimpleStore(id, name, city, type, category)
+    fun toSimpleStore() =
+        SimpleStore(id, name, city, type, category)
 }

@@ -9,7 +9,7 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.xereon.xereon.BuildConfig
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.data.repository.StoreRepository
 import com.xereon.xereon.db.FavoriteStoreDao
 import com.xereon.xereon.db.model.FavoriteStore

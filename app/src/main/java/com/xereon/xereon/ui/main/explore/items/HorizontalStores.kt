@@ -4,8 +4,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.SimpleProduct
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.databinding.ExploreHorizontalItemBinding
 import com.xereon.xereon.ui.main.explore.ExploreAdapter
 import com.xereon.xereon.util.lists.decorations.LeftRightPaddingDecorator

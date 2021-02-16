@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.data.paging.StoresPagingSource
 import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.util.Constants

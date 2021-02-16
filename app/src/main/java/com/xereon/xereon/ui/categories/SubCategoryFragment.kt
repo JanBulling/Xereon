@@ -18,7 +18,7 @@ import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
 import com.xereon.xereon.ui.MainActivity
 import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.databinding.FrgSubCategoryBinding
 import com.xereon.xereon.ui.store.DefaultStoreFragmentDirections
 import com.xereon.xereon.util.Constants
@@ -88,7 +88,7 @@ class SubCategoryFragment : Fragment(R.layout.frg_sub_category) {
 
         inflater.inflate(R.menu.menu_search, menu)
 
-        val searchItem = menu.findItem(R.id.menu_item_search)
+        val searchItem = menu.findItem(R.id.menu_item_search_product)
         val searchView = searchItem.actionView as SearchView
 
         searchView.queryHint = "Kategorie suchen"

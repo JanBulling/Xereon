@@ -44,8 +44,8 @@
         tools:layout="@layout/frg_default_store">
         <argument
             android:name="simpleStore"
+            app:argType="com.xereon.xereon.data.store.SimpleStore"
             android:defaultValue="@null"
-            app:argType="com.xereon.xereon.data.model.SimpleStore"
             app:nullable="true" />
         <argument
             android:name="simpleStoreId"
@@ -73,7 +73,7 @@
         <argument
             android:name="simpleProduct"
             android:defaultValue="@null"
-            app:argType="com.xereon.xereon.data.model.SimpleProduct"
+            app:argType="com.xereon.xereon.data.products.SimpleProduct"
             app:nullable="true" />
         <argument
             android:name="simpleProductId"

@@ -4,7 +4,6 @@ import android.graphics.Typeface
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
-import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -12,9 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.Product
+import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.data.util.CategoryUtils
-import com.xereon.xereon.data.util.OpeningUtils
 import com.xereon.xereon.data.util.PriceUtils
 import java.util.*
 

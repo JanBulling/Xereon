@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ProgressBar
+        android:id="@+id/state_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:indeterminateTint="@color/primary" />
+
+    <TextView
+        android:id="@+id/state_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/product_not_found_exception"
+        android:textColor="@color/error"
+        android:visibility="gone"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/state_retry"
+        android:layout_width="150dp"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/retry"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        android:textSize="@dimen/font_button" />
+
+</LinearLayout>

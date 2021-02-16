@@ -112,6 +112,6 @@ class CategoryProvider @Inject constructor(
     )
 
     fun getAllCategories() = allCategories
-    fun getCategoryColor(id: Int): Int = allCategories[id].colorId
-    fun getCategory(id: Int): Category = allCategories[id]
+    fun getCategoryColor(index: Int): Int = allCategories[index].colorId
+    fun getCategory(index: Int): Category = allCategories[index]
 }

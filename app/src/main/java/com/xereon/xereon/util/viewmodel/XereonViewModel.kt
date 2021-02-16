@@ -2,8 +2,9 @@ package com.xereon.xereon.util.viewmodel
 
 import android.util.Log
 import androidx.annotation.CallSuper
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,9 @@ abstract class XereonViewModel constructor(
     }
 
     fun <T> Flow<T>.launchInViewModel() = this.launchIn(viewModelScope)
+    fun <T : Any> LiveData<PagingData<T>>.cachedInViewModel() = this.asFlow()
+        .cachedIn(viewModelScope)
+        .asLiveData()
 
     @CallSuper
     override fun onCleared() {

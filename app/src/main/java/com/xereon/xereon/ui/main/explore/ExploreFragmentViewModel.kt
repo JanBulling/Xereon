@@ -41,7 +41,7 @@ class ExploreFragmentViewModel @ViewModelInject constructor(
 
             /* Popular categories item */
             add(PopularCategories.Item(data = categoryProvider.getPopularCategories{
-                    Log.d(TAG, "clicked on $it")
+                    routeToScreen.postValue(ExploreFragmentDirections.actionExploreFragmentToCategoryFragment2(it.index))
                 },
                 seeMoreCategoriesAction = {
                     routeToScreen.postValue(ExploreFragmentDirections.actionExploreFragmentToAllCategoriesFragment())
@@ -51,14 +51,24 @@ class ExploreFragmentViewModel @ViewModelInject constructor(
                 /* Horizontal row of recommendation products */
                 add(HorizontalProducts.Item(data = exploreData.data!!.recommendations,
                     onProductClickAction = {
-                        Log.d(TAG, "clicked on \"${it.name}\"")
+                        routeToScreen.postValue(
+                            ExploreFragmentDirections.actionExploreFragmentToProductFragment(
+                                it.id,
+                                it.name
+                            )
+                        )
                     },
                     title = R.string.recommendations, subtitle = R.string.recommendations_description))
 
                 /* Horizontal row of new stores in the area */
                 add(HorizontalStores.Item(data = exploreData.data.newStores,
                     onStoreClickAction = {
-                        routeToScreen.postValue(ExploreFragmentDirections.actionExploreFragmentToStoreFragment(it.id))
+                        routeToScreen.postValue(
+                            ExploreFragmentDirections.actionExploreFragmentToStoreFragment(
+                                it.id,
+                                it.name
+                            )
+                        )
                     },
                     title = R.string.new_stores,
                     city = localData.getCity(),
@@ -67,7 +77,12 @@ class ExploreFragmentViewModel @ViewModelInject constructor(
                 /* Horizontal row of popular products */
                 add(HorizontalProducts.Item(data = exploreData.data.popular,
                     onProductClickAction = {
-                        Log.d(TAG, "clicked on \"${it.name}\"")
+                        routeToScreen.postValue(
+                            ExploreFragmentDirections.actionExploreFragmentToProductFragment(
+                                it.id,
+                                it.name
+                            )
+                        )
                     },
                     title = R.string.popular, subtitle = R.string.popular_description))
             }

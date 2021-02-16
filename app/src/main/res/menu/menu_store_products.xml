@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_item_search_product"
+        android:title="Suche"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+    <item
+        android:title="Sortieren"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="always">
+
+        <menu>
+            <!-- "sort" submenu -->
+            <item android:id="@+id/menu_item_sort_new_first"
+                android:title="Neuste Produkte zuerst"/>
+            <item android:id="@+id/menu_item_sort_old_first"
+                android:title="Älteste Produkte zuerst"/>
+            <item android:id="@+id/menu_item_sort_price_low"
+                android:title="Preis aufsteigend"/>
+            <item android:id="@+id/menu_item_sort_price_high"
+                android:title="Preis absteigend"/>
+            <item android:id="@+id/menu_item_sort_app_offer"
+                android:title="App-Exclusive Produkte"/>
+            <item android:id="@+id/menu_item_sort_a_z"
+                android:title="A -> Z"/>
+            <item android:id="@+id/menu_item_sort_z_a"
+                android:title="Z -> A"/>
+        </menu>
+
+    </item>
+
+</menu>

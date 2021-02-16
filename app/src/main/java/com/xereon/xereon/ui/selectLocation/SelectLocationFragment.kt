@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
-import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.maps.Place
 import com.xereon.xereon.databinding.FragmentSelectLocationBinding
-import com.xereon.xereon.data.location.IPLocation
+import com.xereon.xereon.data.maps.IPLocation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

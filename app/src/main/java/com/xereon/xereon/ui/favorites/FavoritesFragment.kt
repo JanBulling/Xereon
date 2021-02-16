@@ -23,8 +23,6 @@ import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
 import com.xereon.xereon.adapter.pagingAdapter.FavoritesPagingAdapter
 import com.xereon.xereon.databinding.FrgFavoritesBinding
 import com.xereon.xereon.db.model.FavoriteStore
-import com.xereon.xereon.db.model.OrderProduct
-import com.xereon.xereon.ui.shoppingCart.ShoppingCartViewModel
 import com.xereon.xereon.util.Constants
 import kotlinx.coroutines.flow.collect
 
@@ -108,19 +106,19 @@ class FavoritesFragment : Fragment(R.layout.frg_favorites) {
         favoritesAdapter.submitData(viewLifecycleOwner.lifecycle, PagingData.empty())
         binding.favoriteRecycler.scrollToPosition(0)
         return when (item.itemId) {
-            R.id.menu_item_new_first -> {
+            R.id.menu_item_sort_new_first -> {
                 viewModel.sortElements(Constants.SortType.RESPONSE_NEW_FIRST)
                 true
             }
-            R.id.menu_item_old_first -> {
+            R.id.menu_item_sort_old_first -> {
                 viewModel.sortElements(Constants.SortType.RESPONSE_OLD_FIRST)
                 true
             }
-            R.id.menu_item_order_a_z -> {
+            R.id.menu_item_sort_a_z -> {
                 viewModel.sortElements(Constants.SortType.RESPONSE_A_Z)
                 true
             }
-            R.id.menu_item_order_z_a -> {
+            R.id.menu_item_sort_z_a -> {
                 viewModel.sortElements(Constants.SortType.RESPONSE_Z_A)
                 true
             }

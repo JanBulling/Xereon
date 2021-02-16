@@ -2,7 +2,7 @@ package com.xereon.xereon.data.repository
 
 import android.util.Log
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.Product
+import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.util.Constants.TAG
 import com.xereon.xereon.util.Resource

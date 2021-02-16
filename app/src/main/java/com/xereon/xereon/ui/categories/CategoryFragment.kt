@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.StoreHorizontalAdapter
 import com.xereon.xereon.adapter.recyclerAdapter.SubCategoriesAdapter
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.databinding.FrgCategoryBinding
 import com.xereon.xereon.di.InjectPostCode
 import com.xereon.xereon.ui.MainActivity

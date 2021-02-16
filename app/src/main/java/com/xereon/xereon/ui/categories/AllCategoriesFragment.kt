@@ -41,7 +41,7 @@ class AllCategoriesFragment : Fragment(R.layout.frg_categories) {
 
         inflater.inflate(R.menu.menu_search, menu)
 
-        val searchItem = menu.findItem(R.id.menu_item_search)
+        val searchItem = menu.findItem(R.id.menu_item_search_product)
         val searchView = searchItem.actionView as SearchView
 
         searchView.queryHint = "Kategorie suchen"

@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.xereon.xereon.databinding.RecyclerLoadStateProductsBinding
+import com.xereon.xereon.databinding.ProductLoadStateBinding
 
 class ChatLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<ChatLoadStateAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ViewHolder {
         val binding =
-            RecyclerLoadStateProductsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ProductLoadStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(binding)
     }
@@ -21,7 +21,7 @@ class ChatLoadStateAdapter(private val retry: () -> Unit) :
         holder.bind(loadState)
 
 
-    inner class ViewHolder(private val binding: RecyclerLoadStateProductsBinding) :
+    inner class ViewHolder(private val binding: ProductLoadStateBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {

@@ -18,7 +18,7 @@ import com.google.android.material.chip.Chip
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.loadStateAdapter.StoresLoadStateAdapter
 import com.xereon.xereon.adapter.pagingAdapter.StoresPagingAdapter
-import com.xereon.xereon.data.model.SimpleStore
+import com.xereon.xereon.data.store.SimpleStore
 import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FrgSearchBinding
 import com.xereon.xereon.ui.MainActivity

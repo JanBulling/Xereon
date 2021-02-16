@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.xereon.xereon.R
-import com.xereon.xereon.data.location.Place
+import com.xereon.xereon.data.maps.Place
 import com.xereon.xereon.data.repository.PlacesRepository
 import com.xereon.xereon.network.response.PlacesRequest
 import com.xereon.xereon.network.response.PlacesResponse

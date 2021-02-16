@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.xereon.xereon.R
-import com.xereon.xereon.data.location.Place
-import com.xereon.xereon.data.location.IPLocation
+import com.xereon.xereon.data.maps.Place
+import com.xereon.xereon.data.maps.IPLocation
 import com.xereon.xereon.storage.LocalData
 import com.xereon.xereon.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint

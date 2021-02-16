@@ -1,29 +1,35 @@
 package com.xereon.xereon.ui.main.map
 
 import android.location.Geocoder
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.maps.android.clustering.ClusterManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.search.PlacesAdapter
-import com.xereon.xereon.data.location.MapsData
-import com.xereon.xereon.data.location.Place
-import com.xereon.xereon.data.model.LocationStore
+import com.xereon.xereon.data.category.source.CategoryConverter
+import com.xereon.xereon.data.maps.MapsData
+import com.xereon.xereon.data.maps.Place
+import com.xereon.xereon.data.model.Category
+import com.xereon.xereon.data.store.LocationStore
+import com.xereon.xereon.data.store.Store
+import com.xereon.xereon.data.util.CategoryUtils
 import com.xereon.xereon.databinding.FragmentMapBinding
+import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.util.map.ClusterRenderer
 import com.xereon.xereon.util.Constants
+import com.xereon.xereon.util.ui.doNavigate
 import com.xereon.xereon.util.ui.observeLiveData
 import com.xereon.xereon.util.ui.showError
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +47,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
     private lateinit var googleMap: GoogleMap
     private lateinit var clusterManager: ClusterManager<LocationStore>
     private lateinit var searchView: SearchView
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     private val placesAdapter = PlacesAdapter()
 
@@ -49,25 +56,41 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         _binding = FragmentMapBinding.bind(view)
         binding.googleMaps.onCreate(savedInstanceState)
 
-        binding.googleMaps.getMapAsync {
-            googleMap = it
-            setupMapIfReady(googleMap)
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.mapBottomSheet)
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-            viewModel.mapsPosition.observeLiveData(this@MapFragment) {
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.latLng, it.zoom))
+        binding.apply {
+            googleMaps.getMapAsync {
+                googleMap = it
+                setupMapIfReady(googleMap)
 
-                if (it.postCode.isNotEmpty()) {
-                    binding.loadStores.isVisible = true
-                    viewModel.loadStoresInRegion(it.postCode)
+                viewModel.mapsPosition.observeLiveData(this@MapFragment) {
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.latLng, it.zoom))
+
+                    if (it.postCode.isNotEmpty()) {
+                        binding.loadStores.isVisible = true
+                        viewModel.loadStoresInRegion(it.postCode)
+                    }
+                }
+                viewModel.loadedStores.observeLiveData(this@MapFragment) {
+                    binding.loadStores.isVisible = false
+                    if (::clusterManager.isInitialized) {
+                        clusterManager.addItems(it)
+                        clusterManager.cluster()
+                    }
                 }
             }
+
+            placesRecycler.apply {
+                adapter = placesAdapter
+                itemAnimator = null
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+
+            storeMoreInformation.setOnClickListener { viewModel.seeMoreClick() }
         }
 
-        binding.placesRecycler.apply {
-            adapter = placesAdapter
-            itemAnimator = null
-            layoutManager = LinearLayoutManager(requireContext())
-        }
         placesAdapter.setOnItemClickListener(object: PlacesAdapter.ItemClickListener{
             override fun onItemClick(place: Place) {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, 13f))
@@ -76,18 +99,25 @@ class MapFragment : Fragment(R.layout.fragment_map) {
             }
         })
 
-        viewModel.loadedStores.observeLiveData(this) {
-            binding.loadStores.isVisible = false
-            if (::clusterManager.isInitialized) {
-                clusterManager.addItems(it)
-                clusterManager.cluster()
-            }
-        }
-
         viewModel.places.observeLiveData(this) { placesAdapter.submitList(it.hits) }
+
         viewModel.exception.observeLiveData(this) {
             showError(it)
             binding.loadStores.isVisible = false
+            binding.storeLoading.isVisible = false
+        }
+
+        viewModel.store.observeLiveData(this) { fillBottomSheet(it) }
+
+        viewModel.events.observeLiveData(this) {
+            when(it) {
+                is MapEvents.NavigateToStore ->
+                    doNavigate(
+                        MapFragmentDirections.actionMapFragmentToStoreFragment(it.storeId, it.storeName)
+                    )
+                is MapEvents.LoadStoresInRegion ->
+                    binding.loadStores.isVisible = true
+            }
         }
 
         setupMenu()
@@ -103,18 +133,20 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 clusterManager.onCameraIdle()
 
                 val postCode = getPostCode(cameraPosition.target)
-                if (postCode.isNotEmpty()) {
-                    binding.loadStores.isVisible = true
+                if (postCode.isNotEmpty())
                     viewModel.loadStoresInRegion(postCode)
-                }
             }
 
             setOnMarkerClickListener(clusterManager)
             clusterManager.setOnClusterItemClickListener {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                fillBottomSheet(it)
+                viewModel.getStoreData(it.id)
                 false
             }
 
             setOnMapClickListener {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 searchView.clearFocus()
             }
 
@@ -124,6 +156,8 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 isMapToolbarEnabled = false
             }
             setMinZoomPreference(Constants.MIN_ZOOM)
+
+            setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.custom_map_style))
         }
     }
 
@@ -164,8 +198,42 @@ class MapFragment : Fragment(R.layout.fragment_map) {
                 if (!hasFocus) {
                     searchView.clearFocus()
                     binding.placesRecycler.isVisible = false
+                    (requireActivity() as MainActivity).setBottomNavBarVisibility(true)
+                } else {
+                    (requireActivity() as MainActivity).setBottomNavBarVisibility(false)
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
+        }
+    }
+
+    private fun fillBottomSheet(store: LocationStore) {
+        binding.apply {
+            storeLoading.isVisible = true
+            storeName.text = store.name
+            Glide.with(requireContext()).load(store.logoImageURL).into(storeImage)
+            storeType.text = store.type
+            storeType.setTextColor(requireContext().getColor(CategoryConverter.getCategoryColor(store.category)))
+        }
+    }
+
+    private fun fillBottomSheet(store: Store) {
+        binding.apply {
+            storeLoading.isVisible = false
+            storeAddress.text = store.completeAddress
+
+            if (store.openinghours.size >= 7) {
+                val dayOfWeek = (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)+5)%7
+                val openingTime = if (store.openinghours[dayOfWeek].isBlank())
+                    "geschlossen"
+                else
+                    store.openinghours[dayOfWeek]
+
+                val openingString = resources.getStringArray(R.array.day_of_week_short)[dayOfWeek] +
+                        ".: $openingTime"
+                storeOpening.text = openingString
+            } else
+                storeOpening.text = "-"
         }
     }
 

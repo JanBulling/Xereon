@@ -3,8 +3,8 @@ package com.xereon.xereon.data.repository
 import android.util.Log
 import androidx.paging.*
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.LocationStore
-import com.xereon.xereon.data.model.Store
+import com.xereon.xereon.data.store.LocationStore
+import com.xereon.xereon.data.store.Store
 import com.xereon.xereon.data.paging.ProductsPagingSource
 import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.util.Constants.SortType
