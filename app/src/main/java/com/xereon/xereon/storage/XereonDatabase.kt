@@ -1,13 +1,9 @@
-package com.xereon.xereon.db
+package com.xereon.xereon.storage
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.xereon.xereon.db.model.FavoriteStore
-import com.xereon.xereon.db.model.OrderProduct
-import kotlinx.coroutines.CoroutineScope
-import javax.inject.Inject
-import javax.inject.Provider
+import com.xereon.xereon.data.store.FavoriteStore
+import com.xereon.xereon.data.products.OrderProduct
 
 @Database(
     entities = [OrderProduct::class, FavoriteStore::class],

@@ -6,7 +6,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.Chat
+import com.xereon.xereon.data.chat.Chat
 import com.xereon.xereon.data.repository.ChatRepository
 import com.xereon.xereon.util.Resource
 import kotlinx.coroutines.channels.Channel

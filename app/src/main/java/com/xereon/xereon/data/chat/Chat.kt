@@ -1,4 +1,4 @@
-package com.xereon.xereon.data.model
+package com.xereon.xereon.data.chat
 
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat

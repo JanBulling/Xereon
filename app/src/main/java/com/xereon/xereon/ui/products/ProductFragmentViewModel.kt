@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.data.products.source.ProductDataProvider
+import com.xereon.xereon.ui.products.items.MoreProductsFromStore
 import com.xereon.xereon.ui.products.items.ProductAddToCart
 import com.xereon.xereon.ui.products.items.ProductBasicInformation
 import com.xereon.xereon.ui.products.items.ProductItem
@@ -32,6 +33,11 @@ class ProductFragmentViewModel @ViewModelInject constructor(
             add(ProductAddToCart.Item(it.price, it.unit) {count ->
 
             })
+            add(MoreProductsFromStore.Item(it, {id, name ->
+                events.postValue(ProductEvents.NavigateStore(id, name))
+            }, {id, name ->
+                events.postValue(ProductEvents.NavigateProduct(id, name))
+            }))
         }
 
     }.asLiveData()

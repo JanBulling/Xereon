@@ -62,7 +62,7 @@ class ExploreFragment : Fragment(R.layout.fragment_explore) {
             viewModel.hasNewMessages.observeLiveData(this@ExploreFragment) { batch.isVisible = it }
 
             chatActionView.setOnClickListener {
-                Toast.makeText(requireContext(), "To chat", Toast.LENGTH_SHORT).show()
+                doNavigate(ExploreFragmentDirections.actionExploreFragmentToChatOverviewFragment())
             }
         }
     }

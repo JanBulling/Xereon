@@ -1,4 +1,4 @@
-package com.xereon.xereon.adapter.pagingAdapter
+package com.xereon.xereon.ui.chat
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,45 +8,41 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.xereon.xereon.R
-import com.xereon.xereon.data.model.ChatMessage
+import com.xereon.xereon.data.chat.ChatMessage
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatAdapter() :
-    PagingDataAdapter<ChatMessage, ChatAdapter.ViewHolder>(COMPARATOR) {
+class ChatPagingAdapter : PagingDataAdapter<ChatMessage, ChatPagingAdapter.VH>(COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
         when (viewType) {
-            VIEW_TYPE_FROM_STORE -> {
+            VIEW_TYPE_CHAT_RECEIVER -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.recycler_chat_message_left, parent, false)
-                ViewHolder(view)
+                VH(view)
             }
             else -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.recycler_chat_message_right, parent, false)
-                ViewHolder(view)
+                VH(view)
             }
         }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VH, position: Int) {
         val chatMessage = getItem(position)
-
-        if (chatMessage != null)
-            holder.bind(chatMessage)
+        if (chatMessage != null) holder.bind(chatMessage)
     }
 
-    override fun getItemViewType(position: Int) =
+    override fun getItemViewType(position: Int) = if (position == itemCount) {
+        VIEW_TYPE_LOADING
+    } else {
         if (getItem(position)?.fromAppUser == true)
-            VIEW_TYPE_FROM_USER
+            VIEW_TYPE_CHAT_SENDER
         else
-            VIEW_TYPE_FROM_STORE
+            VIEW_TYPE_CHAT_RECEIVER
+    }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    inner class ViewHolder(private val view: View) :
-        RecyclerView.ViewHolder(view) {
-
+    inner class VH(private val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(message: ChatMessage) {
             val text = view.findViewById<TextView>(R.id.chat_message_text)
             val date = view.findViewById<TextView>(R.id.chat_message_date)
@@ -56,11 +52,8 @@ class ChatAdapter() :
             val sdf = SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.getDefault())
             date.text = sdf.format(dateFromLong)
         }
-
     }
 
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<ChatMessage>() {
             override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage) =
@@ -70,7 +63,9 @@ class ChatAdapter() :
                 oldItem.hashCode() == newItem.hashCode()
         }
 
-        const val VIEW_TYPE_FROM_STORE = 0
-        const val VIEW_TYPE_FROM_USER = 1
+        const val VIEW_TYPE_CHAT_SENDER = 0
+        const val VIEW_TYPE_CHAT_RECEIVER = 1
+        const val VIEW_TYPE_LOADING = 2
     }
+
 }

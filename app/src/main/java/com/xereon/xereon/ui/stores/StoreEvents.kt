@@ -7,6 +7,7 @@ sealed class StoreEvents {
 
     object NavigateBack : StoreEvents()
     object StoreReported : StoreEvents()
+    object AddedToFavorites : StoreEvents()
     data class NavigateChat(val storeData: StoreIdentificationData) : StoreEvents()
     data class OpenNavigation(val latLng: LatLng) : StoreEvents()
 

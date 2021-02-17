@@ -1,4 +1,4 @@
-package com.xereon.xereon.data.repository
+package com.xereon.xereon.data.chat.source
 
 import android.util.Log
 import androidx.paging.Pager
@@ -11,20 +11,20 @@ import com.xereon.xereon.network.XereonAPI
 import com.xereon.xereon.network.response.XereonResponse
 import com.xereon.xereon.util.Constants
 import com.xereon.xereon.util.Resource
+import dagger.Reusable
 import retrofit2.HttpException
 import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class ChatRepository @Inject constructor(
-    private val xereonAPI: XereonAPI
-) {
+@Reusable
+class ChatServer @Inject constructor(
+    private val api: XereonAPI
+){
 
     suspend fun getAllChats(userID: Int): Resource<List<Chat>> =
         try {
-            val response = xereonAPI.getAllChats(
+            val response = api.getAllChats(
                 userID = userID
             )
             val result = response.body()
@@ -43,7 +43,7 @@ class ChatRepository @Inject constructor(
 
     suspend fun sendMessage(message: String, userID: Int, storeID: Int): Resource<XereonResponse> {
         return try {
-            val response = xereonAPI.sendMessage(
+            val response = api.sendMessage(
                 message = message,
                 userID = userID,
                 storeID = storeID
@@ -75,10 +75,11 @@ class ChatRepository @Inject constructor(
                 enablePlaceholders = false
             ), pagingSourceFactory = {
                 ChatPagingSource(
-                    xereonAPI = xereonAPI,
+                    xereonAPI = api,
                     userID = userID,
                     storeID = storeID
                 )
             }
         ).liveData
+
 }

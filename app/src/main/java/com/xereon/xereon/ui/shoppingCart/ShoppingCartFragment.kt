@@ -6,12 +6,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.OrderStoreAdapter
 import com.xereon.xereon.databinding.FrgShoppingCartBinding
-import com.xereon.xereon.db.StoreBasic
+import com.xereon.xereon.storage.StoreBasic
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

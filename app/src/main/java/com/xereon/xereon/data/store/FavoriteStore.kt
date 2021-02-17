@@ -1,4 +1,4 @@
-package com.xereon.xereon.db.model
+package com.xereon.xereon.data.store
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

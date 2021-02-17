@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.chat.ChatFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:elevation="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/XereonToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Chat"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/XereonToolbar.Menu"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        app:layout_constraintBottom_toTopOf="@id/input"
+        app:layout_constraintTop_toBottomOf="@id/appbar"/>
+
+    <ProgressBar
+        android:id="@+id/chat_loading_initial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/spacing_tiny"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_tiny"
+        app:boxStrokeWidth="0dp"
+        app:boxBackgroundColor="@android:color/transparent"
+        android:hint="Nachricht senden..."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/send"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round"
+            android:backgroundTint="@color/white"
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLines="5" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_tiny"
+        android:indeterminateTint="@color/primary"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/input"
+        app:layout_constraintEnd_toEndOf="@id/input"
+        app:layout_constraintTop_toTopOf="@id/input" />
+
+    <ImageView
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_round"
+        android:backgroundTint="@color/primary"
+        android:elevation="10dp"
+        android:padding="12dp"
+        android:src="@drawable/ic_send"
+        app:layout_constraintBottom_toBottomOf="@id/input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/input"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

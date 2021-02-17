@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.xereon.xereon.databinding.RecyclerOrderStoreBinding
-import com.xereon.xereon.db.StoreBasic
+import com.xereon.xereon.storage.StoreBasic
 import java.util.*
 
 class OrderStoreAdapter : RecyclerView.Adapter<OrderStoreAdapter.ViewHolder>() {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.chat.ChatOverviewFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:elevation="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/XereonToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Alle Chats"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/XereonToolbar.Menu"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/primary"/>
+
+    <TextView
+        android:id="@+id/no_messages"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Noch keine Nachrichten."
+        android:textSize="19sp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/primary"
+        android:drawablePadding="12dp"
+        android:textAlignment="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_gravity="center"
+        app:drawableTopCompat="@drawable/img_undraw_no_data" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

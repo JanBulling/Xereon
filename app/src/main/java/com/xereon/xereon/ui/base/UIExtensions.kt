@@ -1,4 +1,4 @@
-package com.xereon.xereon.ui
+package com.xereon.xereon.ui.base
 
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections

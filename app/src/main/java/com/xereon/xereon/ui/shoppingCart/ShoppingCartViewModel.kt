@@ -3,11 +3,10 @@ package com.xereon.xereon.ui.shoppingCart
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import androidx.room.FtsOptions
 import com.xereon.xereon.data.util.PriceUtils
-import com.xereon.xereon.db.OrderProductDao
-import com.xereon.xereon.db.StoreBasic
-import com.xereon.xereon.db.model.OrderProduct
+import com.xereon.xereon.storage.OrderProductDao
+import com.xereon.xereon.storage.StoreBasic
+import com.xereon.xereon.data.products.OrderProduct
 import com.xereon.xereon.util.Constants
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect

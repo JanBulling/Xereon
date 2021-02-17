@@ -86,7 +86,7 @@ class StoreFragment : Fragment(R.layout.fragment_store) {
                     startActivity(geoIntent)
                 }
                 is StoreEvents.NavigateChat -> {
-                    //doNavigate(StoreFragmentDirections.actionStoreFragmentToChatFragment)
+                    doNavigate(StoreFragmentDirections.actionStoreFragmentToChatFragment(it.storeData.id, it.storeData.name))
                 }
                 is StoreEvents.NavigateToProducts -> {
                     doNavigate(
@@ -104,6 +104,9 @@ class StoreFragment : Fragment(R.layout.fragment_store) {
                 }
                 is StoreEvents.StoreReported -> {
                     Snackbar.make(requireView(), "Filiale gemelden", Snackbar.LENGTH_LONG).show()
+                }
+                is StoreEvents.AddedToFavorites -> {
+                    Snackbar.make(requireView(), "Favorit hinzugefügt", Snackbar.LENGTH_LONG).show()
                 }
             }
         }

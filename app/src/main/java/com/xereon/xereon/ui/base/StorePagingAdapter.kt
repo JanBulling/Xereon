@@ -34,6 +34,8 @@ class StorePagingAdapter : PagingDataAdapter<SimpleStore, StorePagingAdapter.VH>
         this.onClickAction = onClickAction
     }
 
+    fun getItemAtPosition(position: Int) = getItem(position)
+
     inner class VH(private val binding: StoreListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {

@@ -14,6 +14,7 @@ import com.xereon.xereon.ui.main.MainActivity
 import com.xereon.xereon.ui.stores.StoreEvents
 import com.xereon.xereon.util.lists.decorations.TopBottomPaddingDecorator
 import com.xereon.xereon.util.lists.diffutil.update
+import com.xereon.xereon.util.ui.doNavigate
 import com.xereon.xereon.util.ui.observeLiveData
 import com.xereon.xereon.util.ui.showError
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +71,12 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         viewModel.events.observeLiveData(this) {
             when (it) {
                 is ProductEvents.NavigateBack -> (requireActivity() as MainActivity).goBack()
+                is ProductEvents.NavigateStore -> doNavigate(
+                    ProductFragmentDirections.actionProductFragmentToStoreFragment(it.storeId, it.storeName)
+                )
+                is ProductEvents.NavigateProduct -> doNavigate(
+                    ProductFragmentDirections.actionProductFragmentSelf(it.id, it.name)
+                )
             }
         }
 

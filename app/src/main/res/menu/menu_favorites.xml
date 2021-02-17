@@ -21,4 +21,9 @@
         android:title="Z -> A"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_item_delete_favorites"
+        android:title="Alle löschen"
+        app:showAsAction="never" />
+
 </menu>

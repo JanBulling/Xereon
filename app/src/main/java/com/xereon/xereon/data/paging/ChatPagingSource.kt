@@ -1,7 +1,7 @@
 package com.xereon.xereon.data.paging
 
 import androidx.paging.PagingSource
-import com.xereon.xereon.data.model.ChatMessage
+import com.xereon.xereon.data.chat.ChatMessage
 import com.xereon.xereon.network.XereonAPI
 
 class ChatPagingSource(

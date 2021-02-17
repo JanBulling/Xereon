@@ -2,7 +2,6 @@ package com.xereon.xereon.data.store
 
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
-import com.xereon.xereon.data.model.places.GooglePlacesData
 import com.xereon.xereon.data.products.SimpleProduct
 
 data class Store(

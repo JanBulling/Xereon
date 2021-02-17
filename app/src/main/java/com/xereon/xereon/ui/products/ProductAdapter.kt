@@ -3,6 +3,7 @@ package com.xereon.xereon.ui.products
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
+import com.xereon.xereon.ui.products.items.MoreProductsFromStore
 import com.xereon.xereon.ui.products.items.ProductAddToCart
 import com.xereon.xereon.ui.products.items.ProductBasicInformation
 import com.xereon.xereon.ui.products.items.ProductItem
@@ -25,6 +26,7 @@ class ProductAdapter : ModularAdapter<ProductAdapter.ProductItemVH<ProductItem, 
             DataBinderMod<ProductItem, ProductItemVH<ProductItem, ViewBinding>>(data),
             TypedVHCreatorMod({ data[it] is ProductBasicInformation.Item }) { ProductBasicInformation(it) },
             TypedVHCreatorMod({ data[it] is ProductAddToCart.Item }) { ProductAddToCart(it) },
+            TypedVHCreatorMod({ data[it] is MoreProductsFromStore.Item }) { MoreProductsFromStore(it) },
         ))
     }
 

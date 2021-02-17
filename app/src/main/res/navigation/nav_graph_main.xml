@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_exploreFragment_to_categoryFragment2"
             app:destination="@id/categoryFragment2" />
+        <action
+            android:id="@+id/action_exploreFragment_to_chatOverviewFragment"
+            app:destination="@id/chatOverviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/allCategoriesFragment"
@@ -79,6 +82,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_storeFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/storeProductsFragment"
@@ -110,6 +116,12 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null"/>
+        <action
+            android:id="@+id/action_productFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+        <action
+            android:id="@+id/action_productFragment_self"
+            app:destination="@id/productFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment2"
@@ -135,5 +147,29 @@
         <action
             android:id="@+id/action_subCategoryFragment2_to_storeFragment"
             app:destination="@id/storeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.xereon.xereon.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="storeId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="storeName"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatOverviewFragment"
+        android:name="com.xereon.xereon.ui.chat.ChatOverviewFragment"
+        android:label="fragment_chat_overview"
+        tools:layout="@layout/fragment_chat_overview" >
+        <action
+            android:id="@+id/action_chatOverviewFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
 </navigation>

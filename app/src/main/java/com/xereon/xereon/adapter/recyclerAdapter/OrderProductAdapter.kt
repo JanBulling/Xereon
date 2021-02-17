@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.xereon.xereon.data.util.PriceUtils
 import com.xereon.xereon.databinding.RecyclerOrderProductBinding
-import com.xereon.xereon.db.model.OrderProduct
+import com.xereon.xereon.data.products.OrderProduct
 import java.util.*
 
 class OrderProductAdapter : RecyclerView.Adapter<OrderProductAdapter.ViewHolder>() {

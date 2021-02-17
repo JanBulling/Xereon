@@ -6,8 +6,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.xereon.xereon.data.repository.FavoriteRepository
-import com.xereon.xereon.db.FavoriteStoreDao
-import com.xereon.xereon.db.model.FavoriteStore
+import com.xereon.xereon.storage.FavoriteStoreDao
+import com.xereon.xereon.data.store.FavoriteStore
 import com.xereon.xereon.util.Constants.SortType
 import com.xereon.xereon.util.Constants.TAG
 import kotlinx.coroutines.channels.Channel

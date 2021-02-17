@@ -8,7 +8,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
-import com.xereon.xereon.ui.doNavigate
+import com.xereon.xereon.ui.base.doNavigate
 
 fun Fragment.doNavigate(direction: NavDirections)= findNavController().doNavigate(direction)
 

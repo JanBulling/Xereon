@@ -1,8 +1,7 @@
-package com.xereon.xereon.util.di
+package com.xereon.xereon.storage
 
 import android.app.Application
 import androidx.room.Room
-import com.xereon.xereon.db.XereonDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

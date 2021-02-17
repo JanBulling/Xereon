@@ -1,8 +1,8 @@
-package com.xereon.xereon.db
+package com.xereon.xereon.storage
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.xereon.xereon.db.model.FavoriteStore
+import com.xereon.xereon.data.store.FavoriteStore
 import com.xereon.xereon.util.Constants
 
 @Dao

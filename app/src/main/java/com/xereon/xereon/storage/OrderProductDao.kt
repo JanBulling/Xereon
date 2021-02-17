@@ -1,8 +1,8 @@
-package com.xereon.xereon.db
+package com.xereon.xereon.storage
 
 import android.os.Parcelable
 import androidx.room.*
-import com.xereon.xereon.db.model.OrderProduct
+import com.xereon.xereon.data.products.OrderProduct
 import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.flow.Flow
 

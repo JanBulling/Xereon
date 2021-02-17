@@ -1,9 +1,10 @@
 package com.xereon.xereon.network
 
 import com.xereon.xereon.BuildConfig
+import com.xereon.xereon.data.chat.Chat
+import com.xereon.xereon.data.chat.ChatMessage
 import com.xereon.xereon.data.explore.ExploreData
 import com.xereon.xereon.data.login.LoginResponse
-import com.xereon.xereon.data.model.*
 import com.xereon.xereon.data.products.Product
 import com.xereon.xereon.data.products.SimpleProduct
 import com.xereon.xereon.data.store.LocationStore

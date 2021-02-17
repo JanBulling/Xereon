@@ -12,8 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,8 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.adapter.recyclerAdapter.OrderProductAdapter
 import com.xereon.xereon.databinding.FrgShoppingCartProductBinding
-import com.xereon.xereon.db.StoreBasic
-import com.xereon.xereon.db.model.OrderProduct
+import com.xereon.xereon.data.products.OrderProduct
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.util.*

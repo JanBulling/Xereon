@@ -9,6 +9,7 @@ import com.xereon.xereon.util.Resource
 import com.xereon.xereon.util.cache.Parser
 import com.xereon.xereon.util.flow.HotDataFlow
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,7 +1,6 @@
 package com.xereon.xereon.data.store
 
 import android.os.Parcelable
-import com.xereon.xereon.db.model.FavoriteStore
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -17,5 +16,11 @@ data class SimpleStore(
 
     override fun toString() = "id: $id, name: $name, type: $type with category: $category"
 
-    fun toFavoriteStore() = FavoriteStore(id, name, city, type, category)
+    fun toFavoriteStore() = FavoriteStore(
+        id,
+        name,
+        city,
+        type,
+        category
+    )
 }

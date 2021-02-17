@@ -6,20 +6,16 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.xereon.xereon.R
 import com.xereon.xereon.databinding.FrgFavoritesBinding
-import com.xereon.xereon.db.model.FavoriteStore
 import com.xereon.xereon.util.Constants
 import kotlinx.coroutines.flow.collect
 

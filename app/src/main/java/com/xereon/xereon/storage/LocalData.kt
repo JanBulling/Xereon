@@ -36,7 +36,7 @@ class LocalData @Inject constructor(
     fun setLoginData(loginData: LoginResponse) {
         preferences.edit(true) {
             putBoolean(PREF_VALID_ACCOUNT, loginData.isVerified)
-            putInt(PREF_VALID_ACCOUNT, loginData.userID)
+            putInt(PREF_USER_ID, loginData.userID)
         }
     }
 

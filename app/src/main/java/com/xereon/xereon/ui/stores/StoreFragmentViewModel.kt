@@ -1,13 +1,14 @@
 package com.xereon.xereon.ui.stores
 
 import android.text.Html
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import com.xereon.xereon.data.favorites.source.FavoritesProvider
 import com.xereon.xereon.data.store.Store
-import com.xereon.xereon.data.model.places.GooglePlacesData
+import com.xereon.xereon.data.store.GooglePlacesData
+import com.xereon.xereon.data.store.FavoriteStore
 import com.xereon.xereon.data.store.StoreIdentificationData
 import com.xereon.xereon.data.store.source.StoreDataProvider
 import com.xereon.xereon.ui.stores.items.*
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.map
 
 class StoreFragmentViewModel @ViewModelInject constructor(
     private val storeDataProvider: StoreDataProvider,
+    private val favoritesProvider: FavoritesProvider
 ) : XereonViewModel() {
 
     val events: SingleLiveEvent<StoreEvents> = SingleLiveEvent()
@@ -36,23 +38,28 @@ class StoreFragmentViewModel @ViewModelInject constructor(
         mutableListOf<StoreItem>().apply {
             add(StoreBasicInformation.Item(it,
                 { events.postValue(StoreEvents.OpenNavigation(it.latLng)) },
-                { Log.d(TAG, "clicked on favorite") },
+                {
+                    insertFavorite(it)
+                    events.postValue(StoreEvents.AddedToFavorites)
+                },
                 { events.postValue(StoreEvents.NavigateChat(StoreIdentificationData(it.id, it.name))) }))
 
             add(StoreOpeningHour.Item(it.openinghours))
 
-            add(StorePeakTimes.Item(GooglePlacesData(
-                currentPopularity = 50,
-                popularTimes = listOf(
-                    arrayOf(0,0,0,0,0,0, 20, 32, 45, 65, 70, 60, 50, 50, 65, 80, 82, 62, 40, 15,  5, 0,0,0),
-                    arrayOf(0,0,0,0,0,0, 15, 28, 40, 60, 65, 65, 62, 68, 72, 75, 68, 40, 30, 15,  8, 0,0,0),
-                    arrayOf(0,0,0,0,0,0, 15, 28, 40, 55, 62, 62, 65, 72, 78, 82, 65, 55, 30, 18,  8, 0,0,0),
-                    arrayOf(0,0,0,0,0,0, 12, 24, 55, 72, 85, 77, 72, 68, 72, 77, 72, 55, 30, 12,  8, 0,0,0),
-                    arrayOf(0,0,0,0,0,0, 20, 35, 52, 62, 68, 65, 62, 65, 72, 78, 75, 58, 45, 19, 11, 0,0,0),
-                    arrayOf(0,0,0,0,0,0, 15, 32, 57, 80, 95, 98, 95, 90, 93, 98, 95, 78, 52, 26, 12, 0,0,0),
-                    arrayOf(0,0,0,0,0,0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0,0,0)
+            add(StorePeakTimes.Item(
+                GooglePlacesData(
+                    currentPopularity = 50,
+                    popularTimes = listOf(
+                        arrayOf(0, 0, 0, 0, 0, 0, 20, 32, 45, 65, 70, 60, 50, 50, 65, 80, 82, 62, 40, 15, 5, 0, 0, 0),
+                        arrayOf(0, 0, 0, 0, 0, 0, 15, 28, 40, 60, 65, 65, 62, 68, 72, 75, 68, 40, 30, 15, 8, 0, 0, 0),
+                        arrayOf(0, 0, 0, 0, 0, 0, 15, 28, 40, 55, 62, 62, 65, 72, 78, 82, 65, 55, 30, 18, 8, 0, 0, 0),
+                        arrayOf(0, 0, 0, 0, 0, 0, 12, 24, 55, 72, 85, 77, 72, 68, 72, 77, 72, 55, 30, 12, 8, 0, 0, 0),
+                        arrayOf(0, 0, 0, 0, 0, 0, 20, 35, 52, 62, 68, 65, 62, 65, 72, 78, 75, 58, 45, 19, 11, 0, 0, 0),
+                        arrayOf(0, 0, 0, 0, 0, 0, 15, 32, 57, 80, 95, 98, 95, 90, 93, 98, 95, 78, 52, 26, 12, 0, 0, 0),
+                        arrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+                    )
                 )
-            )))
+            ))
 
             add(StoreProductsRedirect.Item(it.exampleProducts,
                 {
@@ -80,6 +87,11 @@ class StoreFragmentViewModel @ViewModelInject constructor(
     }
 
     fun onBackClick() { events.postValue(StoreEvents.NavigateBack) }
+
+    private fun insertFavorite(store: Store) = launch {
+        val favorite = FavoriteStore(store.id, store.name, store.city, store.type, store.category, System.currentTimeMillis())
+        favoritesProvider.insertFavorite(favorite)
+    }
 
     companion object {
         private const val TAG = "STORE_VIEW_MODEL"

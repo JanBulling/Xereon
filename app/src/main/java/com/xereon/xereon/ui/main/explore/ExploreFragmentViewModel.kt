@@ -49,7 +49,7 @@ class ExploreFragmentViewModel @ViewModelInject constructor(
 
             if (exploreData is Resource.Success) {
                 /* Horizontal row of recommendation products */
-                add(HorizontalProducts.Item(data = exploreData.data!!.recommendations,
+                /*add(HorizontalProducts.Item(data = exploreData.data!!.recommendations,
                     onProductClickAction = {
                         routeToScreen.postValue(
                             ExploreFragmentDirections.actionExploreFragmentToProductFragment(
@@ -58,10 +58,10 @@ class ExploreFragmentViewModel @ViewModelInject constructor(
                             )
                         )
                     },
-                    title = R.string.recommendations, subtitle = R.string.recommendations_description))
+                    title = R.string.recommendations, subtitle = R.string.recommendations_description))*/
 
                 /* Horizontal row of new stores in the area */
-                add(HorizontalStores.Item(data = exploreData.data.newStores,
+                add(HorizontalStores.Item(data = exploreData.data!!.newStores,
                     onStoreClickAction = {
                         routeToScreen.postValue(
                             ExploreFragmentDirections.actionExploreFragmentToStoreFragment(

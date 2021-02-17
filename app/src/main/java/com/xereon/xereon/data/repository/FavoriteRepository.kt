@@ -3,7 +3,7 @@ package com.xereon.xereon.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
-import com.xereon.xereon.db.FavoriteStoreDao
+import com.xereon.xereon.storage.FavoriteStoreDao
 import com.xereon.xereon.util.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
